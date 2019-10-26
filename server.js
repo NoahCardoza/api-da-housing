@@ -7,7 +7,8 @@ require('dotenv').config()
 
 const app = express();
 mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 
 const UserRouter = require('./controllers/User');
@@ -15,7 +16,7 @@ const UserRouter = require('./controllers/User');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/user', UserRouter)
+app.use('/', UserRouter)
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'))
 

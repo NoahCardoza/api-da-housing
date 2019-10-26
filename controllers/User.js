@@ -4,11 +4,11 @@ const {
     userModel
 } = require('../models/User');
 
-router.get('/', async (_, res) => {
+router.get('/user', async (_, res) => {
     res.status(200).send('response');
 });
 
-router.post('/', async (req, res) => {
+router.post('/create-user', async (req, res) => {
     try {
         const {
             password
@@ -22,6 +22,6 @@ router.post('/', async (req, res) => {
         console.error(err);
         res.status(500).send(err);
     }
-})
+});
 
 module.exports = router;
