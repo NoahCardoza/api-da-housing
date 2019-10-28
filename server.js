@@ -10,6 +10,7 @@ const app = express();
 var passport   		= require("passport"),
 	LocalStrategy   = require("passport-local"),
 	methodOverride  = require("method-override"),
+	User			= require("./models/User"),
 	Listing 		= require("./models/Listing");
 
 
