@@ -12,12 +12,6 @@ var listingSchema = new mongoose.Schema({
       },
       username: String
    },
-   post: [
-      {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Post"
-      }
-   ]
 });
 
 module.exports = mongoose.model("listing", listingSchema);
