@@ -17,5 +17,4 @@ Spin Up The Application Server.
     node server.js 
 ```
 
-[Front End Code](https://github.com/hoangmatthew1999/da-housing-front-)
 
