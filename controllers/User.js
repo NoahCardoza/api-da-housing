@@ -20,8 +20,12 @@ router.post('/create-user', async (req, res) => {
             gender,
             name
         });
-        const doc = await user.save();
-        res.status(201).json(doc);
+        document = await user.save();
+        const token = await user.generateAuthToken();
+        res.status(201).json({
+            document,
+            token
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send(err);
