@@ -33,28 +33,18 @@ router.post('/create-user', async (req, res) => {
 });
 
 router.post('/login-user', async (req, res) => {
-    try {
-        const {
-            email,
-            password
-        } = req.body;
-        const user = await userModel.find({
-            email
-        });
-        if (!user) return res.status(400);
-        if (await user.comparePassword(password)) {
-            const token = await user.generateAuthToken();
-            res.send({
-                document: user,
-                token
-            })
-        } else {
-            res.status(401).send("Credentials have failed.")
+        try{
+            const { email, password } = req.body;
+            const document = await userModel.findOne({email}); 
+            if(!document) return res.status(400); 
+            const comparedResult = document.comparePassword(password); 
+            if(comparedResult) return res.status(200).json({ document, token: await document.generateAuthToken() });
+            if(!comparedResult) return res.status(401).send("Credentials have failed.");
         }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-    }
+        catch(error){
+            console.error(error);
+            res.status(500).send(error);
+        }
 });
 
 module.exports = router;
