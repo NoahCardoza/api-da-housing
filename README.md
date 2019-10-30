@@ -6,7 +6,9 @@ Install Node Dependencies.
 ```
 Startup Mongo Instance.
 ```sh
-sudo mongod -dbpath=/usr/local/var/mongodb
+sudo mongod
+# macos catalina
+# sudo mongod -dbpath=/usr/local/var/mongodb
 ```
 Create .env file with this content in the project root. 
 ```sh 
