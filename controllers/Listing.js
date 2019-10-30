@@ -1,7 +1,7 @@
-var express	   = require("express"),
- 	router 	   = express.Router(),
- 	Listing = require("../models/Listing"), 
- 	middleware = require("../middleware");
+const express = require("express"); 
+const router = express.Router();
+const ListingModel = require("../models/Listing");
+const middleware = require("../middleware");
 
 // INDEX route - show all listings
 router.get("/listing", function(req, res){
