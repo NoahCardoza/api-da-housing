@@ -51,7 +51,7 @@ userSchema.methods.generateAuthToken = async function(){
         return token; 
     }
     catch(err){
-        console.err(err);
+        console.error(err);
     }
 }
 
