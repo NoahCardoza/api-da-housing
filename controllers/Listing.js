@@ -46,34 +46,6 @@ router.post("/listing", isLoggedIn, async (req, res) => {
 	}
 })
 
-// CREATE route
-router.post("/listing", middleware.isLoggedIn, function (req, res) {
-	//get data from form and add to listing array
-	var name = req.body.name;
-	var image = req.body.image;
-	var price = req.body.price;
-	var desc = req.body.description;
-	var author = {
-		id: req.user._id,
-		username: req.user.username
-	}
-	var newListing = {
-		name: name,
-		price: price,
-		image: image,
-		description: desc,
-		author: author
-	}
-	Listing.create(newListing, function (err, newlyCreated) {
-		if (err) {
-			console.log(err);
-		} else {
-			//reditect back to camground page
-			res.redirect("/");
-		}
-	})
-});
-
 
 // SHOW route - presents info
 router.get("/:id", function (req, res) {
