@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const ListingModel = require("../models/Listing");
 const middleware = require("../middleware");
+const {
+	isLoggedIn,
+	checkListingOwnership
+} = require('../middleware')
 
 // INDEX route - show all listings
 router.get("/listing", (_, res) => {
@@ -12,6 +16,35 @@ router.get("/listing", (_, res) => {
 		return res.status(500);
 	}
 });
+
+router.post("/listing", isLoggedIn, async (req, res) => {
+	try {
+		const {
+			name,
+			image,
+			price,
+			description
+		} = req.body;
+		const {
+			id,
+			username
+		} = req.body.author;
+		const newListing = new ListingModel({
+			name,
+			image,
+			price,
+			description,
+			author: {
+				id,
+				username
+			}
+		});
+		await newListing.save();
+		return res.status(201);
+	} catch (error) {
+		console.error(error);
+	}
+})
 
 // CREATE route
 router.post("/listing", middleware.isLoggedIn, function (req, res) {
