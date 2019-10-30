@@ -42,7 +42,7 @@ router.post('/login-user', async (req, res) => {
             email
         });
         if (!user) return res.status(400);
-        if (user.comparePassword(password)) {
+        if (await user.comparePassword(password)) {
             const token = await user.generateAuthToken();
             res.send({
                 document: user,
