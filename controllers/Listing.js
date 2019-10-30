@@ -4,7 +4,7 @@ const ListingModel = require("../models/Listing");
 const middleware = require("../middleware");
 
 // INDEX route - show all listings
-router.get("/listing", function (req, res) {
+router.get("/listing", (_, res) => {
 	try {
 		return res.status(200).json(await ListingModel.find({}));
 	} catch (error) {
