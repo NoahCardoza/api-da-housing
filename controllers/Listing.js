@@ -50,19 +50,10 @@ router.post("/listing", isLoggedIn, async (req, res) => {
 
 
 // SHOW route - presents info
-router.get("/:id", function (req, res) {
-	//find the listing with provided ID
-	Listing.findById(req.params.id, function (err, foundListing) {
-		if (err) {
-			console.log(err);
-		} else {
-			if (!foundListing) {
-				return res.status(400).send("Item not found.")
-			}
-			console.log(foundListing);
-			//render show template with that listing
-			res.send("listings/show") //, {listing: foundListing});
-		}
+router.get("/:id", async (req, res) => {
+	Listing.findById(req.params.id, (err, doc) => {
+		if (err) return res.status(500);
+		return res.status(200).json(doc)
 	});
 });
 
