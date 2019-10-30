@@ -37,7 +37,7 @@ router.post('/login-user', async (req, res) => {
             const { email, password } = req.body;
             const document = await userModel.findOne({email}); 
             if(!document) return res.status(400); 
-            const comparedResult = document.comparePassword(password); 
+            const comparedResult = await document.comparePassword(password); 
             if(comparedResult) return res.status(200).json({ document, token: await document.generateAuthToken() });
             if(!comparedResult) return res.status(401).send("Credentials have failed.");
         }
