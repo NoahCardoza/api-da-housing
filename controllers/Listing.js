@@ -42,7 +42,8 @@ router.post("/listing", isLoggedIn, async (req, res) => {
 		await newListing.save();
 		return res.status(201);
 	} catch (error) {
-		console.error(error);
+		console.error(error)
+		return res.status(500);
 	}
 })
 
