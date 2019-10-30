@@ -4,17 +4,19 @@ const {
     userModel
 } = require('../models/User');
 
-router.get('/user', async (_, res) => {
-    res.status(200).send('response');
-});
-
 router.post('/create-user', async (req, res) => {
     try {
         const {
-            password
+            password,
+            email,
+            school,
+            gender
         } = req.body;
         const user = new userModel({
-            password
+            password,
+            email,
+            school,
+            gender
         });
         const doc = await user.save();
         res.status(201).json(doc);
