@@ -1,9 +1,6 @@
 var Listing = require("../models/Listing");
 
-// middleware goes here
-var middlewareObj = {};
-
-middlewareObj.checkListingOwnership = function(req, res, next) {
+module.exports.checkListingOwnership = function(req, res, next) {
 	if(req.isAuthenticated()){
 		Listing.findById(req.params.id, function(err, foundListing){
 		if(err){
@@ -24,11 +21,9 @@ middlewareObj.checkListingOwnership = function(req, res, next) {
 	}
 }
 
-middlewareObj.isLoggedIn = function(req, res, next) {
+module.exports.isLoggedIn = function(req, res, next) {
 	if(req.isAuthenticated()) {
 		return next()
 	}
 	res.redirect("/login");
 }
-
-module.exports = middlewareObj
