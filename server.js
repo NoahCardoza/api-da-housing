@@ -12,8 +12,7 @@ mongoose.connect(process.env.MONGO_URI, {
 	useUnifiedTopology: true
 })
 
-// requiring routes
-var listingRoutes = require("./controllers/Listing");
+// Routes
 const UserRouter = require('./controllers/User');
 
 app.use(helmet());
@@ -23,7 +22,5 @@ app.use('/', UserRouter)
 
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'))
-app.use("/listings", listingRoutes);
-
 
 app.listen(process.env.PORT || 3000, () => console.log('service started.'))
