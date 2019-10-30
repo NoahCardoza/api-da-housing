@@ -1,4 +1,4 @@
-var Listing = require("../models/Listing");
+const Listing = require("../models/Listing");
 
 module.exports.checkListingOwnership = (req, res, next) => {
 	if (!req.isAuthenticated()) return res.status(401);
