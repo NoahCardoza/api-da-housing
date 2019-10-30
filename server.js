@@ -22,6 +22,7 @@ const UserRouter = require('./controllers/User');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(flash());
 app.use(session({
 	secret: process.env.SECRET,
 	resave: false,
