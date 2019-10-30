@@ -21,6 +21,13 @@ module.exports.checkListingOwnership = function (req, res, next) {
 	}
 }
 
+module.exports.checkListingOwnership = (req, res, next) => {
+	if(!req.isAuthenticated()) return res.status(401); 
+	Listing.findById(req.params.id, (err, doc) => {
+		c
+	});
+}
+
 module.exports.isLoggedIn = function (req, res, next) {
 	if (req.isAuthenticated()) {
 		return next()
