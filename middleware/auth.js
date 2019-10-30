@@ -11,12 +11,12 @@ module.exports.auth = async (req, res, next) => {
             _id: data._id,
             'tokens.token': token
         });
-        if (!user) throw new Error('Auth failed!');
+        if (!user) throw new Error('Credentials failed.');
         req.user = user;
         req.token = token;
         return next();
     } catch (error) {
         console.error(error);
-        res.status(500).send('Something went wrong with the Auth layerer!!');
+        res.status(500).send('Your credentials have failed the auth layer.');
     }
 }
