@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
-const flash = require('connect-flash');
 require('dotenv').config()
 
 const app = express();
@@ -22,7 +21,6 @@ const UserRouter = require('./controllers/User');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
-app.use(flash());
 app.use(session({
 	secret: process.env.SECRET,
 	resave: false,
