@@ -30,7 +30,7 @@ router.post('/create-user', async (req, res) => {
 
 router.post('/login-user', async (req, res) => {
     try {
-        
+
     } catch (error) {
         console.error(err);
         res.status(500).send(err);
