@@ -1,34 +1,18 @@
-var Listing = require("../models/Listing");
+const ListingModel = require("../models/Listing");
 
-// middleware goes here
-var middlewareObj = {};
-
-middlewareObj.checkListingOwnership = function(req, res, next) {
-	if(req.isAuthenticated()){
-		Listing.findById(req.params.id, function(err, foundListing){
-		if(err){
-			res.redirect("back");
-		} else {
-			if (!foundListing) {
-				return res.status(400).send("Item not found.")
-       		}
-			if(foundListing.author.id.equals(req.user._id)){
-				next();
-				} else {
-					res.redirect("back");
-				}
-			}
-		});
-	} else {
-		res.redirect("back");
-	}
+module.exports.checkListingOwnership = (req, res, next) => {
+	if (!req.isAuthenticated()) return res.status(401);
+	ListingModel.findById(req.params.id, (err, doc) => {
+		if (err) return res.status(500);
+		if (!doc) return res.status(400);
+		if (doc.author.id === req.user._id) return next();
+		return res.status(400);
+	});
 }
 
-middlewareObj.isLoggedIn = function(req, res, next) {
-	if(req.isAuthenticated()) {
+module.exports.isLoggedIn = function (req, res, next) {
+	if (req.isAuthenticated()) {
 		return next()
 	}
-	res.redirect("/login");
+	return res.status(401);
 }
-
-module.exports = middlewareObj
