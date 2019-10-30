@@ -13,6 +13,7 @@ sudo mongod
 Create .env file with this content in the project root. 
 ```sh 
     MONGO_URI = mongodb://localhost:27017/api-da-housing
+    SECRET = changeinproductionsecret
 ```
 Spin Up The Application Server.
 ```sh
