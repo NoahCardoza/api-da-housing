@@ -7,7 +7,7 @@ require('dotenv').config()
 
 const app = express();
 
-var passport   		= require("passport"),
+const passport   		= require("passport"),
 	LocalStrategy   = require("passport-local"),
 	methodOverride  = require("method-override"),
 	User			= require("./models/User"),
