@@ -4,7 +4,7 @@ var express	   = require("express"),
  	middleware = require("../middleware");
 
 // INDEX route - show all listings
-router.get("/", function(req, res){
+router.get("/listing", function(req, res){
 	//get Listing from DataBase
 	Listing.find({},function(err, allListings){
 		if(err){
@@ -16,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 // CREATE route
-router.post("/", middleware.isLoggedIn, function(req, res)
+router.post("/listing", middleware.isLoggedIn, function(req, res)
 {
 	//get data from form and add to listing array
 	var name = req.body.name;
@@ -38,10 +38,6 @@ router.post("/", middleware.isLoggedIn, function(req, res)
 	})
 });
 
-// NEW route - show form to create listing
-router.get("/new", middleware.isLoggedIn, function(req, res){
-	res.send("listings/new");
-});
 
 // SHOW route - presents info
 router.get("/:id", function(req, res){

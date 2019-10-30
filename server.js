@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 
 // requiring routes
-var listingRoutes = require("./controllers/listings");
+var listingRoutes = require("./controllers/Listing");
 const UserRouter = require('./controllers/User');
 
 app.use(helmet());
