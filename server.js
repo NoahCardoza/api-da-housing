@@ -7,13 +7,6 @@ require('dotenv').config()
 
 const app = express();
 
-const passport = require("passport"),
-	LocalStrategy = require("passport-local"),
-	methodOverride = require("method-override"),
-	User = require("./models/User"),
-	Listing = require("./models/Listing");
-
-
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
@@ -28,25 +21,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/', UserRouter)
 
-//PASSPORT CONFIGURATION
-app.use(require("express-session")({
-	secret: process.env.SECRET,
-	resave: false,
-	saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-app.use(function (req, res, next) {
-	res.locals.currentUser = req.user;
-	res.locals.error = req.flash("error");
-	res.locals.success = req.flash("success");
-	next();
-});
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'))
 app.use("/listings", listingRoutes);
