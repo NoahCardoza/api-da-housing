@@ -22,6 +22,12 @@ const UserRouter = require('./controllers/User');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(session({
+	secret: process.env.SECRET,
+	resave: false,
+	saveUninitialized: true,
+	cookie: { secure: true }
+  }))
 app.use('/', UserRouter)
 
 
