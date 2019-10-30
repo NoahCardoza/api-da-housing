@@ -34,10 +34,26 @@ router.post('/create-user', async (req, res) => {
 
 router.post('/login-user', async (req, res) => {
     try {
-
+        const {
+            email,
+            password
+        } = req.body;
+        const user = await userModel.find({
+            email
+        });
+        if (!user) return res.status(400);
+        if (user.comparePassword(password)) {
+            const token = await user.generateAuthToken();
+            res.send({
+                document: user,
+                token
+            })
+        } else {
+            res.status(401).send("Credentials have failed.")
+        }
     } catch (error) {
-        console.error(err);
-        res.status(500).send(err);
+        console.error(error);
+        res.status(500).send(error);
     }
 });
 
