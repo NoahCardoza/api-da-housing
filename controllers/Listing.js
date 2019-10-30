@@ -7,8 +7,8 @@ const {
 	checkListingOwnership
 } = require('../middleware')
 
-// INDEX route - show all listings
-router.get("/listing", (_, res) => {
+// INDEX route - show all listings (READ)
+router.get("/listing", async (_, res) => {
 	try {
 		return res.status(200).json(await ListingModel.find({}));
 	} catch (error) {
@@ -17,6 +17,7 @@ router.get("/listing", (_, res) => {
 	}
 });
 
+// CREATE
 router.post("/listing", isLoggedIn, async (req, res) => {
 	try {
 		const {
