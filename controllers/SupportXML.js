@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const xml = require('xml');
 const ListingModel = require('../models/Listing');
+const {userModel} = require('../models/User');
 
 router.get('/xml/listings', async (_, res) => {
     try {
