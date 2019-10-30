@@ -7,16 +7,16 @@ require('dotenv').config()
 
 const app = express();
 
-const passport   		= require("passport"),
-	LocalStrategy   = require("passport-local"),
-	methodOverride  = require("method-override"),
-	User			= require("./models/User"),
-	Listing 		= require("./models/Listing");
+const passport = require("passport"),
+	LocalStrategy = require("passport-local"),
+	methodOverride = require("method-override"),
+	User = require("./models/User"),
+	Listing = require("./models/Listing");
 
 
 mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 })
 
 // requiring routes
@@ -41,7 +41,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
