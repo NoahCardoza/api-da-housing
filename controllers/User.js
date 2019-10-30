@@ -76,7 +76,7 @@ router.post('/logout-user', auth, async (req, res) => {
     }
 });
 
-router.post('/logoutall-user', auth, async (req, res) => {
+router.post('/logout-all-user', auth, async (req, res) => {
     // Log user out of all devices
     try {
         req.user.tokens.splice(0, req.user.tokens.length)
