@@ -10,13 +10,15 @@ router.post('/create-user', async (req, res) => {
             password,
             email,
             school,
-            gender
+            gender, 
+            name
         } = req.body;
         const user = new userModel({
             password,
             email,
             school,
-            gender
+            gender, 
+            name
         });
         const doc = await user.save();
         res.status(201).json(doc);
