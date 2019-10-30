@@ -10,7 +10,7 @@ router.get("/", function(req, res){
 		if(err){
 			console.log(err);
 		} else {
-			res.render("/", {listings:allListings, currentUser: req.user});
+			res.send("/"); // {listings:allListings, currentUser: req.user});
 		}
 	});
 });
@@ -40,7 +40,7 @@ router.post("/", middleware.isLoggedIn, function(req, res)
 
 // NEW route - show form to create listing
 router.get("/new", middleware.isLoggedIn, function(req, res){
-	res.render("listings/new");
+	res.send("listings/new");
 });
 
 // SHOW route - presents info
@@ -55,7 +55,7 @@ router.get("/:id", function(req, res){
        		}
             console.log(foundListing);
             //render show template with that listing
-            res.render("listings/show", {listing: foundListing});
+            res.send("listings/show") //, {listing: foundListing});
         }
     });
 });
@@ -66,7 +66,7 @@ router.get("/:id/edit", middleware.checkListingOwnership, function(req, res){
 		if (!foundListing) {
             	return res.status(400).send("Item not found.")
        	}
-		res.render("listings/edit", {listing: foundListing});
+		res.send("listings/edit") // {listing: foundListing});
 	});
 });
 	
