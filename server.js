@@ -10,6 +10,7 @@ const app = express();
 var passport   		= require("passport"),
 	LocalStrategy   = require("passport-local"),
 	methodOverride  = require("method-override"),
+	User			= require("./models/User"),
 	Listing 		= require("./models/Listing");
 
 
@@ -29,10 +30,11 @@ app.use('/', UserRouter)
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
-	secret: "Yusuf is the Best!",
+	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
