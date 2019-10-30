@@ -45,6 +45,7 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.generateAuthToken = async function(){
     try{
         const token = jwt.sign({_id: this._id}, process.env.SECRET); 
+        // allows user to be logged in on multiple devices 
         this.token = this.tokens.concat({ token })
         await this.save();
         return token; 
