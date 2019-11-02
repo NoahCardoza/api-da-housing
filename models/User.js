@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-name: {
+  name: {
     type: String,
     required: true,
   },
@@ -32,7 +32,7 @@ name: {
   }],
 });
 
-userSchema.pre('save', async (next) => {
+userSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
@@ -44,7 +44,7 @@ userSchema.pre('save', async (next) => {
   }
 });
 
-userSchema.methods.generateAuthToken = async () => {
+userSchema.methods.generateAuthToken = async function () {
   try {
     const token = jwt.sign({ _id: this._id }, process.env.SECRET);
     // allows user to be logged in on multiple devices
@@ -57,7 +57,7 @@ userSchema.methods.generateAuthToken = async () => {
   }
 };
 
-userSchema.methods.comparePassword = async (plaintext) => {
+userSchema.methods.comparePassword = async function (plaintext) {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
