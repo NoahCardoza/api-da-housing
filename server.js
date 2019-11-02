@@ -26,3 +26,5 @@ app.use('/', ListingRouter);
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
 app.listen(process.env.PORT || 3000, () => console.log('service started.'));
+
+module.exports = app;
