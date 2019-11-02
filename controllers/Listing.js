@@ -77,7 +77,7 @@ router.delete("/delete-listing/:listingid", isListingOwner, async (req, res) => 
 		await ListingModel.findByIdAndDelete(listingID).exec();
 		return res.status(202).json({
 			message: `${listingID}, successfully queued for deletion.`
-		})
+		});
 	} catch (err) {
 		console.error(err);
 		return res.status(500);
