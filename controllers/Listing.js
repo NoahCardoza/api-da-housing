@@ -41,6 +41,16 @@ router.post("/create-listing", auth, async (req, res) => {
 	}
 });
 
+router.get("/get-listing/:listingid", async(req, res) => {
+	try{
+		
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(500);
+	}
+});
+
 // DELETE LISTING
 router.delete("/delete-listing/:listingid", isListingOwner, async (req, res) => {
 	try {
