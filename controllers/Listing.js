@@ -16,6 +16,17 @@ router.get("/listing", async (_, res) => {
 	}
 });
 
+// READ LISTING BY ID
+router.get("/get-listing/:listingid", async(req, res) => {
+	try{
+		const listing = ListingModel.findById(req.params.listingid);
+		
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(500);
+	}
+});
 
 // CREATE LISTING
 router.post("/create-listing", auth, async (req, res) => {
@@ -36,16 +47,6 @@ router.post("/create-listing", auth, async (req, res) => {
 		await newListing.save()
 		return res.status(201).json(newListing);
 	} catch (err) {
-		console.error(err);
-		return res.status(500);
-	}
-});
-
-router.get("/get-listing/:listingid", async(req, res) => {
-	try{
-		
-	}
-	catch (err) {
 		console.error(err);
 		return res.status(500);
 	}
