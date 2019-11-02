@@ -1,17 +1,25 @@
 const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema({
-   name: String,
-   price: String,
-   image: String,
-   description: String,
-   author: {
-      id: {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "User"
-      },
-      username: String
+   name: {
+      type: String,
+      required: true
    },
+   price: {
+      type: Number,
+      required: true
+   },
+   images: {
+      type: [String],
+   },
+   description: {
+      required: true,
+      type: String
+   },
+   author: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+   }
 });
 
 
