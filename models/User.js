@@ -32,7 +32,7 @@ name: {
   }],
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async (next) => {
   try {
     if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
@@ -44,7 +44,7 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async () => {
   try {
     const token = jwt.sign({ _id: this._id }, process.env.SECRET);
     // allows user to be logged in on multiple devices
@@ -57,7 +57,7 @@ userSchema.methods.generateAuthToken = async function () {
   }
 };
 
-userSchema.methods.comparePassword = async function (plaintext) {
+userSchema.methods.comparePassword = async (plaintext) => {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
