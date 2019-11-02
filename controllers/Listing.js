@@ -39,7 +39,18 @@ router.post("/create-listing", auth, async (req, res) => {
 });
 
 router.delete("/delete-listing/:listingid", isListingOwner, async(res, res) => {
-	
+	try{
+		// passed in by isListingOwner Middleware.
+		const listingID = req.listing._id; 
+		await ListingModel.findByIdAndDelete(listingID);
+		return res.status(202).json({
+			message: `${listingID}, successfully queued for deletion.`
+		})
+	}
+	catch(err){
+		console.error(err); 
+		return res.status(500);
+	}
 });
 
 module.exports = router;
