@@ -11,7 +11,6 @@ const listingSchema = new mongoose.Schema({
    },
    images: {
       type: [String],
-      validate: [10, 'exceeds the limit of 10 images.']
    },
    description: {
       required: true,
