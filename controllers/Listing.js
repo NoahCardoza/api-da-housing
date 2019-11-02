@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ListingModel = require("../models/Listing");
-const {
-	auth
-} = require('../middleware')
+const { auth, isListingOwner } = require('../middleware/auth');
 
 // INDEX route - show all listings (READ)
 router.get("/listing", async (_, res) => {
@@ -15,23 +13,24 @@ router.get("/listing", async (_, res) => {
 	}
 });
 
-router.
 
 // CREATE LISTING
-router.post("/create-listing", auth, async (res, req) => {
+router.post("/create-listing", auth, async (req, res) => {
 	try {
 		const {
 			name,
 			price,
-			description
+			description, 
+			address
 		} = req.body;
 		const newListing = new ListingModel({
 			author: req.user._id,
 			name,
 			price,
-			description
+			description, 
+			address
 		});
-		newListing.save()
+		await newListing.save()
 		return res.status(201).json(newListing);
 	} catch (err) {
 		console.error(err);

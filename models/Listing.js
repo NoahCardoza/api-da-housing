@@ -19,6 +19,11 @@ const listingSchema = new mongoose.Schema({
    author: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+   }, 
+   address:  {
+      street: String, 
+      city: String, 
+      zipcode: Number,
    }
 });
 

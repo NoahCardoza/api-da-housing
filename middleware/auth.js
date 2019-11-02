@@ -23,12 +23,19 @@ module.exports.auth = async (req, res, next) => {
     }
 }
 
-// todo: Make middleware to check for ownership.
-// module.exports.isOwner = async (req, res, next) => {
-//     try{ 
-
-//     }
-//     catch(err){
-//         console.error(err);
-//     }
-// }
+module.exports.isListingOwner = async (req, res, next) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const data = jwt.verify(token, process.env.SECRET);
+        const listingID = req.params.listingid;
+        const listing = await ListingModel.findOne({
+            _id: listingID,
+            author: data._id
+        });
+        if (!listing) throw new Error('Credentials failed.');
+        return next();
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Your credentials have failed the auth layer.');
+    }
+}
