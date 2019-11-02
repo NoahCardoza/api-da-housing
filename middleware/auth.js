@@ -33,6 +33,8 @@ module.exports.isListingOwner = async (req, res, next) => {
             author: data._id
         });
         if (!listing) throw new Error('Credentials failed.');
+        req.listing = listing;
+        req.token = token;
         return next();
     } catch (err) {
         console.error(err);
