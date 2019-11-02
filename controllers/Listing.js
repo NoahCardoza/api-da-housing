@@ -23,13 +23,15 @@ router.post("/create-listing", auth, async (res, req) => {
 		const {
 			name,
 			price,
-			description
+			description, 
+			address
 		} = req.body;
 		const newListing = new ListingModel({
 			author: req.user._id,
 			name,
 			price,
-			description
+			description, 
+			address
 		});
 		newListing.save()
 		return res.status(201).json(newListing);
