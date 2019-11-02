@@ -42,7 +42,7 @@ router.post("/create-listing", auth, async (req, res) => {
 });
 
 // DELETE LISTING
-router.delete("/delete-listing/:listingid", isListingOwner, async (res, res) => {
+router.delete("/delete-listing/:listingid", isListingOwner, async (req, res) => {
 	try {
 		// passed in by isListingOwner Middleware.
 		const listingID = req.listing._id;
