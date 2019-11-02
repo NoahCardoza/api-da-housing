@@ -14,7 +14,7 @@ module.exports.graphQLSchema = buildSchema(`
     images: [String], 
     description: String, 
     author: ID!
-    address: 
+    address: Address
   }
   type Query {
     listings: [Listing]
