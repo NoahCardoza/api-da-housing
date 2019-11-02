@@ -38,5 +38,8 @@ router.post("/create-listing", auth, async (req, res) => {
 	}
 });
 
+router.delete("/delete-listing/:listingid", isListingOwner, async(res, res) => {
+	
+});
 
 module.exports = router;
