@@ -19,7 +19,7 @@ module.exports.auth = async (req, res, next) => {
     return next();
   } catch (error) {
     console.error(error);
-    res.status(500).send('Your credentials have failed the auth layer.');
+    return res.status(500).send('Your credentials have failed the auth layer.');
   }
 };
 
