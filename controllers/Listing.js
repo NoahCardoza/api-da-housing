@@ -30,7 +30,7 @@ router.post("/create-listing", auth, async (res, req) => {
 			description, 
 			address
 		});
-		newListing.save()
+		await newListing.save()
 		return res.status(201).json(newListing);
 	} catch (err) {
 		console.error(err);
