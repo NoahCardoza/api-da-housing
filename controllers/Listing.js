@@ -17,13 +17,12 @@ router.get("/listing", async (_, res) => {
 });
 
 // READ LISTING BY ID
-router.get("/get-listing/:listingid", async(req, res) => {
-	try{
+router.get("/get-listing/:listingid", async (req, res) => {
+	try {
 		const listing = await ListingModel.findById(req.params.listingid);
-		if(!listing) return res.status(400).send('Listing not found.')
+		if (!listing) return res.status(400).send('Listing not found.')
 		return res.status(200).json(listing);
-	}
-	catch (err) {
+	} catch (err) {
 		console.error(err);
 		return res.status(500);
 	}
@@ -52,6 +51,31 @@ router.post("/create-listing", auth, async (req, res) => {
 		return res.status(500);
 	}
 });
+
+
+// var query = {'username':req.user.username};
+// req.newData.username = req.user.username;
+// MyModel.findOneAndUpdate(query, req.newData, {upsert:true}, function(err, doc){
+//     if (err) return res.send(500, { error: err });
+//     return res.send("succesfully saved");
+// // });
+//UPDATE LISTING 
+router.put("/update-listing/:listingid", isListingOwner, async (req, res) => {
+	try {
+		const listingID = req.listing._id;
+		ListingModel.findByIdAndUpdate(listingID, req.body, (err, document) => {
+			if (err) return res.status(500).send('Document failed to update');
+			return res.status(204).json({
+				document,
+				message: "Successfully updated"
+			});
+		});
+	} catch (err) {
+		console.error(err);
+		return res.status(500);
+	}
+});
+
 
 // DELETE LISTING
 router.delete("/delete-listing/:listingid", isListingOwner, async (req, res) => {
