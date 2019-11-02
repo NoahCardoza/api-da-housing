@@ -20,7 +20,7 @@ router.get("/listing", async (_, res) => {
 router.get("/get-listing/:listingid", async (req, res) => {
 	try {
 		const listing = await ListingModel.findById(req.params.listingid).exec();
-		if (!listing) return res.status(400).send('Listing not found.')
+		if (!listing) return res.status(400).send('Listing not found.');
 		return res.status(200).json(listing);
 	} catch (err) {
 		console.error(err);
