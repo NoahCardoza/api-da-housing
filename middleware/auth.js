@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const {
     userModel
 } = require('../models/User');
+const ListingModel = require('../models/Listing');
+
 
 module.exports.auth = async (req, res, next) => {
     try {
@@ -20,3 +22,13 @@ module.exports.auth = async (req, res, next) => {
         res.status(500).send('Your credentials have failed the auth layer.');
     }
 }
+
+// todo: Make middleware to check for ownership.
+// module.exports.isOwner = async (req, res, next) => {
+//     try{ 
+
+//     }
+//     catch(err){
+//         console.error(err);
+//     }
+// }
