@@ -13,7 +13,6 @@ router.get("/listing", async (_, res) => {
 	}
 });
 
-router.
 
 // CREATE LISTING
 router.post("/create-listing", auth, async (res, req) => {
