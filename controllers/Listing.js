@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ListingModel = require("../models/Listing");
-const {
-	auth
-} = require('../middleware')
+const { auth, isListingOwner } = require('../middleware/auth');
 
 // INDEX route - show all listings (READ)
 router.get("/listing", async (_, res) => {
