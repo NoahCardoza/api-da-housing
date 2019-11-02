@@ -59,10 +59,7 @@ router.put("/update-listing/:listingid", isListingOwner, async (req, res) => {
 		const listingID = req.listing._id;
 		ListingModel.findByIdAndUpdate(listingID, req.body, (err, document) => {
 			if (err) return res.status(500).send('Document failed to update');
-			return res.status(204).json({
-				document,
-				message: "Successfully updated"
-			});
+			return res.status(204).send('Document successfully updated.')
 		});
 	} catch (err) {
 		console.error(err);
