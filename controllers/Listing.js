@@ -9,7 +9,7 @@ const {
 // INDEX route - show all listings (READ)
 router.get("/listing", async (_, res) => {
 	try {
-		return res.status(200).json(await ListingModel.find({}));
+		return res.status(200).json(await ListingModel.find({}).exec());
 	} catch (error) {
 		console.error(error);
 		return res.status(500);
