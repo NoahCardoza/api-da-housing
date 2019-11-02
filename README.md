@@ -21,4 +21,10 @@ Spin Up The Application Server.
     node server.js 
 ```
 
-
+##### Running Unit Tests
+It is good practice to run pre-existing tests 
+and write new ones to make sure no functionality of the API 
+is broken. 
+```sh 
+    npm run test
+```
