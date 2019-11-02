@@ -16,6 +16,18 @@ router.get("/listing", async (_, res) => {
 	}
 });
 
+// READ LISTING BY ID
+router.get("/get-listing/:listingid", async(req, res) => {
+	try{
+		const listing = await ListingModel.findById(req.params.listingid);
+		if(!listing) return res.status(400).send('Listing not found.')
+		return res.status(200).json(listing);
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(500);
+	}
+});
 
 // CREATE LISTING
 router.post("/create-listing", auth, async (req, res) => {
