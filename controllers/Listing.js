@@ -15,7 +15,7 @@ router.get("/listing", async (_, res) => {
 
 
 // CREATE LISTING
-router.post("/create-listing", auth, async (res, req) => {
+router.post("/create-listing", auth, async (req, res) => {
 	try {
 		const {
 			name,
