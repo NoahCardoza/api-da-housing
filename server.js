@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const graphqlHTTP = require('express-graphql');
 const { graphQLSchema, graphQLRoot } = require('./gql');
 
 require('dotenv').config();
@@ -24,6 +25,13 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
+
+// graphql setup (ignore it if your working on the REST API stuff).
+app.use('/graphql', graphqlHTTP({
+  schema: graphQLSchema,
+  rootValue: graphQLRoot,
+  graphiql: true,
+}));
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
