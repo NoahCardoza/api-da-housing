@@ -61,7 +61,7 @@ router.put("/update-listing/:listingid", isListingOwner, async (req, res) => {
 		return res.status(204).json({
 			message: 'Document successfully updated.',
 			listing
-		})
+		});
 	} catch (err) {
 		console.error(err);
 		return res.status(500).send('Document failed to update');
