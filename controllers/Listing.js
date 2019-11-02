@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const ListingModel = require("../models/Listing");
-const { auth, isListingOwner } = require('../middleware/auth');
+const {
+	auth,
+	isListingOwner
+} = require('../middleware/auth');
 
 // INDEX route - show all listings (READ)
 router.get("/listing", async (_, res) => {
@@ -20,14 +23,14 @@ router.post("/create-listing", auth, async (req, res) => {
 		const {
 			name,
 			price,
-			description, 
+			description,
 			address
 		} = req.body;
 		const newListing = new ListingModel({
 			author: req.user._id,
 			name,
 			price,
-			description, 
+			description,
 			address
 		});
 		await newListing.save()
@@ -38,17 +41,16 @@ router.post("/create-listing", auth, async (req, res) => {
 	}
 });
 
-router.delete("/delete-listing/:listingid", isListingOwner, async(res, res) => {
-	try{
+router.delete("/delete-listing/:listingid", isListingOwner, async (res, res) => {
+	try {
 		// passed in by isListingOwner Middleware.
-		const listingID = req.listing._id; 
+		const listingID = req.listing._id;
 		await ListingModel.findByIdAndDelete(listingID);
 		return res.status(202).json({
 			message: `${listingID}, successfully queued for deletion.`
 		})
-	}
-	catch(err){
-		console.error(err); 
+	} catch (err) {
+		console.error(err);
 		return res.status(500);
 	}
 });
