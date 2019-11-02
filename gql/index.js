@@ -23,6 +23,12 @@ module.exports.graphQLSchema = buildSchema(`
 
 module.exports.graphQLRoot = {
   listings: async () => {
-    
+    try {
+      const listings = await ListingModel.find({}).exec();
+      return listings;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   },
 };
