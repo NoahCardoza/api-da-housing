@@ -6,7 +6,7 @@ const {
 const {
     userModel
 } = require('../models/User');
-
+// Create
 router.post('/create-user', async (req, res) => {
     try {
         const {
@@ -35,6 +35,7 @@ router.post('/create-user', async (req, res) => {
     }
 });
 
+// Login
 router.post('/login-user', async (req, res) => {
     try {
         const {
@@ -56,6 +57,24 @@ router.post('/login-user', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+// Update
+router.put('/update-user', auth,async(req, res)=>{
+    await userModel.findByIdAndUpdate(req.user.id,req.body,{new:true},function(err,userModel){
+        if(err) return res.status(500).send(err);
+        return res.send(userModel);
+    });
+    return res.status(200).send('Updated');
+});
+
+// Delete
+router.delete('/delete-user', auth, async(req, res)=>{
+    userModel.findByIdAndRemove(req.user.id,(err,userModel)=>{
+        if (err) return res.status(500).send(err);
+    }); 
+    return res.status(200).send('Deleted');
+})
+
 
 // example of middleware. also personal profile.
 router.get('/get-me-user', auth, async (req, res) => {
