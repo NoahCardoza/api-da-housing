@@ -38,6 +38,6 @@ module.exports.isListingOwner = async (req, res, next) => {
     return next();
   } catch (err) {
     console.error(err);
-    res.status(500).send('Your credentials have failed the auth layer.');
+    return res.status(500).send('Your credentials have failed the auth layer.');
   }
 };
