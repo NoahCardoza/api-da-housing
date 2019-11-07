@@ -91,9 +91,21 @@ describe('Listings', () => {
     done();
   });
 
-  it('Should get a listing by ID', (done) => {
+  it('Should get a listing by ID', async (done) => {
+    const newListing = new ListingModel({
+      name: '@testhouserecord',
+      price: 1500,
+      description: 'This is a test description!',
+      address: {
+        street: 'El Camino Street',
+        city: 'Mountain View',
+        zipcode: 94040,
+      },
+    });
+    await newListing.save();
+
     chai.request(app)
-      .get('/create-listing')
+      .get(`/create-listing/${newListing._id}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((err, res) => {
         if (err) console.log(err);
