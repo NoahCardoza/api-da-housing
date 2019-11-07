@@ -5,6 +5,14 @@ const app = require('../server');
 chai.use(chaiHTTP);
 chai.should();
 
+before(async () => {
+  console.log('Before tests!');
+});
+
+after(async () => {
+  console.log('After tests!');
+});
+
 describe('Listings', () => {
   it('Should get all Listings records.', (done) => {
     chai.request(app)
