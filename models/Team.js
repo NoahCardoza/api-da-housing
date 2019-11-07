@@ -9,6 +9,7 @@ const TeamSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     required: true,
   },
+  budget: Number,
   favorites: [mongoose.Schema.Types.ObjectId],
 });
 
