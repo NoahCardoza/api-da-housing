@@ -107,7 +107,7 @@ describe('Listings', () => {
 
   it('Should get a listing by ID', async (done) => {
     chai.request(app)
-      .get(`/create-listing/${testlistingID}`)
+      .get(`/get-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((err, res) => {
         if (err) console.log(err);
