@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const app = require('../server');
+const ListingModel = require('../models/Listing');
 
 chai.use(chaiHTTP);
 chai.should();
