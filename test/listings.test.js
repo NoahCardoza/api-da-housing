@@ -10,6 +10,7 @@ chai.use(chaiHTTP);
 chai.should();
 
 let jwt = '';
+let testlistingID = '';
 
 before(async () => {
   try {
@@ -22,6 +23,19 @@ before(async () => {
       name: 'test bot',
     });
     await user.save();
+    const newListing = new ListingModel({
+      author: user._id,
+      name: '@testhouserecord',
+      price: 1500,
+      description: 'This is a test description!',
+      address: {
+        street: 'El Camino Street',
+        city: 'Mountain View',
+        zipcode: 94040,
+      },
+    });
+    await newListing.save();
+    testlistingID = newListing._id;
   } catch (err) {
     console.error(err);
   }
@@ -92,20 +106,8 @@ describe('Listings', () => {
   });
 
   it('Should get a listing by ID', async (done) => {
-    const newListing = new ListingModel({
-      name: '@testhouserecord',
-      price: 1500,
-      description: 'This is a test description!',
-      address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
-        zipcode: 94040,
-      },
-    });
-    await newListing.save();
-
     chai.request(app)
-      .get(`/create-listing/${newListing._id}`)
+      .get(`/create-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((err, res) => {
         if (err) console.log(err);
