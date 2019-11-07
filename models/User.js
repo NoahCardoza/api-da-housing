@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favoriteListings: [mongoose.Schema.Types.ObjectId],
   tokens: [{
     token: {
       type: String,
@@ -47,9 +48,13 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.generateAuthToken = async function () {
   try {
-    const token = jwt.sign({ _id: this._id }, process.env.SECRET);
+    const token = jwt.sign({
+      _id: this._id,
+    }, process.env.SECRET);
     // allows user to be logged in on multiple devices
-    this.tokens = this.tokens.concat({ token });
+    this.tokens = this.tokens.concat({
+      token,
+    });
     await this.save();
     return token;
   } catch (err) {
@@ -67,4 +72,4 @@ userSchema.methods.comparePassword = async function (plaintext) {
   }
 };
 
-module.exports.userModel = mongoose.model('user', userSchema);
+module.exports.UserModel = mongoose.model('user', userSchema);
