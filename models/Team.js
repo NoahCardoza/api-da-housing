@@ -10,7 +10,24 @@ const TeamSchema = new mongoose.Schema({
     required: true,
   },
   budget: Number,
-  favorites: [mongoose.Schema.Types.ObjectId],
+  favorites: [{
+    source: {
+      required: true,
+      type: [mongoose.Schema.Types.ObjectId],
+    },
+    comments: [String],
+  }],
+  outsideFavorites: [{
+    source: {
+      required: true,
+      type: String,
+    },
+    name: {
+      required: true,
+      type: String,
+    },
+    comments: [String],
+  }],
 });
 
 module.exports = mongoose.model('team', TeamSchema);
