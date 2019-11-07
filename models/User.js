@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  favorites: [String],
+  favorite_listings: [mongoose.Schema.Types.ObjectId],
   tokens: [{
     token: {
       type: String,
