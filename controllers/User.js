@@ -76,6 +76,7 @@ router.put('/update-user', auth, async (req, res) => {
   return res.status(200).send('Updated');
 });
 
+
 // Delete
 router.delete('/delete-user', auth, async (req, res) => {
   UserModel.findByIdAndRemove(req.user.id, (err, userModel) => {
