@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {
-  userModel,
+  UserModel,
 } = require('../models/User');
 const ListingModel = require('../models/Listing');
 
@@ -9,7 +9,7 @@ module.exports.auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data = jwt.verify(token, process.env.SECRET);
-    const user = await userModel.findOne({
+    const user = await UserModel.findOne({
       _id: data._id,
       'tokens.token': token,
     }).exec();

@@ -46,7 +46,9 @@ router.post('/login-user', async (req, res) => {
     const document = await UserModel.findOne({
       email,
     });
-    if (!document) return res.status(400);
+    if (!document) {
+      return res.status(400);
+    }
     const comparedResult = await document.comparePassword(password);
     if (comparedResult) {
       return res.status(200).json({
@@ -54,7 +56,9 @@ router.post('/login-user', async (req, res) => {
         token: await document.generateAuthToken(),
       });
     }
-    if (!comparedResult) return res.status(401).send('Credentials have failed.');
+    if (!comparedResult) {
+      return res.status(401).send('Credentials have failed.');
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
