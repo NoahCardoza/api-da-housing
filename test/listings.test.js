@@ -124,8 +124,16 @@ describe('Listings', () => {
       .end((err, res) => {
         if (err) console.log(err);
         res.should.have.status(204);
-        res.body.should.be.a('object');
-        res.body.description.should.be.eql('@updated');
+      });
+    done();
+  });
+
+  it('Should delete a listing by ID', async (done) => {
+    chai.request(app).delete(`/delete-listing/${testlistingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((err, res) => {
+        if (err) console.log(err);
+        res.should.have.status(202);
       });
     done();
   });
