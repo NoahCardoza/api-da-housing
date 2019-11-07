@@ -77,7 +77,6 @@ describe('Listings', () => {
     })
       .then((res) => {
         jwt = res.body.token;
-        console.log('jwt:', jwt);
         done();
       });
   });
