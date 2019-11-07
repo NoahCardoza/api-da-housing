@@ -15,6 +15,10 @@ const TeamSchema = new mongoose.Schema({
       required: true,
       type: [mongoose.Schema.Types.ObjectId],
     },
+    name: {
+      required: true,
+      type: String,
+    },
     comments: [String],
   }],
   outsideFavorites: [{
