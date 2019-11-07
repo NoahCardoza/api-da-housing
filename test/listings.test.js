@@ -1,7 +1,4 @@
 const chai = require('chai');
-const {
-  expect,
-} = require('chai');
 const chaiHTTP = require('chai-http');
 const app = require('../server');
 const ListingModel = require('../models/Listing');
@@ -90,6 +87,18 @@ describe('Listings', () => {
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.name.should.be.eql('@testhouserecord');
+      });
+    done();
+  });
+
+  it('Should get a listing by ID', (done) => {
+    chai.request(app)
+      .get('/create-listing')
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((err, res) => {
+        if (err) console.log(err);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
       });
     done();
   });
