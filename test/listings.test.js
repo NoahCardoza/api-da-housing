@@ -120,7 +120,9 @@ describe('Listings', () => {
   it('Should update a listing by ID', async (done) => {
     chai.request(app).put(`/update-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
-      .send({ description: '@updated' })
+      .send({
+        description: '@updated',
+      })
       .end((err, res) => {
         if (err) console.log(err);
         res.should.have.status(204);
