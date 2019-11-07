@@ -116,4 +116,17 @@ describe('Listings', () => {
       });
     done();
   });
+
+  it('Should update a listing by ID', async (done) => {
+    chai.request(app).put('/update-listing')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({ description: '@updated' })
+      .end((err, res) => {
+        if (err) console.log(err);
+        res.should.have.status(204);
+        res.body.should.be.a('object');
+        res.body.description.should.be.eql('@updated');
+      });
+    done();
+  });
 });
