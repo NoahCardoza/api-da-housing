@@ -87,12 +87,11 @@ describe('Users', () => {
   });
 
   it('Should delete a user profile', async (done) => {
-    chai.request(app).get('/get-me-user')
+    chai.request(app).delete('/delete-user')
       .set('Authorization', `Bearer ${jwt}`)
       .end((err, res) => {
         if (err) console.log(err);
-        res.should.have.status(200);
-        res.body.should.be.a('object');
+        res.should.have.status(202);
       });
     done();
   });
