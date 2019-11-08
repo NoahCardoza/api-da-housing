@@ -95,5 +95,4 @@ describe('Users', () => {
       });
     done();
   });
-
 });
