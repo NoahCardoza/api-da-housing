@@ -67,13 +67,15 @@ router.post('/login-user', async (req, res) => {
 
 // Update
 router.put('/update-user', auth, async (req, res) => {
-  await UserModel.findByIdAndUpdate(req.user.id, req.body, {
-    new: true,
-  }, (err, userModel) => {
-    if (err) return res.status(500).send(err);
-    return res.send(userModel);
-  });
-  return res.status(200).send('Updated');
+  try {
+    await UserModel.findByIdAndUpdate(req.user.id, req.body, {
+      new: true,
+    }).exec();
+    return res.status(200).send('Updated');
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server failed to update document');
+  }
 });
 
 

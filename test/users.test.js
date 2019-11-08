@@ -64,13 +64,14 @@ describe('Users', () => {
       });
   });
 
-  // it('Should delete a listing by ID', async (done) => {
-  //   chai.request(app).delete('/delete-listing/')
-  //     .set('Authorization', `Bearer ${jwt}`)
-  //     .end((err, res) => {
-  //       if (err) console.log(err);
-  //       res.should.have.status(202);
-  //     });
-  //   done();
-  // });
+  it('Should update an authenticated user', async (done) => {
+    chai.request(app).put('/update-user')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({ name: '@testbotupdated' })
+      .end((err, res) => {
+        if (err) console.log(err);
+        res.should.have.status(200);
+      });
+    done();
+  });
 });
