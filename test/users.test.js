@@ -37,4 +37,28 @@ describe('Users', () => {
         done();
       });
   });
+  it('Log user in', (done) => {
+    chai.request(app)
+      .post('/login-user')
+      .send({
+        password: 'testpassword123',
+        email: 'testemail2@gmail.com',
+      }).end((err, res) => {
+        if (err) console.error(err);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        jwt = res.body.token;
+        done();
+      });
+  });
+
+  // it('Should delete a listing by ID', async (done) => {
+  //   chai.request(app).delete('/delete-listing/')
+  //     .set('Authorization', `Bearer ${jwt}`)
+  //     .end((err, res) => {
+  //       if (err) console.log(err);
+  //       res.should.have.status(202);
+  //     });
+  //   done();
+  // });
 });
