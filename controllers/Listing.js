@@ -2,10 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const ListingModel = require('../models/Listing');
-const {
-  auth,
-  isListingOwner,
-} = require('../middleware/auth');
+const { auth, isListingOwner } = require('../middleware/auth');
 
 // INDEX route - show all listings (READ)
 router.get('/listing', async (_, res) => {
@@ -32,10 +29,7 @@ router.get('/get-listing/:listingid', async (req, res) => {
 router.post('/create-listing', auth, async (req, res) => {
   try {
     const {
-      name,
-      price,
-      description,
-      address,
+      name, price, description, address,
     } = req.body;
     const newListing = new ListingModel({
       author: req.user._id,
@@ -52,7 +46,6 @@ router.post('/create-listing', auth, async (req, res) => {
   }
 });
 
-
 // UPDATE LISTING
 router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
   try {
@@ -67,7 +60,6 @@ router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
     return res.status(500).send('Document failed to update');
   }
 });
-
 
 // DELETE LISTING
 router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => {
