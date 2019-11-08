@@ -74,4 +74,15 @@ describe('Users', () => {
       });
     done();
   });
+
+  it('Should get the user profile', async (done) => {
+    chai.request(app).get('/get-me-user')
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((err, res) => {
+        if (err) console.log(err);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+      });
+    done();
+  });
 });
