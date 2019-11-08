@@ -37,7 +37,7 @@ describe('Users', () => {
         done();
       });
   });
-  it('Log user in', (done) => {
+  it('Should log user in', (done) => {
     chai.request(app)
       .post('/login-user')
       .send({
@@ -48,6 +48,18 @@ describe('Users', () => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         jwt = res.body.token;
+        done();
+      });
+  });
+  it('Should fail to log user in', (done) => {
+    chai.request(app)
+      .post('/login-user')
+      .send({
+        password: 'badpassword123',
+        email: 'testemail2@gmail.com',
+      }).end((err, res) => {
+        if (err) console.error(err);
+        res.should.have.status(401);
         done();
       });
   });
