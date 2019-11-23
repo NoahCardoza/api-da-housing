@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/User';
 import ListingModel from '../models/Listing';
-import TeamModel  from '../models/Team';
+import TeamModel from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
 
-export const auth = async (req, res, next) => {
+export const auth = async (req: any, res: any, next: any) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const data: ITokenMiddleware = <ITokenMiddleware> jwt.verify(token, process.env.SECRET);
+    const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const user = await UserModel.findOne({
       _id: data._id,
       'tokens.token': token,
@@ -22,10 +22,10 @@ export const auth = async (req, res, next) => {
   }
 };
 
-export const isListingOwner = async (req, res, next) => {
+export const isListingOwner = async (req: any, res: any, next: any) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const data: ITokenMiddleware = <ITokenMiddleware> jwt.verify(token, process.env.SECRET);
+    const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const listingID = req.params.listingid;
     const listing = await ListingModel.findOne({
       _id: listingID,
@@ -41,10 +41,10 @@ export const isListingOwner = async (req, res, next) => {
   }
 };
 
-export const isTeamMember = async (req, res, next) => {
+export const isTeamMember = async (req: any, res: any, next: any) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const data: ITokenMiddleware = <ITokenMiddleware> jwt.verify(token, process.env.SECRET);
+    const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const teamID = req.params.teamid;
     const team = await TeamModel.findOne({
       _id: teamID,
