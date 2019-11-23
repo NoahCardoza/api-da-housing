@@ -1,5 +1,5 @@
-const chai = require('chai');
-const chaiHTTP = require('chai-http');
+import chai from 'chai';
+import chaiHTTP from 'chai-http';
 const app = require('../server');
 const ListingModel = require('../models/Listing');
 const UserModel = require('../models/User');
