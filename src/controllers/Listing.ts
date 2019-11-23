@@ -75,4 +75,4 @@ router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => 
   }
 });
 
-module.exports = router;
+export default router;
