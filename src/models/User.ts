@@ -7,8 +7,8 @@ import jwt from 'jsonwebtoken';
 /**
  * User interface definition
  */
-export interface IUserModel  extends IUser, Document{
-  generateAuthToken(): Promise<string>; 
+export interface IUserModel extends IUser, Document {
+  generateAuthToken(): Promise<string>;
   comparePassword(): Promise<boolean>
 }
 
@@ -83,6 +83,6 @@ userSchema.methods.comparePassword = async function (plaintext): Promise<Boolean
   }
 };
 
-const User : Model<IUserModel>  = model<IUserModel>("User", userSchema);
+const User: Model<IUserModel> = model<IUserModel>("User", userSchema);
 
 export default User;
