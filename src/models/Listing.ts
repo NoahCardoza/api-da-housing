@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ListingSchema = new mongoose.Schema({
   name: {
@@ -30,4 +30,4 @@ const ListingSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('listing', ListingSchema);
+export default mongoose.model('listing', ListingSchema);

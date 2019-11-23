@@ -1,8 +1,7 @@
-const express = require('express');
-
+import express from 'express';
 const router = express.Router();
-const ListingModel = require('../models/Listing');
-const { auth, isListingOwner } = require('../../middleware');
+import ListingModel from '../models/Listing';
+import { auth, isListingOwner } from '../middleware';
 
 // INDEX route - show all listings (READ)
 router.get('/listing', async (_, res) => {

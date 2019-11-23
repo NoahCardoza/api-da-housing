@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -73,4 +73,4 @@ userSchema.methods.comparePassword = async function (plaintext) {
   }
 };
 
-module.exports = mongoose.model('user', userSchema);
+export default mongoose.model('user', userSchema);

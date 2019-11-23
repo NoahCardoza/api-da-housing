@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
-const UserModel = require('../models/User');
-const ListingModel = require('../models/Listing');
-const TeamModel = require('../models/Team');
+import jwt from 'jsonwebtoken';
+import UserModel from '../models/User';
+import ListingModel from '../models/Listing';
+import TeamModel  from '../models/Team';
 
 
-module.exports.auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data = jwt.verify(token, process.env.SECRET);
@@ -22,7 +22,7 @@ module.exports.auth = async (req, res, next) => {
   }
 };
 
-module.exports.isListingOwner = async (req, res, next) => {
+export const isListingOwner = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data = jwt.verify(token, process.env.SECRET);
@@ -41,7 +41,7 @@ module.exports.isListingOwner = async (req, res, next) => {
   }
 };
 
-module.exports.isTeamMember = async (req, res, next) => {
+export const isTeamMember = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data = jwt.verify(token, process.env.SECRET);

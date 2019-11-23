@@ -1,10 +1,8 @@
-const express = require('express');
-
+import express from "express";
 const router = express.Router();
-const {
-  auth,
-} = require('../middleware');
-const UserModel = require('../models/User');
+import { auth } from '../middleware';
+import UserModel from '../models/User';
+
 // Create
 router.post('/create-user', async (req, res) => {
   try {
