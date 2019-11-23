@@ -7,7 +7,9 @@ import jwt from 'jsonwebtoken';
 /**
  * User interface definition
  */
-export interface IUserModel {
+export interface IUserModel  extends IUser, Document{
+  generateAuthToken(): Promise<string>; 
+  comparePassword(): Promise<boolean>
 }
 
 
