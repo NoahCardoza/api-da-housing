@@ -36,3 +36,19 @@ export interface IListing {
 }
 
 
+interface IFavorite {
+    source?: string;
+    name?: string; 
+    comments?: string[];
+}
+
+/**
+ * Team interface
+ */
+export interface ITeam {
+    name?: string; 
+    members?: string[]; 
+    budget?: number; 
+    favorites: IFavorite[];
+    outsideFavorites: IFavorite[];
+}
