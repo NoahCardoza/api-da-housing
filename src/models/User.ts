@@ -13,7 +13,7 @@ export interface IUserModel  extends IUser, Document{
 }
 
 
-const userSchema = new mongoose.Schema({
+const userSchema: Schema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
   }],
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next): Promise<void> {
   try {
     if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
@@ -57,7 +57,7 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function (): Promise<string> {
   try {
     const token = jwt.sign({
       _id: this._id,
@@ -74,7 +74,7 @@ userSchema.methods.generateAuthToken = async function () {
   }
 };
 
-userSchema.methods.comparePassword = async function (plaintext) {
+userSchema.methods.comparePassword = async function (plaintext): Promise<Boolean> {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
