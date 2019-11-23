@@ -52,3 +52,10 @@ export interface ITeam {
     favorites: IFavorite[];
     outsideFavorites: IFavorite[];
 }
+
+/**
+ * Token interface for middlware
+ */
+export interface ITokenMiddleware {
+        _id?: string;
+}
