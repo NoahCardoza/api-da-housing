@@ -24,6 +24,8 @@ const ListingSchema = new mongoose.Schema({
     street: String,
     city: String,
     zipcode: Number,
+    longitude: Number,
+    latitiude: Number,
   },
 });
 
