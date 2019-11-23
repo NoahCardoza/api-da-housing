@@ -1,7 +1,15 @@
 /* eslint-disable func-names */
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema, Model, model } from 'mongoose';
 import bcrypt from 'bcrypt';
+import { IUser } from '../interfaces';
 import jwt from 'jsonwebtoken';
+
+/**
+ * User interface definition
+ */
+export interface IUserModel {
+}
+
 
 const userSchema = new mongoose.Schema({
   email: {
