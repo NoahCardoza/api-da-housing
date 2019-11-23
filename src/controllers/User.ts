@@ -114,4 +114,4 @@ router.post('/logout-all-user', auth, async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;
