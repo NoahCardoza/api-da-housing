@@ -4,9 +4,7 @@ const router = express.Router();
 const {
   auth,
 } = require('../middleware');
-const {
-  UserModel,
-} = require('../models/User');
+const UserModel = require('../models/User');
 // Create
 router.post('/create-user', async (req, res) => {
   try {
