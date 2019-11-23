@@ -1,8 +1,8 @@
-const express = require('express');
-const helmet = require('helmet');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import cors from 'cors';
 
 require('dotenv').config();
 
@@ -16,8 +16,8 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Routes
-const UserRouter = require('./controllers/User');
-const ListingRouter = require('./controllers/Listing');
+import UserRouter from './controllers/User';
+import ListingRouter from './controllers/Listing';
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
