@@ -8,12 +8,12 @@ export const auth = async (req: any, res: any, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
-    const user = await UserModel.findOne({
+    const user: IUserModel = await UserModel.findOne({
       _id: data._id,
       'tokens.token': token,
     }).exec();
     if (!user) throw new Error('Credentials failed.');
-    req.user = <IUserModel>user;
+    req.user = user;
     req.token = token;
     return next();
   } catch (error) {
