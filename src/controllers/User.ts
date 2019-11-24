@@ -33,7 +33,7 @@ router.post('/create-user', async (req: ICustomMiddleWareRequest, res) => {
 });
 
 // Login
-router.post('/login-user', async (req, res) => {
+router.post('/login-user', async (req: ICustomMiddleWareRequest, res) => {
   try {
     const {
       email,
@@ -62,7 +62,7 @@ router.post('/login-user', async (req, res) => {
 });
 
 // Update
-router.put('/update-user', auth, async (req, res) => {
+router.put('/update-user', auth, async (req: ICustomMiddleWareRequest, res) => {
   try {
     await UserModel.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
@@ -76,7 +76,7 @@ router.put('/update-user', auth, async (req, res) => {
 
 
 // Delete
-router.delete('/delete-user', auth, async (req, res) => {
+router.delete('/delete-user', auth, async (req: ICustomMiddleWareRequest, res) => {
   try {
     await UserModel.findByIdAndRemove(req.user.id).exec();
     return res.status(202).send('Deleted');
@@ -88,10 +88,10 @@ router.delete('/delete-user', auth, async (req, res) => {
 
 
 // example of middleware. also personal profile.
-router.get('/get-me-user', auth, async (req, res) => res.status(200).json(req.user));
+router.get('/get-me-user', auth, async (req: ICustomMiddleWareRequest, res) => res.status(200).json(req.user));
 
 // logs out
-router.post('/logout-user', auth, async (req, res) => {
+router.post('/logout-user', auth, async (req: ICustomMiddleWareRequest, res) => {
   // Log user out of the application
   try {
     req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
@@ -102,7 +102,7 @@ router.post('/logout-user', auth, async (req, res) => {
   }
 });
 
-router.post('/logout-all-user', auth, async (req, res) => {
+router.post('/logout-all-user', auth, async (req: ICustomMiddleWareRequest, res) => {
   // Log user out of all devices
   try {
     req.user.tokens.splice(0, req.user.tokens.length);
