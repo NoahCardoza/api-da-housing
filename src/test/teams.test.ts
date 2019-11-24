@@ -143,16 +143,16 @@ describe("Teams", () => {
     it("Should update a Team by ID", async (done) => {
         try {
             chai.request(app).put(`/team/update-team/${teamtestingID}`)
-            .set("Authorization", `Bearer ${jwt}`)
-            .send({
-                budget: 4000,
-            })
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(204);
-                res.body.should.be.a("object");
-                res.body.budget.should.be.eql(4000);
-            });
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    budget: 4000,
+                })
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(204);
+                    res.body.should.be.a("object");
+                    res.body.budget.should.be.eql(4000);
+                });
             done();
         } catch (error) {
             console.error(error);
@@ -162,14 +162,14 @@ describe("Teams", () => {
     it("Should add a favorite Listing to a Team Favorite Section", async (done) => {
         try {
             chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
-            .set("Authorization", `Bearer ${jwt}`)
-            .send({
-                favorite: testlistingID,
-            })
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(204);
-            });
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    favorite: testlistingID,
+                })
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(204);
+                });
             done();
         } catch (error) {
             console.error(error);
@@ -179,14 +179,14 @@ describe("Teams", () => {
     it("Should delete a team favorite", async (done) => {
         try {
             chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
-            .set("Authorization", `Bearer ${jwt}`)
-            .send({
-                favorite: testlistingID,
-            })
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(204);
-            });
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    favorite: testlistingID,
+                })
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(204);
+                });
             done();
         } catch (error) {
             console.error(error);
@@ -196,11 +196,11 @@ describe("Teams", () => {
     it("Should make a member leave a team and delete the team if they are the last member.", async (done) => {
         try {
             chai.request(app).put(`/team/leave-team/${teamtestingID}`)
-            .set("Authorization", `Bearer ${fakeTeamMemberJWT}`)
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(204);
-            });
+                .set("Authorization", `Bearer ${fakeTeamMemberJWT}`)
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(204);
+                });
             done();
         } catch (error) {
             console.error(error);
@@ -210,11 +210,11 @@ describe("Teams", () => {
     it("Should delete a team.", async (done) => {
         try {
             chai.request(app).delete(`/team/${teamtestingID}`)
-            .set("Authorization", `Bearer ${jwt}`)
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(202);
-            });
+                .set("Authorization", `Bearer ${jwt}`)
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(202);
+                });
             done();
         } catch (error) {
             console.error(error);
