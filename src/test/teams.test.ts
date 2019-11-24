@@ -151,15 +151,38 @@ describe("Teams", () => {
         done();
     });
 
+    it("Should add a favorite Listing to a Team Favorite Section", async (done) => {
+        chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
+        .set("Authorization", `Bearer ${jwt}`)
+        .send({
+            favorite: testlistingID,
+        })
+        .end((err, res) => {
+            if (err) { console.log(err); }
+            res.should.have.status(204);
+        });
+        done();
+    });
 
-    
+    it("Should delete a team favorite", async (done) => {
+        chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
+        .set("Authorization", `Bearer ${jwt}`)
+        .send({
+            favorite: testlistingID,
+        })
+        .end((err, res) => {
+            if (err) { console.log(err); }
+            res.should.have.status(204);
+        });
+        done();
+    });
 
     it("Should make a member leave a team and delete the team if they are the last member.", async (done) => {
         chai.request(app).put(`/team/leave-team/${teamtestingID}`)
             .set("Authorization", `Bearer ${fakeTeamMemberJWT}`)
             .end((err, res) => {
                 if (err) { console.log(err); }
-                res.should.have.status(202);
+                res.should.have.status(204);
             });
         done();
     });
