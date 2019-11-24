@@ -1,4 +1,11 @@
 /**
+ * UserToken 
+ */
+export interface IUserToken {
+    token?: string;
+}
+
+/**
  * User interface definition
  */
 export interface IUser {
@@ -9,7 +16,7 @@ export interface IUser {
     name?: string;
     favoriteListings?: string[];
     preferences?: string[];
-    tokens?: string[];
+    tokens?: IUserToken[];
 }
 
 /**
