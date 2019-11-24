@@ -3,14 +3,16 @@ import UserModel, { IUserModel } from '../models/User';
 import ListingModel, { IListingModel } from '../models/Listing';
 import TeamModel, { ITeamModel } from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
+import { Request } from 'express';
 
 
 /**
  * Used by middleware to validate actions must be kept in the same file.
  */
-export interface ICustomMiddleWareRequest {
-  user?: IUserModel
-
+export interface ICustomMiddleWareRequest extends Request {
+  user?: IUserModel;
+  listing?: IListingModel;
+  team?: ITeamModel;
 }
 
 export const auth = async (req: any, res: any, next: any) => {
