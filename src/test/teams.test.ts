@@ -6,9 +6,10 @@ import ListingModel from "../models/Listing";
 
 chai.use(chaiHTTP);
 chai.should();
-const jwt = "";
-const testlistingID = "";
-const teamtestingID = "";
+let jwt = "";
+let testlistingID = "";
+let teamtestingID = "";
+let usertestingID = "";
 
 before(async () => {
     try {
@@ -21,7 +22,8 @@ before(async () => {
             name: "test bot",
           });
         await user.save();
-        const newListing = new ListingModel({
+        usertestingID = user._id;
+        const listing = new ListingModel({
             author: user._id,
             name: "@testhouserecord",
             price: 1500,
@@ -32,7 +34,8 @@ before(async () => {
               zipcode: 94040,
             },
           });
-        await newListing.save();
+        await listing.save();
+        testlistingID = listing._id;
     } catch (err) {
         console.error(err);
     }
