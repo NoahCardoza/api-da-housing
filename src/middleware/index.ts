@@ -6,7 +6,7 @@ import { ITokenMiddleware } from '../interfaces';
 
 export const auth = async (req: any, res: any, next: any) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const user = await UserModel.findOne({
       _id: data._id,
