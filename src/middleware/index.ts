@@ -3,7 +3,7 @@ import UserModel, { IUserModel } from '../models/User';
 import ListingModel, { IListingModel } from '../models/Listing';
 import TeamModel, { ITeamModel } from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 
 /**
@@ -16,7 +16,7 @@ export interface ICustomMiddleWareRequest extends Request {
   token?: string;
 }
 
-export const auth = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
+export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
@@ -34,7 +34,7 @@ export const auth = async (req: ICustomMiddleWareRequest, res: any, next: any) =
   }
 };
 
-export const isListingOwner = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
+export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
@@ -53,7 +53,7 @@ export const isListingOwner = async (req: ICustomMiddleWareRequest, res: any, ne
   }
 };
 
-export const isTeamMember = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
+export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
