@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
  */
 export interface IUserModel extends IUser, Document {
   generateAuthToken(): Promise<string>;
-  comparePassword(): Promise<boolean>
+  comparePassword(plaintext: string): Promise<boolean>
 }
 
 
@@ -74,7 +74,7 @@ UserSchema.methods.generateAuthToken = async function (): Promise<string> {
   }
 };
 
-UserSchema.methods.comparePassword = async function (plaintext): Promise<Boolean> {
+UserSchema.methods.comparePassword = async function (plaintext: string): Promise<Boolean> {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
