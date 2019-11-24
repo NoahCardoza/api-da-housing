@@ -4,7 +4,7 @@ import { ITeam } from '../interfaces';
 export interface ITeamModel extends ITeam, Document {
 }
 
-const TeamSchema = new mongoose.Schema({
+const TeamSchema: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
