@@ -1,6 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose, { Document, Model, model, Schema } from "mongoose";
+import { ITeam } from "../interfaces";
 
-const TeamSchema = new mongoose.Schema({
+export interface ITeamModel extends ITeam, Document {
+}
+
+const TeamSchema: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -34,4 +38,6 @@ const TeamSchema = new mongoose.Schema({
   }],
 });
 
-module.exports = mongoose.model('team', TeamSchema);
+const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
+
+export default Team;
