@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/User';
+import UserModel, { IUserModel } from '../models/User';
 import ListingModel from '../models/Listing';
 import TeamModel from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
@@ -13,7 +13,7 @@ export const auth = async (req: any, res: any, next: any) => {
       'tokens.token': token,
     }).exec();
     if (!user) throw new Error('Credentials failed.');
-    req.user = user;
+    req.user:  = user;
     req.token = token;
     return next();
   } catch (error) {
