@@ -13,9 +13,10 @@ export interface ICustomMiddleWareRequest extends Request {
   user?: IUserModel;
   listing?: IListingModel;
   team?: ITeamModel;
+  toke?: string;
 }
 
-export const auth = async (req: any, res: any, next: any) => {
+export const auth = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
@@ -33,7 +34,7 @@ export const auth = async (req: any, res: any, next: any) => {
   }
 };
 
-export const isListingOwner = async (req: any, res: any, next: any) => {
+export const isListingOwner = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
@@ -52,7 +53,7 @@ export const isListingOwner = async (req: any, res: any, next: any) => {
   }
 };
 
-export const isTeamMember = async (req: any, res: any, next: any) => {
+export const isTeamMember = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
