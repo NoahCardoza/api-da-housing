@@ -42,6 +42,8 @@ before(async () => {
             budget: 3400,
             favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
         });
+        await team.save();
+        teamtestingID = team._id;
     } catch (err) {
         console.error(err);
     }
