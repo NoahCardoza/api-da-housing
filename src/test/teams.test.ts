@@ -71,14 +71,14 @@ after(async () => {
 
 describe("Teams", () => {
     // user related but needed for next requests
-  it("Should get token", (done) => {
-    chai.request(app).post("/login-user").send({
-      password: "testpassword123",
-      email: "testemail@gmail.com",
-    })
-      .then((res) => {
-        jwt = res.body.token;
-        done();
-      });
-  });
+    it("Should get token", (done) => {
+        chai.request(app).post("/login-user").send({
+            password: "testpassword123",
+            email: "testemail@gmail.com",
+        })
+            .then((res) => {
+                jwt = res.body.token;
+                done();
+            });
+    });
 });
