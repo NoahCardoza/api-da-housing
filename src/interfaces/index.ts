@@ -1,5 +1,5 @@
 /**
- * UserToken 
+ * UserToken
  */
 export interface IUserToken {
     token?: string;
