@@ -82,7 +82,7 @@ describe("Teams", () => {
             });
     });
 
-    it("Should get a listing by ID", async (done) => {
+    it("Should get a team by ID for member", async (done) => {
         chai.request(app)
             .get(`/get-listing/${testlistingID}`)
             .set("Authorization", `Bearer ${jwt}`)
