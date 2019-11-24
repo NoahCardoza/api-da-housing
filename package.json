@@ -2,7 +2,7 @@
   "name": "api-da-housing",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "mocha --exit",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
