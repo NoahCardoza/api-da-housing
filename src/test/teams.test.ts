@@ -113,15 +113,17 @@ describe("Teams", () => {
         done();
     });
 
-    it("Should update a listing by ID", async (done) => {
-        chai.request(app).put(`/update-listing/${testlistingID}`)
+    it("Should update a Team by ID", async (done) => {
+        chai.request(app).put(`/team/update-team/${teamtestingID}`)
             .set("Authorization", `Bearer ${jwt}`)
             .send({
-                description: "@updated",
+                budget: 4000,
             })
             .end((err, res) => {
                 if (err) { console.log(err); }
                 res.should.have.status(204);
+                res.body.should.be.a("object");
+                res.body.budget.should.be.eql(4000);
             });
         done();
     });
