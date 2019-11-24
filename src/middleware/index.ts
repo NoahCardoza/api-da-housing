@@ -4,6 +4,15 @@ import ListingModel, { IListingModel } from '../models/Listing';
 import TeamModel, { ITeamModel } from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
 
+
+/**
+ * Used by middleware to validate actions must be kept in the same file.
+ */
+export interface ICustomMiddleWareRequest {
+  user?: IUserModel
+
+}
+
 export const auth = async (req: any, res: any, next: any) => {
   try {
     const token: string = req.header('Authorization').replace('Bearer ', '');
