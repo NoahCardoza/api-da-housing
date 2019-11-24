@@ -10,6 +10,7 @@ chai.should();
 let jwt = "";
 let testlistingID = "";
 let teamtestingID = "";
+let fakeTeamMemberJWT = "";
 let usertestingID = "";
 
 before(async () => {
@@ -92,6 +93,17 @@ describe("Teams", () => {
                 done();
             });
     });
+
+    it("Should get a token for the fake member", (done) => {
+        chai.request(app).post("/login-user").send({
+            password: "testpassword123",
+            email: "testemailteamfakemember@gmail.com",
+        })
+            .then((res) => {
+                fakeTeamMemberJWT = res.body.token;
+                done();
+            });
+    })
 
     it("Should get a team by ID for member", async (done) => {
         chai.request(app)
