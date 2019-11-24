@@ -1,7 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import ListingModel, { IListingModel } from '../models/Listing';
-import { IUserModel } from '../models/User';
+import ListingModel from '../models/Listing';
 import { auth, isListingOwner, ICustomMiddleWareRequest } from '../middleware';
 
 // INDEX route - show all listings (READ)
