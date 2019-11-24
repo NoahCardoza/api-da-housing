@@ -13,10 +13,10 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false,
-}).then(() => console.log("Successfully connected to MongoDB"))
-  .catch((err) => {
-    console.log(err);
-  });
+}, (err) => {
+  if (err) { console.log(err); }
+  console.log("Successfully connected to MongoDB");
+});
 
 // Routes
 import ListingRouter from "./controllers/Listing";
@@ -30,6 +30,6 @@ app.use("/", ListingRouter);
 
 app.get("/", (_, res) => res.send("Index route for API-DA-HOUSING"));
 
-app.listen(process.env.PORT || 3000, () => console.log("service started."));
+app.listen(process.env.PORT || 3000, () => console.log("Core Loftly Service Started."));
 
 export default app;
