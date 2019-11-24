@@ -1,34 +1,34 @@
-import chai from 'chai';
-import chaiHTTP from 'chai-http';
-import app from '../server';
-import ListingModel from '../models/Listing';
-import UserModel from '../models/User';
+import chai from "chai";
+import chaiHTTP from "chai-http";
+import ListingModel from "../models/Listing";
+import UserModel from "../models/User";
+import app from "../server";
 
 chai.use(chaiHTTP);
 chai.should();
 
-let jwt = '';
-let testlistingID = '';
+let jwt = "";
+let testlistingID = "";
 
 before(async () => {
   try {
-    console.log('Before tests!');
+    console.log("Before tests!");
     const user = new UserModel({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
+      password: "testpassword123",
+      email: "testemail@gmail.com",
+      school: "De Anza",
+      gender: "other",
+      name: "test bot",
     });
     await user.save();
     const newListing = new ListingModel({
       author: user._id,
-      name: '@testhouserecord',
+      name: "@testhouserecord",
       price: 1500,
-      description: 'This is a test description!',
+      description: "This is a test description!",
       address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
+        street: "El Camino Street",
+        city: "Mountain View",
         zipcode: 94040,
       },
     });
@@ -41,37 +41,37 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('After tests!');
-    console.log('Deleting test users!');
+    console.log("After tests!");
+    console.log("Deleting test users!");
     await UserModel.findOneAndRemove({
-      email: 'testemail@gmail.com',
+      email: "testemail@gmail.com",
     }).exec();
-    console.log('Deleting test Listings!');
+    console.log("Deleting test Listings!");
     await ListingModel.deleteMany({
-      name: '@testhouserecord',
+      name: "@testhouserecord",
     }).exec();
   } catch (err) {
     console.error(err);
   }
 });
 
-describe('Listings', () => {
-  it('Should get all Listings records.', (done) => {
+describe("Listings", () => {
+  it("Should get all Listings records.", (done) => {
     chai.request(app)
-      .get('/listing')
+      .get("/listing")
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) { console.log(err); }
         res.should.have.status(200);
-        res.body.should.be.a('array');
+        res.body.should.be.a("array");
         done();
       });
   });
 
   // user related but needed for next requests
-  it('Should get token', (done) => {
-    chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
+  it("Should get token", (done) => {
+    chai.request(app).post("/login-user").send({
+      password: "testpassword123",
+      email: "testemail@gmail.com",
     })
       .then((res) => {
         jwt = res.body.token;
@@ -79,59 +79,59 @@ describe('Listings', () => {
       });
   });
 
-  it('Creates a Listing record.', (done) => {
+  it("Creates a Listing record.", (done) => {
     chai.request(app)
-      .post('/create-listing')
-      .set('Authorization', `Bearer ${jwt}`)
+      .post("/create-listing")
+      .set("Authorization", `Bearer ${jwt}`)
       .send({
-        name: '@testhouserecord',
+        name: "@testhouserecord",
         price: 1500,
-        description: 'This is a test description!',
+        description: "This is a test description!",
         address: {
-          street: 'El Camino Street',
-          city: 'Mountain View',
+          street: "El Camino Street",
+          city: "Mountain View",
           zipcode: 94040,
         },
       })
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) { console.log(err); }
         res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.name.should.be.eql('@testhouserecord');
+        res.body.should.be.a("object");
+        res.body.name.should.be.eql("@testhouserecord");
       });
     done();
   });
 
-  it('Should get a listing by ID', async (done) => {
+  it("Should get a listing by ID", async (done) => {
     chai.request(app)
       .get(`/get-listing/${testlistingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
+      .set("Authorization", `Bearer ${jwt}`)
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) { console.log(err); }
         res.should.have.status(200);
-        res.body.should.be.a('object');
+        res.body.should.be.a("object");
       });
     done();
   });
 
-  it('Should update a listing by ID', async (done) => {
+  it("Should update a listing by ID", async (done) => {
     chai.request(app).put(`/update-listing/${testlistingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
+      .set("Authorization", `Bearer ${jwt}`)
       .send({
-        description: '@updated',
+        description: "@updated",
       })
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) { console.log(err); }
         res.should.have.status(204);
       });
     done();
   });
 
-  it('Should delete a listing by ID', async (done) => {
+  it("Should delete a listing by ID", async (done) => {
     chai.request(app).delete(`/delete-listing/${testlistingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
+      .set("Authorization", `Bearer ${jwt}`)
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) { console.log(err); }
         res.should.have.status(202);
       });
     done();

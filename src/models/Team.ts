@@ -1,5 +1,5 @@
-import mongoose, { Document, Schema, Model, model } from 'mongoose';
-import { ITeam } from '../interfaces';
+import mongoose, { Document, Model, model, Schema } from "mongoose";
+import { ITeam } from "../interfaces";
 
 export interface ITeamModel extends ITeam, Document {
 }
@@ -39,6 +39,5 @@ const TeamSchema: Schema = new mongoose.Schema({
 });
 
 const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
-
 
 export default Team;

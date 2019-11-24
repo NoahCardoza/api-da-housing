@@ -13,7 +13,7 @@ export interface IUser {
 }
 
 /**
- * Home Address module scoped 
+ * Home Address module scoped
  */
 interface IAddress {
     street?: string;
@@ -32,13 +32,12 @@ export interface IListing {
     images?: string[];
     description?: string;
     author?: string;
-    address?: IAddress
+    address?: IAddress;
 }
-
 
 interface IFavorite {
     source?: string;
-    name?: string; 
+    name?: string;
     comments?: string[];
 }
 
@@ -46,9 +45,9 @@ interface IFavorite {
  * Team interface
  */
 export interface ITeam {
-    name?: string; 
-    members?: string[]; 
-    budget?: number; 
+    name?: string;
+    members?: string[];
+    budget?: number;
     favorites: IFavorite[];
     outsideFavorites: IFavorite[];
 }

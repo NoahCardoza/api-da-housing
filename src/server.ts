@@ -1,10 +1,10 @@
-import express from 'express';
-import helmet from 'helmet';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import cors from 'cors';
+import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import mongoose from "mongoose";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
@@ -16,17 +16,17 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Routes
-import UserRouter from './controllers/User';
-import ListingRouter from './controllers/Listing';
+import ListingRouter from "./controllers/Listing";
+import UserRouter from "./controllers/User";
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/', UserRouter);
-app.use('/', ListingRouter);
+app.use("/", UserRouter);
+app.use("/", ListingRouter);
 
-app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
+app.get("/", (_, res) => res.send("Index route for API-DA-HOUSING"));
 
-app.listen(process.env.PORT || 3000, () => console.log('service started.'));
+app.listen(process.env.PORT || 3000, () => console.log("service started."));
 
 export default app;
