@@ -103,7 +103,7 @@ describe("Teams", () => {
                 fakeTeamMemberJWT = res.body.token;
                 done();
             });
-    })
+    });
 
     it("Should get a team by ID for member", async (done) => {
         chai.request(app)
