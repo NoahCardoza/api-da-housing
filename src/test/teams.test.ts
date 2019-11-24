@@ -94,6 +94,29 @@ describe("Teams", () => {
         done();
     });
 
-    
+    it("Creates a Listing record.", (done) => {
+        chai.request(app)
+            .post("/create-listing")
+            .set("Authorization", `Bearer ${jwt}`)
+            .send({
+                name: "@testhouserecord",
+                price: 1500,
+                description: "This is a test description!",
+                address: {
+                    street: "El Camino Street",
+                    city: "Mountain View",
+                    zipcode: 94040,
+                },
+            })
+            .end((err, res) => {
+                if (err) { console.log(err); }
+                res.should.have.status(201);
+                res.body.should.be.a("object");
+                res.body.name.should.be.eql("@testhouserecord");
+            });
+        done();
+    });
+
+
 
 });
