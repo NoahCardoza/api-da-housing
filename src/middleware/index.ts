@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import UserModel, { IUserModel } from '../models/User';
-import ListingModel from '../models/Listing';
+import ListingModel, { IListingModel } from '../models/Listing';
 import TeamModel from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
 
@@ -13,7 +13,7 @@ export const auth = async (req: any, res: any, next: any) => {
       'tokens.token': token,
     }).exec();
     if (!user) throw new Error('Credentials failed.');
-    req.user:  = user;
+    req.user = <IUserModel>user;
     req.token = token;
     return next();
   } catch (error) {
@@ -27,7 +27,7 @@ export const isListingOwner = async (req: any, res: any, next: any) => {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const listingID = req.params.listingid;
-    const listing = await ListingModel.findOne({
+    const listing: IListingModel = await ListingModel.findOne({
       _id: listingID,
       author: data._id,
     }).exec();
