@@ -208,13 +208,17 @@ describe("Teams", () => {
     });
 
     it("Should delete a team.", async (done) => {
-        chai.request(app).delete(`/team/${teamtestingID}`)
+        try {
+            chai.request(app).delete(`/team/${teamtestingID}`)
             .set("Authorization", `Bearer ${jwt}`)
             .end((err, res) => {
                 if (err) { console.log(err); }
                 res.should.have.status(202);
             });
-        done();
+            done();
+        } catch (error) {
+            console.error(error);
+        }
     });
 
 });
