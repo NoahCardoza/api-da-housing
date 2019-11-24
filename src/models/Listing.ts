@@ -4,7 +4,7 @@ export interface IListingModel extends IListing, Document {
 }
 
 
-const ListingSchema = new mongoose.Schema({
+const ListingSchema: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema, Model, model } from 'mongoose';
 import { ITeam } from '../interfaces';
 
 export interface ITeamModel extends ITeam, Document {
@@ -38,4 +38,7 @@ const TeamSchema = new mongoose.Schema({
   }],
 });
 
-export default mongoose.model('team', TeamSchema);
+const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
+
+
+export default Team;
