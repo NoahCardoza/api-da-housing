@@ -3,6 +3,7 @@ import chaiHTTP from "chai-http";
 import UserModel from "../models/User";
 import TeamModel from "../models/Team";
 import ListingModel from "../models/Listing";
+import app from "../server";
 
 chai.use(chaiHTTP);
 chai.should();
@@ -66,4 +67,18 @@ after(async () => {
     } catch (err) {
         console.error(err);
     }
+});
+
+describe("Teams", () => {
+    // user related but needed for next requests
+  it("Should get token", (done) => {
+    chai.request(app).post("/login-user").send({
+      password: "testpassword123",
+      email: "testemail@gmail.com",
+    })
+      .then((res) => {
+        jwt = res.body.token;
+        done();
+      });
+  });
 });
