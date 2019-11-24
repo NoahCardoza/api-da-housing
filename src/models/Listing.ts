@@ -1,4 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema, Model, model } from 'mongoose';
+import { IListing } from '../interfaces';
+export interface IListingModel extends IListing, Document {
+}
+
 
 const ListingSchema = new mongoose.Schema({
   name: {
@@ -29,5 +33,7 @@ const ListingSchema = new mongoose.Schema({
   },
 });
 
+const Listing: Model<IListingModel> = model<IListingModel>("Listing", ListingSchema);
 
-export default mongoose.model('listing', ListingSchema);
+
+export default Listing
