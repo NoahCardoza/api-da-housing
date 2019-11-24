@@ -13,7 +13,7 @@ export interface IUserModel extends IUser, Document {
 }
 
 
-const userSchema: Schema = new mongoose.Schema({
+const UserSchema: Schema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -45,7 +45,7 @@ const userSchema: Schema = new mongoose.Schema({
   }],
 });
 
-userSchema.pre('save', async function (next): Promise<void> {
+UserSchema.pre('save', async function (next): Promise<void> {
   try {
     if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
@@ -57,7 +57,7 @@ userSchema.pre('save', async function (next): Promise<void> {
   }
 });
 
-userSchema.methods.generateAuthToken = async function (): Promise<string> {
+UserSchema.methods.generateAuthToken = async function (): Promise<string> {
   try {
     const token = jwt.sign({
       _id: this._id,
@@ -74,7 +74,7 @@ userSchema.methods.generateAuthToken = async function (): Promise<string> {
   }
 };
 
-userSchema.methods.comparePassword = async function (plaintext): Promise<Boolean> {
+UserSchema.methods.comparePassword = async function (plaintext): Promise<Boolean> {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
@@ -83,6 +83,6 @@ userSchema.methods.comparePassword = async function (plaintext): Promise<Boolean
   }
 };
 
-const User: Model<IUserModel> = model<IUserModel>("User", userSchema);
+const User: Model<IUserModel> = model<IUserModel>("User", UserSchema);
 
 export default User;
