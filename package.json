@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "test": "mocha --exit",
-    "test-ts": "mocha -r ts-node/register src/**/*.spec.ts",
+    "test-ts": "mocha -r ts-node/register src/**/*.test.ts --exit",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "npm run build",
@@ -39,6 +39,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "mocha": "^6.2.2",
+    "ts-node": "^8.5.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   }
