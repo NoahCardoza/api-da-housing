@@ -46,7 +46,7 @@ export const isTeamMember = async (req: any, res: any, next: any) => {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const teamID = req.params.teamid;
-    const team = await TeamModel.findOne({
+    const team: ITeamModel = await TeamModel.findOne({
       _id: teamID,
       members: data._id,
     }).exec();
