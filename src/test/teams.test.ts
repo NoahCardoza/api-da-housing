@@ -113,6 +113,4 @@ describe("Teams", () => {
         done();
     });
 
-
-
 });
