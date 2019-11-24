@@ -153,27 +153,27 @@ describe("Teams", () => {
 
     it("Should add a favorite Listing to a Team Favorite Section", async (done) => {
         chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
-        .set("Authorization", `Bearer ${jwt}`)
-        .send({
-            favorite: testlistingID,
-        })
-        .end((err, res) => {
-            if (err) { console.log(err); }
-            res.should.have.status(204);
-        });
+            .set("Authorization", `Bearer ${jwt}`)
+            .send({
+                favorite: testlistingID,
+            })
+            .end((err, res) => {
+                if (err) { console.log(err); }
+                res.should.have.status(204);
+            });
         done();
     });
 
     it("Should delete a team favorite", async (done) => {
         chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
-        .set("Authorization", `Bearer ${jwt}`)
-        .send({
-            favorite: testlistingID,
-        })
-        .end((err, res) => {
-            if (err) { console.log(err); }
-            res.should.have.status(204);
-        });
+            .set("Authorization", `Bearer ${jwt}`)
+            .send({
+                favorite: testlistingID,
+            })
+            .end((err, res) => {
+                if (err) { console.log(err); }
+                res.should.have.status(204);
+            });
         done();
     });
 
