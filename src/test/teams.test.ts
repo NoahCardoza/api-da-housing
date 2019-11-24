@@ -81,4 +81,16 @@ describe("Teams", () => {
                 done();
             });
     });
+
+    it("Should get a listing by ID", async (done) => {
+        chai.request(app)
+          .get(`/get-listing/${testlistingID}`)
+          .set("Authorization", `Bearer ${jwt}`)
+          .end((err, res) => {
+            if (err) { console.log(err); }
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+          });
+        done();
+      });
 });
