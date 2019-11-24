@@ -94,25 +94,21 @@ describe("Teams", () => {
         done();
     });
 
-    it("Creates a Listing record.", (done) => {
+    it("Creates a Team record.", (done) => {
         chai.request(app)
-            .post("/create-listing")
+            .post("/team/create-team")
             .set("Authorization", `Bearer ${jwt}`)
             .send({
-                name: "@testhouserecord",
-                price: 1500,
-                description: "This is a test description!",
-                address: {
-                    street: "El Camino Street",
-                    city: "Mountain View",
-                    zipcode: 94040,
-                },
+                name: "@testteamrecord",
+                members: [usertestingID],
+                budget: 3400,
+                favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
             })
             .end((err, res) => {
                 if (err) { console.log(err); }
                 res.should.have.status(201);
                 res.body.should.be.a("object");
-                res.body.name.should.be.eql("@testhouserecord");
+                res.body.name.should.be.eql("@testteamrecord");
             });
         done();
     });
