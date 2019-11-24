@@ -26,7 +26,7 @@ export const isListingOwner = async (req: any, res: any, next: any) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
-    const listingID = req.params.listingid;
+    const listingID: string = req.params.listingid;
     const listing: IListingModel = await ListingModel.findOne({
       _id: listingID,
       author: data._id,
