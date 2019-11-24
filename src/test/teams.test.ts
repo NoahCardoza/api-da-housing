@@ -22,7 +22,15 @@ before(async () => {
             gender: "other",
             name: "test bot",
         });
+        const fakeTeamMember = new UserModel({
+            password: "testpassword123",
+            email: "testemailteamfakemember@gmail.com",
+            school: "De Anza",
+            gender: "other",
+            name: "test bot",
+        });
         await user.save();
+        await fakeTeamMember.save();
         usertestingID = user._id;
         const listing = new ListingModel({
             author: user._id,
@@ -56,6 +64,9 @@ after(async () => {
         console.log("Deleting teams!");
         await UserModel.findOneAndRemove({
             email: "testemailteam@gmail.com",
+        }).exec();
+        await UserModel.findOneAndRemove({
+            email: "testemailteamfakemember@gmail.com"
         }).exec();
         console.log("Deleting test Listings!");
         await ListingModel.deleteMany({
@@ -140,5 +151,11 @@ describe("Teams", () => {
         });
         done();
     });
+
+    it("Should delete a team.", async (done) => {
+        chai.request(app).delete(`/team/:teamid`)
+    })
+
+
 
 });
