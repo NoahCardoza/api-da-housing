@@ -24,7 +24,7 @@ export const auth = async (req: any, res: any, next: any) => {
 
 export const isListingOwner = async (req: any, res: any, next: any) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
     const listingID: string = req.params.listingid;
     const listing: IListingModel = await ListingModel.findOne({
@@ -43,9 +43,9 @@ export const isListingOwner = async (req: any, res: any, next: any) => {
 
 export const isTeamMember = async (req: any, res: any, next: any) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token: string = req.header('Authorization').replace('Bearer ', '');
     const data: ITokenMiddleware = <ITokenMiddleware>jwt.verify(token, process.env.SECRET);
-    const teamID = req.params.teamid;
+    const teamID: string = req.params.teamid;
     const team: ITeamModel = await TeamModel.findOne({
       _id: teamID,
       members: data._id,
