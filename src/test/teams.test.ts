@@ -118,22 +118,27 @@ describe("Teams", () => {
     });
 
     it("Creates a Team record.", (done) => {
-        chai.request(app)
-            .post("/team/create-team")
-            .set("Authorization", `Bearer ${jwt}`)
-            .send({
-                name: "@testteamrecord",
-                members: [usertestingID],
-                budget: 3400,
-                favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
-            })
-            .end((err, res) => {
-                if (err) { console.log(err); }
-                res.should.have.status(201);
-                res.body.should.be.a("object");
-                res.body.name.should.be.eql("@testteamrecord");
-            });
-        done();
+        try {
+            chai.request(app)
+                .post("/team/create-team")
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    name: "@testteamrecord",
+                    members: [usertestingID],
+                    budget: 3400,
+                    favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
+                })
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(201);
+                    res.body.should.be.a("object");
+                    res.body.name.should.be.eql("@testteamrecord");
+                });
+            done();
+        }
+        catch (err) {
+            console.error(err);
+        }
     });
 
     it("Should update a Team by ID", async (done) => {
