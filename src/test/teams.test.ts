@@ -151,13 +151,12 @@ describe("Teams", () => {
 
     it("Should delete a team.", async (done) => {
         chai.request(app).delete(`/team/:teamid`)
-        .set("Authorization", `Bearer ${jwt}`)
-        .end((err, res) => {
-            if (err) { console.log(err); }
-            res.should.have.status(202);
-        });
+            .set("Authorization", `Bearer ${jwt}`)
+            .end((err, res) => {
+                if (err) { console.log(err); }
+                res.should.have.status(202);
+            });
         done();
     });
-
 
 });
