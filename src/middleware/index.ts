@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import UserModel, { IUserModel } from '../models/User';
 import ListingModel, { IListingModel } from '../models/Listing';
-import TeamModel from '../models/Team';
+import TeamModel, { ITeamModel } from '../models/Team';
 import { ITokenMiddleware } from '../interfaces';
 
 export const auth = async (req: any, res: any, next: any) => {
