@@ -13,7 +13,10 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false,
-});
+}).then(() => console.log("Successfully connected to MongoDB"))
+  .catch((err) => {
+    console.log(err);
+  });
 
 // Routes
 import ListingRouter from "./controllers/Listing";
