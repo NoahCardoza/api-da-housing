@@ -4,7 +4,6 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "test": "mocha --exit",
     "test": "mocha -r ts-node/register src/**/*.test.ts --exit",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
