@@ -1,4 +1,8 @@
 import mongoose from 'mongoose';
+import { ITeam } from '../interfaces';
+
+export interface ITeamModel extends ITeam, Document {
+}
 
 const TeamSchema = new mongoose.Schema({
   name: {

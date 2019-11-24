@@ -36,4 +36,4 @@ const ListingSchema = new mongoose.Schema({
 const Listing: Model<IListingModel> = model<IListingModel>("Listing", ListingSchema);
 
 
-export default Listing
+export default Listing;
