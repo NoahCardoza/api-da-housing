@@ -128,4 +128,17 @@ describe("Teams", () => {
         done();
     });
 
+    it("Should make a member leave a team and delete the team if they are the last member.", async (done) => {
+        chai.request(app).put(`/team/leave-team/${teamtestingID}`)
+        .set("Authorization", `Bearer ${jwt}`)
+        .send({
+            budget: 4000,
+        })
+        .end((err, res) => {
+            if (err) { console.log(err); }
+            res.should.have.status(202);
+        });
+        done();
+    });
+
 });
