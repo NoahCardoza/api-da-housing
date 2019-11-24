@@ -20,7 +20,7 @@ before(async () => {
             school: "De Anza",
             gender: "other",
             name: "test bot",
-          });
+        });
         await user.save();
         usertestingID = user._id;
         const listing = new ListingModel({
@@ -29,11 +29,11 @@ before(async () => {
             price: 1500,
             description: "This is a test description!",
             address: {
-              street: "El Camino Street",
-              city: "Mountain View",
-              zipcode: 94040,
+                street: "El Camino Street",
+                city: "Mountain View",
+                zipcode: 94040,
             },
-          });
+        });
         await listing.save();
         testlistingID = listing._id;
     } catch (err) {
