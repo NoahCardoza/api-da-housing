@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import ListingModel, { IListingModel } from '../models/Listing';
 import { IUserModel } from '../models/User';
-import { auth, isListingOwner } from '../middleware';
+import { auth, isListingOwner, ICustomMiddleWareRequest } from '../middleware';
 
 // INDEX route - show all listings (READ)
 router.get('/listing', async (_, res) => {
@@ -15,7 +15,7 @@ router.get('/listing', async (_, res) => {
 });
 
 // READ LISTING BY ID
-router.get('/get-listing/:listingid', async (req, res) => {
+router.get('/get-listing/:listingid', async (req: ICustomMiddleWareRequest, res) => {
   try {
     const listing = await ListingModel.findById(req.params.listingid).exec();
     if (!listing) return res.status(400).send('Listing not found.');
@@ -26,7 +26,7 @@ router.get('/get-listing/:listingid', async (req, res) => {
 });
 
 // CREATE LISTING
-router.post('/create-listing', auth, async (req, res) => {
+router.post('/create-listing', auth, async (req: ICustomMiddleWareRequest, res) => {
   try {
     const {
       name, price, description, address,
@@ -47,7 +47,7 @@ router.post('/create-listing', auth, async (req, res) => {
 });
 
 // UPDATE LISTING
-router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
+router.put('/update-listing/:listingid', isListingOwner, async (req: ICustomMiddleWareRequest, res) => {
   try {
     const listingID = req.listing._id;
     const listing = await ListingModel.findByIdAndUpdate(listingID, req.body).exec();
@@ -62,7 +62,7 @@ router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
 });
 
 // DELETE LISTING
-router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => {
+router.delete('/delete-listing/:listingid', isListingOwner, async (req: ICustomMiddleWareRequest, res) => {
   try {
     // passed in by isListingOwner Middleware.
     const listingID = req.listing._id;
