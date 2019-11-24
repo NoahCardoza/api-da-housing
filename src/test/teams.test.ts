@@ -17,7 +17,7 @@ before(async () => {
         console.log("before team tests.");
         const user = new UserModel({
             password: "testpassword123",
-            email: "testemail@gmail.com",
+            email: "testemailteam@gmail.com",
             school: "De Anza",
             gender: "other",
             name: "test bot",
@@ -53,9 +53,9 @@ before(async () => {
 after(async () => {
     try {
         console.log("After tests!");
-        console.log("Deleting test users!");
+        console.log("Deleting teams!");
         await UserModel.findOneAndRemove({
-            email: "testemail@gmail.com",
+            email: "testemailteam@gmail.com",
         }).exec();
         console.log("Deleting test Listings!");
         await ListingModel.deleteMany({
@@ -74,7 +74,7 @@ describe("Teams", () => {
     it("Should get token", (done) => {
         chai.request(app).post("/login-user").send({
             password: "testpassword123",
-            email: "testemail@gmail.com",
+            email: "testemailteam@gmail.com",
         })
             .then((res) => {
                 jwt = res.body.token;
