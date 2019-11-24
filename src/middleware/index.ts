@@ -13,7 +13,7 @@ export interface ICustomMiddleWareRequest extends Request {
   user?: IUserModel;
   listing?: IListingModel;
   team?: ITeamModel;
-  toke?: string;
+  token?: string;
 }
 
 export const auth = async (req: ICustomMiddleWareRequest, res: any, next: any) => {
