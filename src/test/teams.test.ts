@@ -40,3 +40,19 @@ before(async () => {
         console.error(err);
     }
 });
+
+after(async () => {
+    try {
+      console.log("After tests!");
+      console.log("Deleting test users!");
+      await UserModel.findOneAndRemove({
+        email: "testemail@gmail.com",
+      }).exec();
+      console.log("Deleting test Listings!");
+      await ListingModel.deleteMany({
+        name: "@testhouserecord",
+      }).exec();
+    } catch (err) {
+      console.error(err);
+    }
+  });
