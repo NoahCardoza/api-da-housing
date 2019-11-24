@@ -36,6 +36,12 @@ before(async () => {
         });
         await listing.save();
         testlistingID = listing._id;
+        const team = new TeamModel({
+            name: "@testteamrecord",
+            members: [usertestingID],
+            budget: 3400,
+            favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
+        });
     } catch (err) {
         console.error(err);
     }
@@ -43,16 +49,53 @@ before(async () => {
 
 after(async () => {
     try {
-      console.log("After tests!");
-      console.log("Deleting test users!");
-      await UserModel.findOneAndRemove({
-        email: "testemail@gmail.com",
-      }).exec();
-      console.log("Deleting test Listings!");
-      await ListingModel.deleteMany({
-        name: "@testhouserecord",
-      }).exec();
+        console.log("After tests!");
+        console.log("Deleting test users!");
+        await UserModel.findOneAndRemove({
+            email: "testemail@gmail.com",
+        }).exec();
+        console.log("Deleting test Listings!");
+        await ListingModel.deleteMany({
+            name: "@testhouserecord",
+        }).exec();
+        await TeamModel.deleteMany({
+            name: "@testteamrecord"
+        }).exec();
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
-  });
+});
+
+//   const TeamSchema: Schema = new mongoose.Schema({
+//     name: {
+//       type: String,
+//       required: true,
+//     },
+//     members: {
+//       type: [mongoose.Schema.Types.ObjectId],
+//       required: true,
+//     },
+//     budget: Number,
+//     favorites: [{
+//       source: {
+//         required: true,
+//         type: [mongoose.Schema.Types.ObjectId],
+//       },
+//       name: {
+//         required: true,
+//         type: String,
+//       },
+//       comments: [String],
+//     }],
+//     outsideFavorites: [{
+//       source: {
+//         required: true,
+//         type: String,
+//       },
+//       name: {
+//         required: true,
+//         type: String,
+//       },
+//       comments: [String],
+//     }],
+//   });
