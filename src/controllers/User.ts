@@ -1,10 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { auth } from '../middleware';
+import { auth, ICustomMiddleWareRequest } from '../middleware';
 import UserModel from '../models/User';
 
 // Create
-router.post('/create-user', async (req, res) => {
+router.post('/create-user', async (req: ICustomMiddleWareRequest, res) => {
   try {
     const {
       password,
