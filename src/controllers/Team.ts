@@ -58,7 +58,7 @@ router.put("/team/leave-team/:teamid", auth, isTeamMember, async (req: ICustomMi
             return res.status(204);
         } else if (members.length >= 1) {
             const Team = await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
-            return res.status(204).json(Team);
+            return res.status(204);
         }
     } catch (error) {
         console.error(error);
@@ -67,11 +67,18 @@ router.put("/team/leave-team/:teamid", auth, isTeamMember, async (req: ICustomMi
 });
 
 router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
-    const {source, name} = req.body;
+    const { source, name } = req.body;
 });
 
 router.put("/team/delete-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
-    const members = req.team.favorites.filter((e) => e !== req.body.favorite);
+    try {
+        const favorites = req.team.favorites.filter((e) => e !== req.body.favorite);
+        const Team = await TeamModel.findByIdAndUpdate(req.team._id, { favorites }).exec();
+        return res.status(204);
+    } catch (error) {
+        console.error(error);
+        return res.status(500);
+    }
 });
 
 export default router;
