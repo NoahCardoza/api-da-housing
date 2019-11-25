@@ -42,7 +42,7 @@ export interface IListing {
     address?: IAddress;
 }
 
-interface IFavorite {
+export interface IFavorite {
     source?: string;
     name?: string;
     comments?: string[];
