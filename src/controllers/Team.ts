@@ -47,7 +47,7 @@ router.put("/team/update-team/:id", async (req: cm, res) => {
 router.put("/team/add-favorite/:id", async (req: cm, res) => {
     try {
         const { source, name } = req.body;
-        const favorite = await new FavoriteModel({ source, name }).save();
+        const favorite = await new FavoriteModel({ source, name, team: req.params._id }).save();
         const team = await TeamModel.findById(req.params._id).exec();
         team.favorites.push(favorite._id);
         return res.status(204).json(await team.save());
@@ -66,6 +66,15 @@ router.put("/team/delete-favorite/:id", async (req: cm, res) => {
         const team = await TeamModel.findById(req.params.id).exec();
         team.favorites = team.favorites.filter((favorite) => favorite !== source);
         return res.status(204).json(await team.save());
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(error);
+    }
+});
+
+router.put("/team/favorites/:id", async(req: cm, res) => {
+    try {
+        return res.status(200).json()
     } catch (error) {
         console.error(error);
         return res.status(500).send(error);
