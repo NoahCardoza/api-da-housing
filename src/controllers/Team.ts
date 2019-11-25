@@ -16,4 +16,14 @@ router.get("/team/:id", async (req: cm, res) => {
     }
 });
 
+router.get("/team/create-team", auth, async (req: cm, res) => {
+    try {
+        const { name, budget } = req.body;
+        return res.status(201).json(await new TeamModel({name , budget, members: [req.user._id] }).save());
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(error);
+    }
+});
+
 export default router;

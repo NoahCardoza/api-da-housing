@@ -124,9 +124,7 @@ describe("Teams", () => {
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
                     name: "@testteamrecord",
-                    members: [usertestingID],
                     budget: 3400,
-                    favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }
