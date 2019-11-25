@@ -17,7 +17,7 @@ const TeamSchema: Schema = new mongoose.Schema({
   favorites: [{
     source: {
       required: true,
-      type: [mongoose.Schema.Types.ObjectId],
+      type: mongoose.Schema.Types.ObjectId,
     },
     name: {
       required: true,

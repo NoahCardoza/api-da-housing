@@ -50,7 +50,7 @@ router.delete("/team/:teamid", isTeamMember, async (req: ICustomMiddleWareReques
     }
 });
 
-router.put("/team/leave-team/:id", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+router.put("/team/leave-team/:teamid", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const members = req.team.members.filter((e) => e !== req.user._id);
         if (members.length < 1) {
@@ -64,6 +64,14 @@ router.put("/team/leave-team/:id", auth, isTeamMember, async (req: ICustomMiddle
         console.error(error);
         return res.status(500);
     }
+});
+
+router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+    const {source, name} = req.body;
+});
+
+router.put("/team/delete-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+    const members = req.team.favorites.filter((e) => e !== req.body.favorite);
 });
 
 export default router;
