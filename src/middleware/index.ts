@@ -29,7 +29,7 @@ export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: a
     return next();
   } catch (error) {
     console.error(error);
-    return res.status(500).send("Your credentials have failed the auth layer.");
+    return res.status(500).send(error);
   }
 };
 
@@ -46,9 +46,9 @@ export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Respons
     req.listing = listing;
     req.token = token;
     return next();
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Your credentials have failed the auth layer.");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
   }
 };
 
@@ -65,8 +65,8 @@ export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response,
     req.team = team;
     req.token = token;
     return next();
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Your credentials have failed the auth layer.");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
   }
 };
