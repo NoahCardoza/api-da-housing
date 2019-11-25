@@ -5,6 +5,9 @@ import { ITeam } from "../interfaces";
 export interface ITeamModel extends ITeam, Document {
 }
 
+/**
+ * Team Database ORM object.
+ */
 const TeamSchema: Schema = new mongoose.Schema({
   name: String,
   members: [mongoose.Schema.Types.ObjectId],
