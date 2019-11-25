@@ -3,7 +3,6 @@ const router = express.Router();
 import { auth, ICustomMiddleWareRequest as cm } from "../middleware";
 import TeamModel from "../models/Team";
 import FavoriteModel from "../models/Favorites";
-import Team from "../models/Team";
 
 /**
  * retrieve a team by id.
