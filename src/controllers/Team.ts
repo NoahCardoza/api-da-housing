@@ -23,6 +23,7 @@ router.post("/team/create-team", auth, async (req: ICustomMiddleWareRequest, res
             name, budget, favorites, members
         });
         await Team.save();
+        return res.status(201).json(Team);
     } catch (error) {
         console.error(error);
         return res.status(500);
