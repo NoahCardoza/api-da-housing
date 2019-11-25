@@ -30,4 +30,17 @@ router.post("/team/create-team", auth, async (req: ICustomMiddleWareRequest, res
     }
 });
 
+router.post("/team/update-team/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+    try {
+      const Team = await TeamModel.findByIdAndUpdate(req.team._id, req.body).exec();
+      return res.status(204).json({
+        message: "Document successfully updated.",
+        Team,
+      });
+    } catch (error) {
+        console.error(error);
+        return res.status(500);
+    }
+});
+
 export default router;
