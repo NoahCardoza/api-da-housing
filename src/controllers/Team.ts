@@ -76,8 +76,8 @@ router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddle
 
 router.put("/team/delete-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
-        const { favorite } = req.body;
-        await TeamModel.findByIdAndUpdate(req.team._id, { $pull: { favorites: favorite } }).exec();
+        const { source } = req.body;
+        await TeamModel.findByIdAndUpdate(req.team._id, { $pull: { favorites: { source } } }).exec();
         return res.status(204);
     } catch (error) {
         console.error(error);
