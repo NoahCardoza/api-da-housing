@@ -43,7 +43,18 @@ router.post("/team/update-team/:teamid", isTeamMember, async (req: ICustomMiddle
 router.delete("/team/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         await TeamModel.findByIdAndDelete(req.team._id).exec();
-        return res.status(204);
+        return res.status(202);
+    } catch (error) {
+        console.error(error);
+        return res.status(500);
+    }
+});
+
+router.put("/team/leave-team/:id", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+    try {
+        const members = req.team.members.filter((e) => e !== req.user._id);
+        const Team = await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
+        return res.status(204).json(Team);
     } catch (error) {
         console.error(error);
         return res.status(500);
