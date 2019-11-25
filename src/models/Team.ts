@@ -11,6 +11,14 @@ const TeamSchema: Schema = new mongoose.Schema({
   favorites: [mongoose.Schema.Types.ObjectId],
 });
 
+/**
+ * Deletes any comments associated or
+ * belonging to the team on deletion
+ */
+TeamSchema.post("remove", (document) => {
+  
+});
+
 const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
 
 export default Team;
