@@ -138,7 +138,6 @@ describe("Teams", () => {
         }
     });
 
-    // todo: fix this
     it("Should update a Team by ID", async (done) => {
         try {
             chai.request(app).put(`/team/update-team/${teamtestingID}`)
@@ -207,19 +206,18 @@ describe("Teams", () => {
         }
     });
 
-    // todo: fix this
-    // it("Should delete a team.", async (done) => {
-    //     try {
-    //         chai.request(app).delete(`/team/${teamtestingID}`)
-    //             .set("Authorization", `Bearer ${jwt}`)
-    //             .end((err, res) => {
-    //                 if (err) { console.log(err); }
-    //                 res.should.have.status(202);
-    //             });
-    //         done();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // });
+    it("Should delete a team.", async (done) => {
+        try {
+            chai.request(app).delete(`/team/${teamtestingID}`)
+                .set("Authorization", `Bearer ${jwt}`)
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(202);
+                });
+            done();
+        } catch (error) {
+            console.error(error);
+        }
+    });
 
 });
