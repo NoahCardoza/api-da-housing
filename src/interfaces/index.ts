@@ -48,12 +48,16 @@ interface IFavorite {
     comments?: string[];
 }
 
+interface IMember {
+    member?: string;
+}
+
 /**
  * Team interface
  */
 export interface ITeam {
     name?: string;
-    members?: string[];
+    members?: IMember[];
     budget?: number;
     favorites: IFavorite[];
     outsideFavorites: IFavorite[];

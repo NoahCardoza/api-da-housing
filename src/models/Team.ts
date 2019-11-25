@@ -9,10 +9,12 @@ const TeamSchema: Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  members: {
-    type: [mongoose.Schema.Types.ObjectId],
-    required: true,
-  },
+  members: [{
+      member: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+      }
+    }],
   budget: Number,
   favorites: [{
     source: {
