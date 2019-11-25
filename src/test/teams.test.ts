@@ -35,7 +35,7 @@ before(async () => {
         usertestingID = user._id;
         const listing = new ListingModel({
             author: user._id,
-            name: "@testhouserecord",
+            name: "@testhouserecordteam",
             price: 1500,
             description: "This is a test description!",
             address: {
@@ -71,7 +71,7 @@ after(async () => {
         }).exec();
         console.log("Deleting test Listings!");
         await ListingModel.deleteMany({
-            name: "@testhouserecord",
+            name: "@testhouserecordteam",
         }).exec();
         await TeamModel.deleteMany({
             name: "@testteamrecord"
@@ -140,6 +140,7 @@ describe("Teams", () => {
         }
     });
 
+    // todo: fix this
     // it("Should update a Team by ID", async (done) => {
     //     try {
     //         chai.request(app).put(`/team/update-team/${teamtestingID}`)
