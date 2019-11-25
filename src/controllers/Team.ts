@@ -66,7 +66,7 @@ router.put("/team/delete-favorite/:id", async (req: cm, res) => {
         const { source } = req.body;
         const team = await TeamModel.findById(req.params._id).exec();
         team.favorites = team.favorites.filter((favorite) => favorite !== source);
-        return res.status(204).json()
+        return res.status(204).json(await team.save());
     } catch (error) {
         console.error(error);
         return res.status(500).send(error);
