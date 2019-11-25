@@ -65,8 +65,8 @@ export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response,
       "_id": data._id,
       "tokens.token": token,
     }).exec();
-    if (!user) { throw new Error("Credentials failed."); }
-    if (!team) { throw new Error("Credentials failed."); }
+    if (!user) { throw new Error("Credentials failed user."); }
+    if (!team) { throw new Error("Credentials failed team."); }
     req.user = user;
     req.team = team;
     req.token = token;
