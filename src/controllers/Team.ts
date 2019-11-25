@@ -15,9 +15,6 @@ router.get("/team/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, 
 
 router.post("/team/create-team", auth, async (req: ICustomMiddleWareRequest, res) => {
     try {
-        if (!req.body.members.includes(req.user._id)) {
-            req.body.members.push(req.user._id);
-        }
         const { name, budget, favorites, members } = req.body;
         const Team = new TeamModel({
             name, budget, favorites, members
