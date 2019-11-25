@@ -88,7 +88,7 @@ router.put("/team/favorites/:id", async (req: cm, res) => {
 /**
  * Should make a member leave a team.
  */
-router.put("team/leave-team/:id", auth, async (req: cm, res) => {
+router.put("/team/leave-team/:id", auth, async (req: cm, res) => {
     try {
         const team = await TeamModel.findById(req.params.id).exec();
         team.members.filter((member) => member !== req.user._id);
