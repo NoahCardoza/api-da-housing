@@ -42,7 +42,7 @@ router.post("/team/update-team/:teamid", isTeamMember, async (req: ICustomMiddle
 
 router.delete("/team/:teamid", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
-        await TeamModel.findByIdAndDelete(req.team._id).exec();
+        await TeamModel.findByIdAndDelete(req.params.teamid).exec();
         return res.status(202);
     } catch (error) {
         console.error(error);
