@@ -30,7 +30,7 @@ router.post("/team/create-team", auth, async (req: ICustomMiddleWareRequest, res
     }
 });
 
-router.post("/team/update-team/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
+router.put("/team/update-team/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const Team = await TeamModel.findByIdAndUpdate(req.team._id, req.body).exec();
         return res.status(204).json(Team);

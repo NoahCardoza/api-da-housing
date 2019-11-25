@@ -141,24 +141,24 @@ describe("Teams", () => {
     });
 
     // todo: fix this
-    // it("Should update a Team by ID", async (done) => {
-    //     try {
-    //         chai.request(app).put(`/team/update-team/${teamtestingID}`)
-    //             .set("Authorization", `Bearer ${jwt}`)
-    //             .send({
-    //                 budget: 4000,
-    //             })
-    //             .end((err, res) => {
-    //                 if (err) { console.log(err); }
-    //                 res.should.have.status(204);
-    //                 res.body.should.be.a("object");
-    //                 res.body.budget.should.be.eql(4000);
-    //             });
-    //         done();
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // });
+    it("Should update a Team by ID", async (done) => {
+        try {
+            chai.request(app).put(`/team/update-team/${teamtestingID}`)
+                .set("Authorization", `Bearer ${jwt}`)
+                .send({
+                    budget: 4000,
+                })
+                .end((err, res) => {
+                    if (err) { console.log(err); }
+                    res.should.have.status(204);
+                    res.body.should.be.a("object");
+                    res.body.budget.should.be.eql(4000);
+                });
+            done();
+        } catch (error) {
+            console.error(error);
+        }
+    });
 
     it("Should add a favorite Listing to a Team Favorite Section", async (done) => {
         try {
