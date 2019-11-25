@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 import ListingRouter from "./controllers/Listing";
 import UserRouter from "./controllers/User";
+import TeamRouter from "./controllers/Listing";
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
