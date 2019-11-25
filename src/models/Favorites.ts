@@ -4,6 +4,10 @@ import { IFavorite } from "../interfaces";
 export interface IFavoriteModel extends IFavorite, Document {
 }
 
+/**
+ * Representation of a Favorite Listing
+ * in the Mongoose ORM.
+ */
 const FavoriteSchema: Schema = new mongoose.Schema({
     source: {
         required: true,
