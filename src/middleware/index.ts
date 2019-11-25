@@ -15,6 +15,9 @@ export interface ICustomMiddleWareRequest extends Request {
   token?: string;
 }
 
+/**
+ * Used as basic verification of a user.
+ */
 export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
@@ -33,6 +36,9 @@ export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: a
   }
 };
 
+/**
+ * Used to verify a listing owner.
+ */
 export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
