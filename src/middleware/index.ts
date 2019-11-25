@@ -56,9 +56,8 @@ export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response,
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
     const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
-    const teamID: string = req.params.teamid;
     const team: ITeamModel = await TeamModel.findOne({
-      _id: teamID,
+      _id: req.params.teamid,
       members: data._id,
     }).exec();
     if (!team) { throw new Error("Credentials failed team."); }
