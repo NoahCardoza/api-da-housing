@@ -17,7 +17,7 @@ const TeamSchema: Schema = new mongoose.Schema({
  * belonging to the team on deletion
  */
 TeamSchema.post("remove", async (document) => {
-  await FavoriteModel.deleteMany({ team: document._id  }).exec();
+  await FavoriteModel.deleteMany({ team: document._id }).exec();
 });
 
 const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
