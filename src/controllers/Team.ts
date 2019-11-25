@@ -53,8 +53,13 @@ router.delete("/team/:teamid", isTeamMember, async (req: ICustomMiddleWareReques
 router.put("/team/leave-team/:id", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const members = req.team.members.filter((e) => e !== req.user._id);
-        const Team = await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
-        return res.status(204).json(Team);
+        if (members.length < 1) {
+            await TeamModel.findByIdAndDelete(req.team._id).exec();
+            return res.status(204);
+        } else if (members.length >= 1) {
+            const Team = await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
+            return res.status(204).json(Team);
+        }
     } catch (error) {
         console.error(error);
         return res.status(500);
