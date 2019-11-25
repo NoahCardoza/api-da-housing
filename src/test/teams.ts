@@ -165,7 +165,8 @@ describe("Teams", () => {
             chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
-                    favorite: testlistingID,
+                    source: testlistingID,
+                    name: "testteamnamelistingfavorite"
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }
@@ -182,7 +183,7 @@ describe("Teams", () => {
             chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
-                    favorite: testlistingID,
+                    source: testlistingID,
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }
