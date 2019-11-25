@@ -87,4 +87,13 @@ router.put("team/leave-team/:id", auth, async (req: cm, res) => {
     }
 });
 
+router.delete("/team/:id", async (req: cm, res) => {
+    try {
+        return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(error);
+    }
+});
+
 export default router;
