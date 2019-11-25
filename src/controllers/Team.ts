@@ -87,6 +87,9 @@ router.put("team/leave-team/:id", auth, async (req: cm, res) => {
     }
 });
 
+/**
+ * It should delete a team.
+ */
 router.delete("/team/:id", async (req: cm, res) => {
     try {
         return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
