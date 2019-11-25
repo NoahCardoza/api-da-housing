@@ -80,6 +80,7 @@ router.put("team/leave-team/:id", auth, async (req: cm, res) => {
     try {
         const team = await TeamModel.findById(req.params.id).exec();
         team.members.filter((member) => member !== req.user._id);
+        return res.status(204).json(await team.save());
     } catch (error) {
         console.error(error);
         return res.status(500).send(error);
