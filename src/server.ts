@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use("/", UserRouter);
 app.use("/", ListingRouter);
+app.use("/", TeamRouter);
 
 app.get("/", (_, res) => res.send("Index route for API-DA-HOUSING"));
 
