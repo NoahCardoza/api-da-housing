@@ -32,7 +32,7 @@ router.post("/team/create-team", auth, async (req: cm, res) => {
 /**
  * update a team by id.
  */
-router.put("/team/update-team/:id", auth, async (req: cm, res) => {
+router.put("/team/update-team/:id", async (req: cm, res) => {
     try {
         return res.status(204).json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
     } catch (error) {
