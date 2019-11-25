@@ -16,6 +16,9 @@ router.get("/team/:id", async (req: cm, res) => {
     }
 });
 
+/**
+ * create a team if you're a user.
+ */
 router.get("/team/create-team", auth, async (req: cm, res) => {
     try {
         const { name, budget } = req.body;
