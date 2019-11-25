@@ -66,7 +66,7 @@ router.put("/team/leave-team/:teamid", isTeamMember, async (req: ICustomMiddleWa
 router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const { source, name } = req.body;
-        await TeamModel.findByIdAndUpdate(req.team._id, { $push: { favorites: {source, name} } }).exec();
+        await TeamModel.findByIdAndUpdate(req.team._id, { $push: { favorites: { source, name } } }).exec();
         return res.status(204);
     } catch (error) {
         console.error(error);
