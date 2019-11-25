@@ -52,19 +52,32 @@ export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Respons
   }
 };
 
+// export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
+//   try {
+//     const token: string = req.header("Authorization").replace("Bearer ", "");
+//     const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
+//     const team: ITeamModel = await TeamModel.findOne({
+//       _id: req.params.teamid,
+//       members: data._id,
+//     }).exec();
+//     if (!team) { throw new Error("Credentials failed team."); }
+//     req.team = team;
+//     return next();
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).send(error);
+//   }
+// };
+
 export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
-    const token: string = req.header("Authorization").replace("Bearer ", "");
-    const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
-    const team: ITeamModel = await TeamModel.findOne({
-      _id: req.params.teamid,
-      members: data._id,
-    }).exec();
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const data = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
+    const team = await TeamModel.findOne({ _id: req.params.teamid });
     if (!team) { throw new Error("Credentials failed team."); }
     req.team = team;
     return next();
   } catch (error) {
     console.error(error);
-    return res.status(500).send(error);
   }
 };
