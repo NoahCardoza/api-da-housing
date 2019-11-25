@@ -73,6 +73,9 @@ router.put("/team/delete-favorite/:id", async (req: cm, res) => {
     }
 });
 
+/**
+ * Should make a member leave a team.
+ */
 router.put("team/leave-team/:id", auth, async (req: cm, res) => {
     try {
         const team = await TeamModel.findById(req.params.id).exec();
