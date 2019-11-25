@@ -58,8 +58,8 @@ export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response,
     const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
     const teamID: string = req.params.teamid;
     const team: ITeamModel = await TeamModel.findOne({
-      "_id": teamID,
-      "members.member": data._id,
+      _id: teamID,
+      members: data._id,
     }).exec();
     const user: IUserModel = await UserModel.findOne({
       "_id": data._id,
