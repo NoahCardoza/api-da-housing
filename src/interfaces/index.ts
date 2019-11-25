@@ -55,8 +55,7 @@ export interface ITeam {
     name?: string;
     members?: string[];
     budget?: number;
-    favorites: IFavorite[];
-    outsideFavorites: IFavorite[];
+    favorites: string[];
 }
 
 /**

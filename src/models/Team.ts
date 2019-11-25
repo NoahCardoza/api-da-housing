@@ -5,10 +5,7 @@ export interface ITeamModel extends ITeam, Document {
 }
 
 const TeamSchema: Schema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+  name: String,
   members: [mongoose.Schema.Types.ObjectId],
   budget: Number,
   favorites: [mongoose.Schema.Types.ObjectId],
