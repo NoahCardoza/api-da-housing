@@ -73,6 +73,9 @@ router.put("/team/delete-favorite/:id", async (req: cm, res) => {
     }
 });
 
+/**
+ * Find all team favorites
+ */
 router.put("/team/favorites/:id", async (req: cm, res) => {
     try {
         return res.status(200).json(await FavoriteModel.find({ team: req.params.id }).exec());
