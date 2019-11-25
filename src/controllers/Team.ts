@@ -70,7 +70,7 @@ router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddle
     try {
         const { source, name } = req.body;
         const favorites = req.body.favorites;
-        if (!favorites.includes({ source, name })) {
+        if (!favorites.find((o: any) => o.source === source)) {
             req.body.favorites.push({ source, name });
         }
         await TeamModel.findByIdAndUpdate(req.team._id, { favorites }).exec();
