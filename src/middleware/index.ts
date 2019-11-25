@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ITokenMiddleware } from "../interfaces";
 import ListingModel, { IListingModel } from "../models/Listing";
-import TeamModel, { ITeamModel } from "../models/Team";
+import { ITeamModel } from "../models/Team";
 import UserModel, { IUserModel } from "../models/User";
 
 /**
