@@ -69,11 +69,9 @@ router.put("/team/leave-team/:teamid", auth, isTeamMember, async (req: ICustomMi
 router.put("/team/add-favorite/:teamid", auth, isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const { source, name } = req.body;
-        const favorites = req.body.favorites;
-        if (!favorites.find((o: any) => o.source === source)) {
-            req.body.favorites.push({ source, name });
-        }
-        await TeamModel.findByIdAndUpdate(req.team._id, { favorites }).exec();
+        const favoriteSet = new Set(req.body.favorites);
+        favoriteSet.add({ source, name });
+        await TeamModel.findByIdAndUpdate(req.team._id, { favorites: Array.from(favoriteSet) }).exec();
         return res.status(204);
     } catch (error) {
         console.error(error);
