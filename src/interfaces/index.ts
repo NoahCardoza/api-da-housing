@@ -46,6 +46,7 @@ export interface IFavorite {
     source?: string;
     name?: string;
     comments?: string[];
+    team: string;
 }
 
 /**
