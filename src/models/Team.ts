@@ -11,28 +11,7 @@ const TeamSchema: Schema = new mongoose.Schema({
   },
   members: [mongoose.Schema.Types.ObjectId],
   budget: Number,
-  favorites: [{
-    source: {
-      required: true,
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    name: {
-      required: true,
-      type: String,
-    },
-    comments: [String],
-  }],
-  outsideFavorites: [{
-    source: {
-      required: true,
-      type: String,
-    },
-    name: {
-      required: true,
-      type: String,
-    },
-    comments: [String],
-  }],
+  favorites: [mongoose.Schema.Types.ObjectId],
 });
 
 const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);
