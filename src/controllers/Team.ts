@@ -66,9 +66,7 @@ router.put("/team/leave-team/:teamid", isTeamMember, async (req: ICustomMiddleWa
 router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const { source, name } = req.body;
-        const favoriteSet = new Set(req.body.favorites);
-        favoriteSet.add({ source, name });
-        await TeamModel.findByIdAndUpdate(req.team._id, { favorites: Array.from(favoriteSet) }).exec();
+        await TeamModel.findByIdAndUpdate(req.team._id, { $push: { favorites: {source, name} } }).exec();
         return res.status(204);
     } catch (error) {
         console.error(error);
@@ -79,7 +77,7 @@ router.put("/team/add-favorite/:teamid", isTeamMember, async (req: ICustomMiddle
 router.put("/team/delete-favorite/:teamid", isTeamMember, async (req: ICustomMiddleWareRequest, res) => {
     try {
         const { favorite } = req.body;
-        await TeamModel.findByIdAndUpdate(req.team._id, {$push: {favorites: favorite}}).exec();
+        await TeamModel.findByIdAndUpdate(req.team._id, { $pull: { favorites: favorite } }).exec();
         return res.status(204);
     } catch (error) {
         console.error(error);
