@@ -57,7 +57,7 @@ router.put("/team/leave-team/:teamid", auth, isTeamMember, async (req: ICustomMi
             await TeamModel.findByIdAndDelete(req.team._id).exec();
             return res.status(204);
         } else if (members.length >= 1) {
-            const Team = await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
+            await TeamModel.findByIdAndUpdate(req.team._id, { members }).exec();
             return res.status(204);
         }
     } catch (error) {
