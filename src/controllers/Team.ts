@@ -3,6 +3,7 @@ const router = express.Router();
 import { auth, ICustomMiddleWareRequest as cm } from "../middleware";
 import TeamModel from "../models/Team";
 import FavoriteModel from "../models/Favorites";
+import Team from "../models/Team";
 
 /**
  * retrieve a team by id.
@@ -60,8 +61,11 @@ router.put("/team/add-favorite/:id", async (req: cm, res) => {
 /**
  * delete a favorite to a team by id.
  */
-router.put("/team/add-favorite/:id", async (req: cm, res) => {
+router.put("/team/delete-favorite/:id", async (req: cm, res) => {
     try {
+        const { source } = req.body;
+        const team = await TeamModel.findById(req.params._id).exec();
+        team.favorites = team.favorites.filter((favorite) => favorite !== source);
         return res.status(204).json()
     } catch (error) {
         console.error(error);
