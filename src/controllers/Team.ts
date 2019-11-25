@@ -29,4 +29,16 @@ router.post("/team/create-team", auth, async (req: cm, res) => {
     }
 });
 
+/**
+ * update a team by id.
+ */
+router.put("/team/update-team/:id", auth, async (req: cm, res) => {
+    try {
+        return res.status(204).json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(error);
+    }
+});
+
 export default router;
