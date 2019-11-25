@@ -48,9 +48,9 @@ before(async () => {
         testlistingID = listing._id;
         const team = new TeamModel({
             name: "@testteamrecord",
-            members: [usertestingID],
+            members: [`${usertestingID}`],
             budget: 3400,
-            favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
+            favorites: [{ source: `${testlistingID}`, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
         });
         await team.save();
         teamtestingID = team._id;
