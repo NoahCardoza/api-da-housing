@@ -61,13 +61,7 @@ export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response,
       _id: teamID,
       members: data._id,
     }).exec();
-    const user: IUserModel = await UserModel.findOne({
-      "_id": data._id,
-      "tokens.token": token,
-    }).exec();
-    if (!user) { throw new Error("Credentials failed user."); }
     if (!team) { throw new Error("Credentials failed team."); }
-    req.user = user;
     req.team = team;
     req.token = token;
     return next();
