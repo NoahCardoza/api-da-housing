@@ -54,7 +54,7 @@ export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Respons
 
 export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
-    const token: string = req.header("Authorization").replace("Bearer ", "");
+    const token = req.header("Authorization").replace("Bearer ", "");
     const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
     const team: ITeamModel = await TeamModel.findOne({
       _id: req.params.teamid,
