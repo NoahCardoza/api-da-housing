@@ -60,4 +60,6 @@ router.delete('/team/:id', isTeamMember, async (req, res) => {
   }
 });
 
+// todo: /team/delete-favorite/:id, /team/favorites/:id, /team/add-favorite/:id
+
 module.exports = router;
