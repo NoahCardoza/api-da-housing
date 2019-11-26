@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ITokenMiddleware } from "../interfaces";
 import ListingModel, { IListingModel } from "../models/Listing";
-import { ITeamModel } from "../models/Team";
+import TeamModel, { ITeamModel } from "../models/Team";
 import UserModel, { IUserModel } from "../models/User";
 
 /**
@@ -40,19 +40,18 @@ export const isTeamMember = async (req: any, res: Response, next: any) => {
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
     const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
-    const user: IUserModel = await UserModel.findOne({
-      "_id": data._id,
-      "tokens.token": token,
-    }).exec();
-    if (!user) { throw new Error("Credentials failed."); }
-    req.user = user;
-    req.token = token;
-    return next();
+    const team = await TeamModel.findOne({ _id: req.params.id }).exec();
+    if (!team) { throw new Error("Team lookup failed."); }
+    if (team.members.includes(data._id)) {
+      return next();
+    } else if (!team.members.includes(data._id)) {
+      throw Error("Not a member of the team!");
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
   }
-}
+};
 
 /**
  * Used to verify a listing owner.
