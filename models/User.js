@@ -1,18 +1,9 @@
 /* eslint-disable func-names */
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import mongoose, { Document, Model, model, Schema } from "mongoose";
-import { IUser } from "../interfaces";
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-/**
- * User interface definition
- */
-export interface IUserModel extends IUser, Document {
-  generateAuthToken(): Promise<string>;
-  comparePassword(plaintext: string): Promise<boolean>;
-}
-
-const UserSchema: Schema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -44,9 +35,9 @@ const UserSchema: Schema = new mongoose.Schema({
   }],
 });
 
-UserSchema.pre<IUserModel>("save", async function(next): Promise<void> {
+userSchema.pre('save', async function (next) {
   try {
-    if (!this.isModified("password")) { return next(); }
+    if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
     this.password = hash;
     return next();
@@ -56,7 +47,7 @@ UserSchema.pre<IUserModel>("save", async function(next): Promise<void> {
   }
 });
 
-UserSchema.methods.generateAuthToken = async function(): Promise<string> {
+userSchema.methods.generateAuthToken = async function () {
   try {
     const token = jwt.sign({
       _id: this._id,
@@ -73,7 +64,7 @@ UserSchema.methods.generateAuthToken = async function(): Promise<string> {
   }
 };
 
-UserSchema.methods.comparePassword = async function(plaintext: string): Promise<boolean> {
+userSchema.methods.comparePassword = async function (plaintext) {
   try {
     return await bcrypt.compare(plaintext, this.password);
   } catch (err) {
@@ -82,6 +73,4 @@ UserSchema.methods.comparePassword = async function(plaintext: string): Promise<
   }
 };
 
-const User: Model<IUserModel> = model<IUserModel>("User", UserSchema);
-
-export default User;
+module.exports = mongoose.model('user', userSchema);

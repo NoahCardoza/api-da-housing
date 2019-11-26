@@ -1,10 +1,11 @@
-import express from "express";
+const express = require('express');
+
 const router = express.Router();
-import { auth, ICustomMiddleWareRequest, isListingOwner } from "../middleware";
-import ListingModel from "../models/Listing";
+const ListingModel = require('../models/Listing');
+const { auth, isListingOwner } = require('../middleware');
 
 // INDEX route - show all listings (READ)
-router.get("/listing", async (_, res) => {
+router.get('/listing', async (_, res) => {
   try {
     return res.status(200).json(await ListingModel.find({}).exec());
   } catch (error) {
@@ -14,10 +15,10 @@ router.get("/listing", async (_, res) => {
 });
 
 // READ LISTING BY ID
-router.get("/get-listing/:listingid", async (req: ICustomMiddleWareRequest, res) => {
+router.get('/get-listing/:listingid', async (req, res) => {
   try {
     const listing = await ListingModel.findById(req.params.listingid).exec();
-    if (!listing) { return res.status(400).send("Listing not found."); }
+    if (!listing) return res.status(400).send('Listing not found.');
     return res.status(200).json(listing);
   } catch (err) {
     return res.status(500);
@@ -25,7 +26,7 @@ router.get("/get-listing/:listingid", async (req: ICustomMiddleWareRequest, res)
 });
 
 // CREATE LISTING
-router.post("/create-listing", auth, async (req: ICustomMiddleWareRequest, res) => {
+router.post('/create-listing', auth, async (req, res) => {
   try {
     const {
       name, price, description, address,
@@ -46,22 +47,22 @@ router.post("/create-listing", auth, async (req: ICustomMiddleWareRequest, res) 
 });
 
 // UPDATE LISTING
-router.put("/update-listing/:listingid", isListingOwner, async (req: ICustomMiddleWareRequest, res) => {
+router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
   try {
     const listingID = req.listing._id;
     const listing = await ListingModel.findByIdAndUpdate(listingID, req.body).exec();
     return res.status(204).json({
-      message: "Document successfully updated.",
+      message: 'Document successfully updated.',
       listing,
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).send("Document failed to update");
+    return res.status(500).send('Document failed to update');
   }
 });
 
 // DELETE LISTING
-router.delete("/delete-listing/:listingid", isListingOwner, async (req: ICustomMiddleWareRequest, res) => {
+router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => {
   try {
     // passed in by isListingOwner Middleware.
     const listingID = req.listing._id;
@@ -75,4 +76,4 @@ router.delete("/delete-listing/:listingid", isListingOwner, async (req: ICustomM
   }
 });
 
-export default router;
+module.exports = router;
