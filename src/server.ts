@@ -21,14 +21,14 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 import ListingRouter from "./controllers/Listing";
 import UserRouter from "./controllers/User";
+import TeamRouter from "./controllers/Team";
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/", UserRouter);
 app.use("/", ListingRouter);
-
-app.get("/", (_, res) => res.send("Index route for API-DA-HOUSING"));
+app.use("/", TeamRouter);
 
 app.listen(process.env.PORT || 3000, () => console.log("Core Loftly Service Started."));
 

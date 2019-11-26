@@ -1,41 +1,26 @@
 import mongoose, { Document, Model, model, Schema } from "mongoose";
+import FavoriteModel from "../models/Favorites";
 import { ITeam } from "../interfaces";
 
 export interface ITeamModel extends ITeam, Document {
 }
 
+/**
+ * Team Database ORM object.
+ */
 const TeamSchema: Schema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  members: {
-    type: [mongoose.Schema.Types.ObjectId],
-    required: true,
-  },
+  name: String,
+  members: [mongoose.Schema.Types.ObjectId],
   budget: Number,
-  favorites: [{
-    source: {
-      required: true,
-      type: [mongoose.Schema.Types.ObjectId],
-    },
-    name: {
-      required: true,
-      type: String,
-    },
-    comments: [String],
-  }],
-  outsideFavorites: [{
-    source: {
-      required: true,
-      type: String,
-    },
-    name: {
-      required: true,
-      type: String,
-    },
-    comments: [String],
-  }],
+  favorites: [mongoose.Schema.Types.ObjectId],
+});
+
+/**
+ * Deletes any comments associated or
+ * belonging to the team on deletion
+ */
+TeamSchema.post("remove", async (document) => {
+  await FavoriteModel.deleteMany({ team: document._id }).exec();
 });
 
 const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamSchema);

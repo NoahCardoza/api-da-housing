@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ITokenMiddleware } from "../interfaces";
 import ListingModel, { IListingModel } from "../models/Listing";
-import TeamModel, { ITeamModel } from "../models/Team";
+import { ITeamModel } from "../models/Team";
 import UserModel, { IUserModel } from "../models/User";
 
 /**
@@ -15,6 +15,9 @@ export interface ICustomMiddleWareRequest extends Request {
   token?: string;
 }
 
+/**
+ * Used as basic verification of a user.
+ */
 export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
@@ -29,10 +32,13 @@ export const auth = async (req: ICustomMiddleWareRequest, res: Response, next: a
     return next();
   } catch (error) {
     console.error(error);
-    return res.status(500).send("Your credentials have failed the auth layer.");
+    return res.status(500).send(error);
   }
 };
 
+/**
+ * Used to verify a listing owner.
+ */
 export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
   try {
     const token: string = req.header("Authorization").replace("Bearer ", "");
@@ -46,27 +52,8 @@ export const isListingOwner = async (req: ICustomMiddleWareRequest, res: Respons
     req.listing = listing;
     req.token = token;
     return next();
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Your credentials have failed the auth layer.");
-  }
-};
-
-export const isTeamMember = async (req: ICustomMiddleWareRequest, res: Response, next: any) => {
-  try {
-    const token: string = req.header("Authorization").replace("Bearer ", "");
-    const data: ITokenMiddleware = jwt.verify(token, process.env.SECRET) as ITokenMiddleware;
-    const teamID: string = req.params.teamid;
-    const team: ITeamModel = await TeamModel.findOne({
-      _id: teamID,
-      members: data._id,
-    }).exec();
-    if (!team) { throw new Error("Credentials failed."); }
-    req.team = team;
-    req.token = token;
-    return next();
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Your credentials have failed the auth layer.");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
   }
 };

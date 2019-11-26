@@ -35,7 +35,7 @@ before(async () => {
         usertestingID = user._id;
         const listing = new ListingModel({
             author: user._id,
-            name: "@testhouserecord",
+            name: "@testhouserecordteam",
             price: 1500,
             description: "This is a test description!",
             address: {
@@ -48,9 +48,9 @@ before(async () => {
         testlistingID = listing._id;
         const team = new TeamModel({
             name: "@testteamrecord",
-            members: [usertestingID],
+            members: [`${usertestingID}`],
             budget: 3400,
-            favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
+            favorites: [{ source: `${testlistingID}`, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
         });
         await team.save();
         teamtestingID = team._id;
@@ -71,7 +71,7 @@ after(async () => {
         }).exec();
         console.log("Deleting test Listings!");
         await ListingModel.deleteMany({
-            name: "@testhouserecord",
+            name: "@testhouserecordteam",
         }).exec();
         await TeamModel.deleteMany({
             name: "@testteamrecord"
@@ -124,9 +124,7 @@ describe("Teams", () => {
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
                     name: "@testteamrecord",
-                    members: [usertestingID],
                     budget: 3400,
-                    favorites: [{ source: testlistingID, name: "testhousenamelisting", comments: ["beautiful", "is that near de anza?", "gorgeousss!!!!!"] }]
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }
@@ -164,7 +162,8 @@ describe("Teams", () => {
             chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
-                    favorite: testlistingID,
+                    source: testlistingID,
+                    name: "testteamnamelistingfavorite"
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }
@@ -176,12 +175,12 @@ describe("Teams", () => {
         }
     });
 
-    it("Should delete a team favorite", async (done) => {
+    it("Should delete a team favorite.", async (done) => {
         try {
             chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
                 .set("Authorization", `Bearer ${jwt}`)
                 .send({
-                    favorite: testlistingID,
+                    source: testlistingID,
                 })
                 .end((err, res) => {
                     if (err) { console.log(err); }

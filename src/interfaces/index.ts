@@ -42,10 +42,11 @@ export interface IListing {
     address?: IAddress;
 }
 
-interface IFavorite {
+export interface IFavorite {
     source?: string;
     name?: string;
     comments?: string[];
+    team: string;
 }
 
 /**
@@ -56,7 +57,6 @@ export interface ITeam {
     members?: string[];
     budget?: number;
     favorites: IFavorite[];
-    outsideFavorites: IFavorite[];
 }
 
 /**
