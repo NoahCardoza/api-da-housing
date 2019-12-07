@@ -59,4 +59,5 @@ module.exports.resolvers = {
   listings: async () => Listing.find().exec(),
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
   users: async () => User.find().exec(),
+  teams: async () => Team.find().exec(),
 };
