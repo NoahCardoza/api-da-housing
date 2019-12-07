@@ -5,10 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const expressPlayground = require('graphql-playground-middleware-express').default;
-const {
-  schema,
-  resolvers
-} = require('./schema');
+const { schema, resolvers } = require('./schema');
 require('dotenv').config();
 
 const app = express();
