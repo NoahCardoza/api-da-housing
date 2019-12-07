@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
-const { schema, resolvers } = require('./schema');
+const expressPlayground = require('graphql-playground-middleware-express').default;
+const {
+  schema,
+  resolvers
+} = require('./schema');
 require('dotenv').config();
 
 const app = express();
@@ -24,9 +28,12 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/graphql', graphqlHTTP({
-  graphiql: true,
   schema,
   rootValue: resolvers,
+}));
+// graphiql view for testing
+app.get('/graphiql', expressPlayground({
+  endpoint: '/graphql',
 }));
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
