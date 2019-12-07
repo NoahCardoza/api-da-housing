@@ -54,6 +54,7 @@ module.exports.schema = buildSchema(`
         users: [User]
         user(userid: ID!): User
         teams: [Team]
+        team(teamid: ID!): Team
     }
 `);
 
@@ -63,4 +64,5 @@ module.exports.resolvers = {
   users: async () => User.find().exec(),
   user: async ({ userid }) => User.findById(userid).exec(),
   teams: async () => Team.find().exec(),
+  team: async ({ teamid }) => Team.findById(teamid).exec(),
 };
