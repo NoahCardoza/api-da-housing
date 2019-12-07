@@ -53,7 +53,7 @@ module.exports.schema = buildSchema(`
         listing(listingid: ID!): Listing
         users: [User]
         user(userid: ID!): User
-        user_login: String
+        user_login(password: String!, email: String!): String
         teams: [Team]
         team(teamid: ID!): Team
     }
@@ -70,9 +70,7 @@ module.exports.resolvers = {
     if (compare) {
       return user.generateAuthToken();
     }
-    if (!compare) {
-      return 'Credentials have failed.';
-    }
+    return 'Credentials Have Failed!';
   },
   teams: async () => Team.find().exec(),
   team: async ({ teamid }) => Team.findById(teamid).exec(),
