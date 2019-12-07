@@ -25,6 +25,7 @@ module.exports.schema = buildSchema(`
     }
 
     type User { 
+        _id: ID
         email: String 
         school: String 
         gender: String 
@@ -40,6 +41,7 @@ module.exports.schema = buildSchema(`
     }
 
     type Team { 
+        _id: ID
         name: String 
         members: [ID]
         budget: Float
