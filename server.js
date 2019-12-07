@@ -3,7 +3,9 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const graphqlHTTP = require('express-graphql');
+const expressPlayground = require('graphql-playground-middleware-express').default;
+const { schema, resolvers } = require('./schema');
 require('dotenv').config();
 
 const app = express();
@@ -22,6 +24,14 @@ const ListingRouter = require('./controllers/Listing');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use('/graphql', graphqlHTTP({
+  schema,
+  rootValue: resolvers,
+}));
+// graphiql view for testing
+app.get('/graphiql', expressPlayground({
+  endpoint: '/graphql',
+}));
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
 
