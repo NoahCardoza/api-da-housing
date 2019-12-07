@@ -31,7 +31,6 @@ module.exports.schema = buildSchema(`
         name: String 
         favoriteListings: [ID]
         preferences: [String]
-        tokens: [UserToken]
     }
 
     type TeamFavorite {
