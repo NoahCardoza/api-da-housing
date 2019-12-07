@@ -1,6 +1,7 @@
 const { buildSchema } = require('graphql');
 const Listing = require('../models/Listing');
 const User = require('../models/User');
+const Team = require('../models/Team');
 
 module.exports.schema = buildSchema(`
     type Address { 
@@ -33,10 +34,24 @@ module.exports.schema = buildSchema(`
         tokens: [UserToken]
     }
 
+    type TeamFavorite {
+        source: String
+        name: String 
+        comments: [String]
+    }
+
+    type Team { 
+        name: String 
+        members: [ID]
+        budget: Float
+        favorites: [TeamFavorite]
+    }
+
     type Query {
         listings: [Listing]
         listing(listingid: ID!): Listing
         users: [User]
+        teams: [Team]
     }
 `);
 
