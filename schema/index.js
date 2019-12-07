@@ -53,6 +53,7 @@ module.exports.schema = buildSchema(`
         listing(listingid: ID!): Listing
         users: [User]
         user(userid: ID!): User
+        user_login: String
         teams: [Team]
         team(teamid: ID!): Team
     }
@@ -63,6 +64,16 @@ module.exports.resolvers = {
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
   users: async () => User.find().exec(),
   user: async ({ userid }) => User.findById(userid).exec(),
+  user_login: async ({ password, email }) => {
+    const user = await User.find({ email }).exec();
+    const compare = await user.comparePassword(password);
+    if (compare) {
+      return user.generateAuthToken();
+    }
+    if (!compare) {
+      return 'Credentials have failed.';
+    }
+  },
   teams: async () => Team.find().exec(),
   team: async ({ teamid }) => Team.findById(teamid).exec(),
 };
