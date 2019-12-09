@@ -34,8 +34,8 @@ before(async () => {
     });
     await newListing.save();
     testlistingID = newListing._id;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
@@ -50,8 +50,8 @@ after(async () => {
     await ListingModel.deleteMany({
       name: '@testhouserecord',
     }).exec();
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
@@ -59,8 +59,8 @@ describe('Listings', () => {
   it('Should get all Listings records.', (done) => {
     chai.request(app)
       .get('/listing')
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(200);
         res.body.should.be.a('array');
         done();
@@ -93,8 +93,8 @@ describe('Listings', () => {
           zipcode: 94040,
         },
       })
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.name.should.be.eql('@testhouserecord');
@@ -106,8 +106,8 @@ describe('Listings', () => {
     chai.request(app)
       .get(`/get-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
       });
@@ -120,8 +120,8 @@ describe('Listings', () => {
       .send({
         description: '@updated',
       })
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(204);
       });
     done();
@@ -130,8 +130,8 @@ describe('Listings', () => {
   it('Should delete a listing by ID', async (done) => {
     chai.request(app).delete(`/delete-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(202);
       });
     done();
