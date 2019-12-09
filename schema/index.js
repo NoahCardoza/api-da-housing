@@ -62,15 +62,35 @@ module.exports.schema = buildSchema(`
 `);
 
 module.exports.resolvers = {
-  listings: async () => Listing.find().exec(),
-  listing: async ({ listingid }) => Listing.findById(listingid).exec(),
+  listings: async () => {
+    try {
+      return Listing.find().exec();
+    } catch (error) {
+      return error.message;
+    }
+  },
+  listing: async ({ listingid }) => {
+    try {
+      return Listing.findById(listingid).exec();
+    } catch (error) {
+      return error.message;
+    }
+  },
   users: async (_, req) => {
-    if (req.user) console.log(req.user);
-    return User.find().exec();
+    try {
+      if (req.user) console.log(req.user);
+      return User.find().exec();
+    } catch (error) {
+      return error.message;
+    }
   },
   user: async ({ userid }, req) => {
-    if (req.user) console.log(req.user);
-    return User.findById(userid).exec();
+    try {
+      if (req.user) console.log(req.user);
+      return User.findById(userid).exec();
+    } catch (error) {
+      return error.message;
+    }
   },
   user_login: async ({ password, email }) => {
     try {
@@ -95,6 +115,18 @@ module.exports.resolvers = {
       return error.message;
     }
   },
-  teams: async () => Team.find().exec(),
-  team: async ({ teamid }) => Team.findById(teamid).exec(),
+  teams: async () => {
+    try {
+      return Team.find().exec();
+    } catch (error) {
+      return error.message;
+    }
+  },
+  team: async ({ teamid }) => {
+    try {
+      return Team.findById(teamid).exec();
+    } catch (error) {
+      return error.message;
+    }
+  },
 };
