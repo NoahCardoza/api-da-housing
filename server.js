@@ -6,6 +6,7 @@ const cors = require('cors');
 const graphqlHTTP = require('express-graphql');
 const expressPlayground = require('graphql-playground-middleware-express').default;
 const { schema, resolvers } = require('./schema');
+const { softAuthorization } = require('./middleware');
 require('dotenv').config();
 
 const app = express();
@@ -24,6 +25,7 @@ const ListingRouter = require('./controllers/Listing');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(softAuthorization());
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: resolvers,
