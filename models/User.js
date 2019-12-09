@@ -63,18 +63,14 @@ UserSchema.methods.generateAuthToken = async function () {
   }
 };
 
-UserSchema.methods.comparePassword = async function (plaintext) {
+/**
+ * Compares Plaintext Password to Hashed Password in Store.
+ */
+UserSchema.methods.comparePassword = async function (text) {
   return bcrypt
-    .compare(plaintext, this.password)
+    .compare(text, this.password)
     .then((result) => result)
     .catch((error) => error);
 };
-
-// try {
-//   return await bcrypt.compare(plaintext, this.password);
-// } catch (err) {
-//   console.error(err);
-//   return err;
-// }
 
 module.exports = mongoose.model('user', UserSchema);
