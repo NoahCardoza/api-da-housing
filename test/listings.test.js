@@ -59,12 +59,13 @@ describe('Listings', () => {
   it('Should get all Listings records.', (done) => {
     chai.request(app)
       .get('/listing')
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(200);
         res.body.should.be.a('array');
         done();
-      });
+      })
+      .catch((error) => console.log(error.message));
   });
 
   // user related but needed for next requests
@@ -76,7 +77,8 @@ describe('Listings', () => {
       .then((res) => {
         jwt = res.body.token;
         done();
-      });
+      })
+      .catch((error) => console.log(error.message));
   });
 
   it('Creates a Listing record.', (done) => {
@@ -98,7 +100,8 @@ describe('Listings', () => {
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.name.should.be.eql('@testhouserecord');
-      });
+      })
+      .catch((error) => console.log(error.message));
     done();
   });
 
@@ -110,7 +113,8 @@ describe('Listings', () => {
         if (err) console.log(err);
         res.should.have.status(200);
         res.body.should.be.a('object');
-      });
+      })
+      .catch((error) => console.log(error.message));
     done();
   });
 
@@ -123,7 +127,8 @@ describe('Listings', () => {
       .end((err, res) => {
         if (err) console.log(err);
         res.should.have.status(204);
-      });
+      })
+      .catch((error) => console.log(error.message));
     done();
   });
 
@@ -133,7 +138,8 @@ describe('Listings', () => {
       .end((err, res) => {
         if (err) console.log(err);
         res.should.have.status(202);
-      });
+      })
+      .catch((error) => console.log(error.message));
     done();
   });
 });
