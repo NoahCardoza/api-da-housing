@@ -64,7 +64,10 @@ module.exports.schema = buildSchema(`
 module.exports.resolvers = {
   listings: async () => Listing.find().exec(),
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
-  users: async () => User.find().exec(),
+  users: async (_, req) => {
+    console.log(req);
+    return User.find().exec();
+  },
   user: async ({ userid }) => User.findById(userid).exec(),
   user_login: async ({ password, email }) => {
     try {
