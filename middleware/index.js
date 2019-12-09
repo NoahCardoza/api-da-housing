@@ -3,7 +3,7 @@ const UserModel = require('../models/User');
 const ListingModel = require('../models/Listing');
 const TeamModel = require('../models/Team');
 
-module.exports.softAuthorization = async (req, res, next) => {
+module.exports.auth = async (req, res, next) => {
   try {
     if (req.header('Authorization')) {
       const token = req.header('Authorization').replace('Bearer ', '');
@@ -12,35 +12,13 @@ module.exports.softAuthorization = async (req, res, next) => {
         _id: data._id,
         'tokens.token': token,
       }).exec();
-      if (!user) {
-        req.user = null;
-        return next();
-      }
+      if (!user) throw new Error('Credentials failed.');
       user.password = undefined;
       user.tokens = undefined;
       req.user = user;
       return next();
     }
-    req.user = null;
-    return next();
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).send(error.message);
-  }
-};
-
-module.exports.auth = async (req, res, next) => {
-  try {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    const data = jwt.verify(token, process.env.SECRET);
-    const user = await UserModel.findOne({
-      _id: data._id,
-      'tokens.token': token,
-    }).exec();
-    if (!user) throw new Error('Credentials failed.');
-    req.user = user;
-    req.token = token;
-    return next();
+    throw new Error('Missing Bearer Token for Authorization');
   } catch (error) {
     console.error(error);
     return res.status(500).send('Your credentials have failed the auth layer.');
