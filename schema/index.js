@@ -65,12 +65,14 @@ module.exports.resolvers = {
   users: async () => User.find().exec(),
   user: async ({ userid }) => User.findById(userid).exec(),
   user_login: async ({ password, email }) => {
-    User.find({ email }).exec(async (error, user) => {
-      if (error) return error.message;
+    try {
+      const user = await User.find({ email }).exec();
       const compare = await user.comparePassword(password);
       if (compare) return user.generateAuthToken();
       return 'Credentials Have Failed!';
-    });
+    } catch (error) {
+      return error.message;
+    }
   },
   teams: async () => Team.find().exec(),
   team: async ({ teamid }) => Team.findById(teamid).exec(),
