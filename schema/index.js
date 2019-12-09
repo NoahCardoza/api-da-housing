@@ -67,6 +67,7 @@ module.exports.resolvers = {
   user_login: async ({ password, email }) => {
     try {
       const user = await User.find({ email }).exec();
+      console.log(user);
       const compare = await user.comparePassword(password);
       if (compare) return user.generateAuthToken();
       return 'Credentials Have Failed!';
