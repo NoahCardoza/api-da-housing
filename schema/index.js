@@ -125,7 +125,11 @@ module.exports.resolvers = {
   team: async ({ teamid }, req) => {
     try {
       if (req.user) {
-        return Team.findById(teamid).exec();
+        const team = await Team.findOne({ _id: teamid, members: req.user._id }).exec();
+        if (!team) throw new Error('Team does not exists or you are not a member');
+        else if (team) {
+          return team;
+        }
       }
       throw new Error('You must be authenticated to be a Team Member');
     } catch (error) {
