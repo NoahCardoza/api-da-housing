@@ -56,7 +56,7 @@ module.exports.isTeamMember = async (req, res, next) => {
         _id: teamID,
         members: data._id,
       }).exec();
-      if (!team) throw new Error('Credentials failed team.');
+      if (!team) throw new Error('The Team either does not exist or you are not a member');
       req.team = team;
       return next();
     }
