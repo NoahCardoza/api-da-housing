@@ -64,12 +64,17 @@ UserSchema.methods.generateAuthToken = async function () {
 };
 
 UserSchema.methods.comparePassword = async function (plaintext) {
-  try {
-    return bcrypt.compare(plaintext, this.password);
-  } catch (err) {
-    console.error(err);
-    return err;
-  }
+  return bcrypt
+    .compare(plaintext, this.password)
+    .then((result) => result)
+    .catch((error) => error);
 };
+
+ // try {
+  //   return await bcrypt.compare(plaintext, this.password);
+  // } catch (err) {
+  //   console.error(err);
+  //   return err;
+  // }
 
 module.exports = mongoose.model('user', UserSchema);
