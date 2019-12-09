@@ -89,55 +89,71 @@ after(async () => {
 describe('Teams', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
-    chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemailteam@gmail.com',
-    }).end((error, res) => {
-      if (error) console.log(error.message);
-      jwt = res.body.token;
-      done();
-    });
+    try {
+      chai.request(app).post('/login-user').send({
+        password: 'testpassword123',
+        email: 'testemailteam@gmail.com',
+      }).end((error, res) => {
+        if (error) console.log(error.message);
+        jwt = res.body.token;
+        done();
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   });
 
   it('Should get a token for the fake member', (done) => {
-    chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemailteamfakemember@gmail.com',
-    })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        fakeTeamMemberJWT = res.body.token;
-        done();
-      });
+    try {
+      chai.request(app).post('/login-user').send({
+        password: 'testpassword123',
+        email: 'testemailteamfakemember@gmail.com',
+      })
+        .end((error, res) => {
+          if (error) console.log(error.message);
+          fakeTeamMemberJWT = res.body.token;
+          done();
+        });
+    } catch (error) {
+      console.error(error.message);
+    }
   });
 
   it('Should get a team by ID for member', async (done) => {
-    chai.request(app)
-      .get(`/team/${teamtestingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-      });
-    done();
+    try {
+      chai.request(app)
+        .get(`/team/${teamtestingID}`)
+        .set('Authorization', `Bearer ${jwt}`)
+        .end((error, res) => {
+          if (error) console.log(error.message);
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+        });
+      done();
+    } catch (error) {
+      console.error(error.message);
+    }
   });
 
   it('Creates a Team record.', (done) => {
-    chai.request(app)
-      .post('/team/create-team')
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        name: '@testteamrecord',
-        budget: 3400,
-      })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.name.should.be.eql('@testteamrecord');
-      });
-    done();
+    try {
+      chai.request(app)
+        .post('/team/create-team')
+        .set('Authorization', `Bearer ${jwt}`)
+        .send({
+          name: '@testteamrecord',
+          budget: 3400,
+        })
+        .end((error, res) => {
+          if (error) console.log(error.message);
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.name.should.be.eql('@testteamrecord');
+        });
+      done();
+    } catch (error) {
+      console.error(error.message);
+    }
   });
 
   it('Should update a Team by ID', async (done) => {
