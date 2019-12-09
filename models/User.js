@@ -70,11 +70,11 @@ UserSchema.methods.comparePassword = async function (plaintext) {
     .catch((error) => error);
 };
 
- // try {
-  //   return await bcrypt.compare(plaintext, this.password);
-  // } catch (err) {
-  //   console.error(err);
-  //   return err;
-  // }
+// try {
+//   return await bcrypt.compare(plaintext, this.password);
+// } catch (err) {
+//   console.error(err);
+//   return err;
+// }
 
 module.exports = mongoose.model('user', UserSchema);
