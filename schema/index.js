@@ -25,13 +25,13 @@ module.exports.schema = buildSchema(`
     }
 
     type User { 
+        _id: ID
         email: String 
         school: String 
         gender: String 
         name: String 
         favoriteListings: [ID]
         preferences: [String]
-        tokens: [UserToken]
     }
 
     type TeamFavorite {
@@ -41,6 +41,7 @@ module.exports.schema = buildSchema(`
     }
 
     type Team { 
+        _id: ID
         name: String 
         members: [ID]
         budget: Float
@@ -51,7 +52,11 @@ module.exports.schema = buildSchema(`
         listings: [Listing]
         listing(listingid: ID!): Listing
         users: [User]
+        user(userid: ID!): User
+        user_login(password: String!, email: String!): String
+        create_user(email: String!, school: String!, gender: String!, name: String!, password: String!): User
         teams: [Team]
+        team(teamid: ID!): Team
     }
 `);
 
@@ -59,5 +64,30 @@ module.exports.resolvers = {
   listings: async () => Listing.find().exec(),
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
   users: async () => User.find().exec(),
+  user: async ({ userid }) => User.findById(userid).exec(),
+  user_login: async ({ password, email }) => {
+    try {
+      const user = await User.findOne({ email }).exec();
+      const compare = await user.comparePassword(password);
+      if (compare) return user.generateAuthToken();
+      return 'Credentials Have Failed!';
+    } catch (error) {
+      return error.message;
+    }
+  },
+  create_user: async ({
+    email, school, gender, name, password,
+  }) => {
+    try {
+      const user = new User({
+        email, school, gender, name, password,
+      });
+      await user.save();
+      return user;
+    } catch (error) {
+      return error.message;
+    }
+  },
   teams: async () => Team.find().exec(),
+  team: async ({ teamid }) => Team.findById(teamid).exec(),
 };

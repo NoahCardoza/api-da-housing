@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
   }],
 });
 
-userSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
     const hash = await bcrypt.hash(this.password, 10);
@@ -47,15 +47,11 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-userSchema.methods.generateAuthToken = async function () {
+UserSchema.methods.generateAuthToken = async function () {
   try {
-    const token = jwt.sign({
-      _id: this._id,
-    }, process.env.SECRET);
-    // allows user to be logged in on multiple devices
-    this.tokens = this.tokens.concat({
-      token,
-    });
+    const { _id } = this;
+    const token = jwt.sign({ _id }, process.env.SECRET);
+    this.tokens = this.tokens.concat({ token });
     await this.save();
     return token;
   } catch (err) {
@@ -64,13 +60,16 @@ userSchema.methods.generateAuthToken = async function () {
   }
 };
 
-userSchema.methods.comparePassword = async function (plaintext) {
-  try {
-    return await bcrypt.compare(plaintext, this.password);
-  } catch (err) {
-    console.error(err);
-    return err;
-  }
+/**
+ * Compares Plaintext Password to Hashed Password in Store.
+ */
+UserSchema.methods.comparePassword = async function (text) {
+  return bcrypt
+    .compare(text, this.password)
+    .then((result) => result)
+    .catch((error) => error);
 };
 
-module.exports = mongoose.model('user', userSchema);
+const User = mongoose.model('user', UserSchema);
+
+module.exports = User;
