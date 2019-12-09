@@ -51,7 +51,7 @@ module.exports.schema = buildSchema(`
     type Query {
         listings: [Listing]
         listing(listingid: ID!): Listing
-        create_listing(name: String!, price: Float!, images: [String], description: String!, author: ID!, address: Address!): Listing!
+        # create_listing(name: String!, price: Float!, images: [String], description: String!, author: ID!, address: Address!): Listing!
         users: [User]
         user(userid: ID!): User
         user_login(password: String!, email: String!): String
@@ -64,19 +64,6 @@ module.exports.schema = buildSchema(`
 module.exports.resolvers = {
   listings: async () => Listing.find().exec(),
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
-  create_listing: async ({
-    name, price, images, description, author, address,
-  }) => {
-    try {
-      const listing = new Listing({
-        name, price, images, description, author, address,
-      });
-      await listing.save();
-      return listing;
-    } catch (error) {
-      return error.message;
-    }
-  },
   users: async () => User.find().exec(),
   user: async ({ userid }) => User.findById(userid).exec(),
   user_login: async ({ password, email }) => {
