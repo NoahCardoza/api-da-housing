@@ -3,6 +3,29 @@ const UserModel = require('../models/User');
 const ListingModel = require('../models/Listing');
 const TeamModel = require('../models/Team');
 
+module.exports.softAuthorization = async (req, res, next) => {
+  try {
+    if (req.header('Authorization')) {
+      const token = req.header('Authorization').replace('Bearer ', '');
+      const data = jwt.verify(token, process.env.SECRET);
+      const user = await UserModel.findOne({
+        _id: data._id,
+        'tokens.token': token,
+      }).exec();
+      if (!user) req.user = null;
+      req.user = user;
+      req.token = token;
+      return next();
+    }
+    req.user = null;
+    req.token = null;
+    return next();
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send(error.message);
+  }
+};
+
 module.exports.auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
