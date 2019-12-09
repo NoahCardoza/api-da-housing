@@ -15,7 +15,7 @@ after(async () => {
       email: 'testemail2@gmail.com',
     }).exec();
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
@@ -29,8 +29,8 @@ describe('Users', () => {
         school: 'De Anza',
         gender: 'other',
         name: 'test bot',
-      }).end((err, res) => {
-        if (err) console.error(err);
+      }).end((error, res) => {
+        if (error) console.error(error.message);
         jwt = res.body.token;
         done();
       });
@@ -41,8 +41,8 @@ describe('Users', () => {
       .send({
         password: 'testpassword123',
         email: 'testemail2@gmail.com',
-      }).end((err, res) => {
-        if (err) console.error(err);
+      }).end((error, res) => {
+        if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
         jwt = res.body.token;
@@ -55,8 +55,8 @@ describe('Users', () => {
       .send({
         password: 'badpassword123',
         email: 'testemail2@gmail.com',
-      }).end((err, res) => {
-        if (err) console.error(err);
+      }).end((error, res) => {
+        if (error) console.error(error.message);
         res.should.have.status(401);
         done();
       });
@@ -66,8 +66,8 @@ describe('Users', () => {
     chai.request(app).put('/update-user')
       .set('Authorization', `Bearer ${jwt}`)
       .send({ name: '@testbotupdated' })
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.error(error.message);
         res.should.have.status(200);
       });
     done();
@@ -76,8 +76,8 @@ describe('Users', () => {
   it('Should get the user profile', async (done) => {
     chai.request(app).get('/get-me-user')
       .set('Authorization', `Bearer ${jwt}`)
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
       });
@@ -87,8 +87,8 @@ describe('Users', () => {
   it('Should delete a user profile', async (done) => {
     chai.request(app).delete('/delete-user')
       .set('Authorization', `Bearer ${jwt}`)
-      .end((err, res) => {
-        if (err) console.log(err);
+      .end((error, res) => {
+        if (error) console.error(error.message);
         res.should.have.status(202);
       });
     done();
