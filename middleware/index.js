@@ -61,8 +61,7 @@ module.exports.isTeamMember = async (req, res, next) => {
       return next();
     }
     throw new Error('Missing Bearer Token for Authorization');
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send('Your credentials have failed the auth layer.');
+  } catch (error) {
+    return res.status(500).send(error.message);
   }
 };
