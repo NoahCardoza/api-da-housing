@@ -115,9 +115,12 @@ module.exports.resolvers = {
       return error.message;
     }
   },
-  teams: async () => {
+  teams: async (_, req) => {
     try {
-      return Team.find().exec();
+      if (req.user) {
+        return Team.find().exec();
+      }
+      throw new Error('You must be authenticated to view Teams');
     } catch (error) {
       return error.message;
     }
