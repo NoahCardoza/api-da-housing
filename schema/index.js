@@ -54,6 +54,7 @@ module.exports.schema = buildSchema(`
         users: [User]
         user(userid: ID!): User
         user_login(password: String!, email: String!): String
+        create_user(email: String!, school: String!, gender: String!, name: String!, password: String!): User
         teams: [Team]
         team(teamid: ID!): Team
     }
@@ -70,6 +71,19 @@ module.exports.resolvers = {
       const compare = await user.comparePassword(password);
       if (compare) return user.generateAuthToken();
       return 'Credentials Have Failed!';
+    } catch (error) {
+      return error.message;
+    }
+  },
+  create_user: async ({
+    email, school, gender, name, password,
+  }) => {
+    try {
+      const user = new User({
+        email, school, gender, name, password,
+      });
+      await user.save();
+      return user;
     } catch (error) {
       return error.message;
     }
