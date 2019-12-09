@@ -14,15 +14,14 @@ module.exports.softAuthorization = async (req, res, next) => {
       }).exec();
       if (!user) {
         req.user = null;
-        req.token = token;
         return next();
       }
+      user.password = undefined;
+      user.tokens = undefined;
       req.user = user;
-      req.token = token;
       return next();
     }
     req.user = null;
-    req.token = null;
     return next();
   } catch (error) {
     console.error(error.message);

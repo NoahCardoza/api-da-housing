@@ -65,7 +65,7 @@ module.exports.resolvers = {
   listings: async () => Listing.find().exec(),
   listing: async ({ listingid }) => Listing.findById(listingid).exec(),
   users: async (_, req) => {
-    console.log(req);
+    if (req.user) console.log(req.user);
     return User.find().exec();
   },
   user: async ({ userid }, req) => {
