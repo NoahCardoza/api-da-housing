@@ -35,7 +35,7 @@ module.exports.isListingOwner = async (req, res, next) => {
         _id: listingID,
         author: data._id,
       }).exec();
-      if (!listing) throw new Error('Credentials failed.');
+      if (!listing) throw new Error('Listing not found.');
       req.listing = listing;
       return next();
     }
