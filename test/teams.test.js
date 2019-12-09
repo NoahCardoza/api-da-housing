@@ -115,7 +115,7 @@ describe('Teams', () => {
           done();
         });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   });
 
@@ -131,7 +131,7 @@ describe('Teams', () => {
         });
       done();
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   });
 
@@ -152,23 +152,27 @@ describe('Teams', () => {
         });
       done();
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   });
 
   it('Should update a Team by ID', async (done) => {
-    chai.request(app).put(`/team/update-team/${teamtestingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        budget: 4000,
-      })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(204);
-        res.body.should.be.a('object');
-        res.body.budget.should.be.eql(4000);
-      });
-    done();
+    try {
+      chai.request(app).put(`/team/update-team/${teamtestingID}`)
+        .set('Authorization', `Bearer ${jwt}`)
+        .send({
+          budget: 4000,
+        })
+        .end((error, res) => {
+          if (error) console.log(error.message);
+          res.should.have.status(204);
+          res.body.should.be.a('object');
+          res.body.budget.should.be.eql(4000);
+        });
+      done();
+    } catch (error) {
+      console.log(error.message);
+    }
   });
 
   it('Should add a favorite Listing to a Team Favorite Section', async (done) => {
