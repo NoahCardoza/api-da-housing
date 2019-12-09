@@ -12,7 +12,11 @@ module.exports.softAuthorization = async (req, res, next) => {
         _id: data._id,
         'tokens.token': token,
       }).exec();
-      if (!user) req.user = null;
+      if (!user) {
+        req.user = null;
+        req.token = token;
+        return next();
+      }
       req.user = user;
       req.token = token;
       return next();
