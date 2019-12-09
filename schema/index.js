@@ -122,9 +122,12 @@ module.exports.resolvers = {
       return error.message;
     }
   },
-  team: async ({ teamid }) => {
+  team: async ({ teamid }, req) => {
     try {
-      return Team.findById(teamid).exec();
+      if (req.user) {
+        return Team.findById(teamid).exec();
+      }
+      throw new Error('You must be authenticated to be a Team Member');
     } catch (error) {
       return error.message;
     }
