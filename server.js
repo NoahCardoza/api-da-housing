@@ -17,12 +17,14 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 const UserRouter = require('./controllers/User');
 const ListingRouter = require('./controllers/Listing');
+const TeamRouter = require('./controllers/Team');
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
+app.use('/', TeamRouter);
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
