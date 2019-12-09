@@ -59,8 +59,8 @@ before(async () => {
     });
     await team.save();
     teamtestingID = team._id;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
@@ -81,8 +81,8 @@ after(async () => {
     await TeamModel.deleteMany({
       name: '@testteamrecord',
     }).exec();
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.log(error.message);
   }
 });
 
@@ -92,11 +92,11 @@ describe('Teams', () => {
     chai.request(app).post('/login-user').send({
       password: 'testpassword123',
       email: 'testemailteam@gmail.com',
-    })
-      .then((res) => {
-        jwt = res.body.token;
-        done();
-      });
+    }).end((error, res) => {
+      if (error) console.log(error.message);
+      jwt = res.body.token;
+      done();
+    });
   });
 
   it('Should get a token for the fake member', (done) => {
@@ -104,7 +104,8 @@ describe('Teams', () => {
       password: 'testpassword123',
       email: 'testemailteamfakemember@gmail.com',
     })
-      .then((res) => {
+      .end((error, res) => {
+        if (error) console.log(error.message);
         fakeTeamMemberJWT = res.body.token;
         done();
       });
@@ -114,10 +115,8 @@ describe('Teams', () => {
     chai.request(app)
       .get(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
-      .end((err, res) => {
-        if (err) {
-          console.log(err);
-        }
+      .end((error, res) => {
+        if (error) console.log(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
       });
@@ -125,117 +124,81 @@ describe('Teams', () => {
   });
 
   it('Creates a Team record.', (done) => {
-    try {
-      chai.request(app)
-        .post('/team/create-team')
-        .set('Authorization', `Bearer ${jwt}`)
-        .send({
-          name: '@testteamrecord',
-          budget: 3400,
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(201);
-          res.body.should.be.a('object');
-          res.body.name.should.be.eql('@testteamrecord');
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app)
+      .post('/team/create-team')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({
+        name: '@testteamrecord',
+        budget: 3400,
+      })
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.name.should.be.eql('@testteamrecord');
+      });
+    done();
   });
 
   it('Should update a Team by ID', async (done) => {
-    try {
-      chai.request(app).put(`/team/update-team/${teamtestingID}`)
-        .set('Authorization', `Bearer ${jwt}`)
-        .send({
-          budget: 4000,
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(204);
-          res.body.should.be.a('object');
-          res.body.budget.should.be.eql(4000);
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app).put(`/team/update-team/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({
+        budget: 4000,
+      })
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(204);
+        res.body.should.be.a('object');
+        res.body.budget.should.be.eql(4000);
+      });
+    done();
   });
 
   it('Should add a favorite Listing to a Team Favorite Section', async (done) => {
-    try {
-      chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
-        .set('Authorization', `Bearer ${jwt}`)
-        .send({
-          source: testlistingID,
-          name: 'testteamnamelistingfavorite',
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(204);
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({
+        source: testlistingID,
+        name: 'testteamnamelistingfavorite',
+      })
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(204);
+      });
+    done();
   });
 
   it('Should delete a team favorite.', async (done) => {
-    try {
-      chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
-        .set('Authorization', `Bearer ${jwt}`)
-        .send({
-          source: testlistingID,
-        })
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(204);
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({
+        source: testlistingID,
+      })
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(204);
+      });
+    done();
   });
 
   it('Should make a member leave a team and delete the team if they are the last member.', async (done) => {
-    try {
-      chai.request(app).put(`/team/leave-team/${teamtestingID}`)
-        .set('Authorization', `Bearer ${fakeTeamMemberJWT}`)
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(204);
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app).put(`/team/leave-team/${teamtestingID}`)
+      .set('Authorization', `Bearer ${fakeTeamMemberJWT}`)
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(204);
+      });
+    done();
   });
 
   it('Should delete a team.', async (done) => {
-    try {
-      chai.request(app).delete(`/team/${teamtestingID}`)
-        .set('Authorization', `Bearer ${jwt}`)
-        .end((err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          res.should.have.status(202);
-        });
-      done();
-    } catch (error) {
-      console.error(error);
-    }
+    chai.request(app).delete(`/team/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(202);
+      });
+    done();
   });
 });
