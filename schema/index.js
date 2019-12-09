@@ -51,7 +51,7 @@ module.exports.schema = buildSchema(`
     type Query {
         listings: [Listing]
         listing(listingid: ID!): Listing
-        create_listing(name: String!, price: Float!, images: [String], description: String!, author: ID!, address: Address!): Listing
+        create_listing(name: String!, price: Float!, images: [String], description: String!, author: ID!, address: Address!): Listing!
         users: [User]
         user(userid: ID!): User
         user_login(password: String!, email: String!): String
