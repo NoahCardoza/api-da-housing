@@ -21,7 +21,7 @@ module.exports.auth = async (req, res, next) => {
     throw new Error('Missing Bearer Token for Authorization');
   } catch (error) {
     console.error(error);
-    return res.status(500).send('Your credentials have failed the auth layer.');
+    return res.status(500).send(error.message);
   }
 };
 
