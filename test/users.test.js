@@ -65,7 +65,9 @@ describe('Users', () => {
   it('Should update an authenticated user', async (done) => {
     chai.request(app).put('/update-user')
       .set('Authorization', `Bearer ${jwt}`)
-      .send({ name: '@testbotupdated' })
+      .send({
+        name: '@testbotupdated'
+      })
       .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
