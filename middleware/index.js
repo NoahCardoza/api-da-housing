@@ -3,7 +3,6 @@ const UserModel = require('../models/User');
 const ListingModel = require('../models/Listing');
 const TeamModel = require('../models/Team');
 
-
 module.exports.auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
