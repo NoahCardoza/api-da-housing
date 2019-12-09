@@ -68,7 +68,10 @@ module.exports.resolvers = {
     console.log(req);
     return User.find().exec();
   },
-  user: async ({ userid }) => User.findById(userid).exec(),
+  user: async ({ userid }, req) => {
+    if (req.user) console.log(req.user);
+    return User.findById(userid).exec();
+  },
   user_login: async ({ password, email }) => {
     try {
       const user = await User.findOne({ email }).exec();

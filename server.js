@@ -25,7 +25,7 @@ const ListingRouter = require('./controllers/Listing');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
-app.use(softAuthorization());
+app.use(softAuthorization);
 app.use('/graphql', graphqlHTTP({
   schema,
   rootValue: resolvers,
