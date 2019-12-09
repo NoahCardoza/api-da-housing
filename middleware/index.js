@@ -48,16 +48,19 @@ module.exports.isListingOwner = async (req, res, next) => {
 
 module.exports.isTeamMember = async (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
-    const data = jwt.verify(token, process.env.SECRET);
-    const teamID = req.params.teamid;
-    const team = await TeamModel.findOne({
-      _id: teamID,
-      members: data._id,
-    }).exec();
-    if (!team) throw new Error('Credentials failed team.');
-    req.team = team;
-    return next();
+    if (req.header('Authorization')) {
+      const token = req.header('Authorization').replace('Bearer ', '');
+      const data = jwt.verify(token, process.env.SECRET);
+      const teamID = req.params.teamid;
+      const team = await TeamModel.findOne({
+        _id: teamID,
+        members: data._id,
+      }).exec();
+      if (!team) throw new Error('Credentials failed team.');
+      req.team = team;
+      return next();
+    }
+    throw new Error('Missing Bearer Token for Authorization');
   } catch (err) {
     console.error(err);
     return res.status(500).send('Your credentials have failed the auth layer.');
