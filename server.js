@@ -3,8 +3,6 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const graphqlHTTP = require('express-graphql');
-const expressPlayground = require('graphql-playground-middleware-express').default;
 require('dotenv').config();
 
 const app = express();
