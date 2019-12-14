@@ -57,6 +57,9 @@ const asyncComparePassword = (plaintext, hashed) => new Promise((resolve, reject
   });
 });
 
+/**
+ * hashes user password on save.
+ */
 UserSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
