@@ -30,6 +30,20 @@ const fakeListingObject = (userID) => Object.freeze({
   },
 });
 
+const fakeListingHelperObject  = Object.freeze({
+
+  LISTING_WITHOUT_USER_ID: {
+    name: '@testhouserecord',
+    price: 1500,
+    description: 'This is a test description!',
+    address: {
+      street: 'El Camino Street',
+      city: 'Mountain View',
+      zipcode: 94040,
+    },
+  },
+});
+
 before(async () => {
   try {
     console.log('Before tests!');
@@ -87,16 +101,7 @@ describe('Listings', () => {
     chai.request(app)
       .post('/create-listing')
       .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        name: '@testhouserecord',
-        price: 1500,
-        description: 'This is a test description!',
-        address: {
-          street: 'El Camino Street',
-          city: 'Mountain View',
-          zipcode: 94040,
-        },
-      })
+      .send(fakeListingHelperObject.LISTING_WITHOUT_USER_ID)
       .end((error, res) => {
         if (error) console.log(error.message);
         res.should.have.status(201);
