@@ -35,17 +35,7 @@ before(async () => {
     console.log('Before tests!');
     const user = new UserModel(fakeUserObject);
     await user.save();
-    const newListing = new ListingModel({
-      author: user._id,
-      name: '@testhouserecord',
-      price: 1500,
-      description: 'This is a test description!',
-      address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
-        zipcode: 94040,
-      },
-    });
+    const newListing = new ListingModel(fakeListingObject(user._id));
     await newListing.save();
     testlistingID = newListing._id;
   } catch (error) {
