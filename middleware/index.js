@@ -8,10 +8,10 @@ const TeamModel = require('../models/Team');
  * takes request contexts and strips
  * jwt token from Authorization headers.
  */
-function processBearer({ header }) {
-  const containsBearerToken = header('Authorization') && header('Authorization').includes('Bearer');
+function processBearer(req) {
+  const containsBearerToken = req.header('Authorization') && req.header('Authorization').includes('Bearer');
   return containsBearerToken
-    ? header('Authorization').replace('Bearer ', '')
+    ? req.header('Authorization').replace('Bearer ', '')
     : (() => new Error('Either something went wrong when parsing the Bearer Token or it does not exist'))();
 }
 
