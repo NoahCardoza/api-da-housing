@@ -6,7 +6,7 @@ const UserModel = require('../models/User');
 chai.use(chaiHTTP);
 chai.should();
 
-let jwt = '';
+let jwtToken = '';
 
 const fakeUserObject = Object.freeze({
   password: 'testpassword123',
@@ -38,7 +38,7 @@ describe('Users', () => {
       .post('/create-user')
       .send(fakeUserObject).end((error, res) => {
         if (error) console.error(error.message);
-        jwt = res.body.token;
+        jwtToken = res.body.token;
         done();
       });
   });
@@ -52,7 +52,7 @@ describe('Users', () => {
         if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
-        jwt = res.body.token;
+        jwtToken = res.body.token;
         done();
       });
   });
@@ -71,7 +71,7 @@ describe('Users', () => {
 
   it('Should update an authenticated user', async (done) => {
     chai.request(app).put('/update-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send({
         name: fakeUserHelperObject.UPDATED_NAME,
       })
@@ -84,7 +84,7 @@ describe('Users', () => {
 
   it('Should get the user profile', async (done) => {
     chai.request(app).get('/get-me-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
@@ -95,7 +95,7 @@ describe('Users', () => {
 
   it('Should delete a user profile', async (done) => {
     chai.request(app).delete('/delete-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(202);
