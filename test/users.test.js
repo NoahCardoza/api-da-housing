@@ -17,7 +17,7 @@ const fakeUserObject = Object.freeze({
 });
 
 const fakeUserHelperObject = Object.freeze({
-  badPassword: 'fakebadpassword123',
+  BAD_PASSWORD: 'fakebadpassword123',
 });
 
 after(async () => {
@@ -59,7 +59,7 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: 'fakebadpassword123',
+        password: fakeUserHelperObject.badPassword,
         email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
