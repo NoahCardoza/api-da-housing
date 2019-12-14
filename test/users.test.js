@@ -8,11 +8,19 @@ chai.should();
 
 let jwt = '';
 
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemail2@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
 after(async () => {
   try {
     console.log('After user tests! deleting users that remain.');
     await UserModel.findOneAndRemove({
-      email: 'testemail2@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
   } catch (error) {
     console.error(error.message);
@@ -23,13 +31,7 @@ describe('Users', () => {
   it('Should create user', (done) => {
     chai.request(app)
       .post('/create-user')
-      .send({
-        password: 'testpassword123',
-        email: 'testemail2@gmail.com',
-        school: 'De Anza',
-        gender: 'other',
-        name: 'test bot',
-      }).end((error, res) => {
+      .send(fakeUserObject).end((error, res) => {
         if (error) console.error(error.message);
         jwt = res.body.token;
         done();
@@ -39,8 +41,8 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: 'testpassword123',
-        email: 'testemail2@gmail.com',
+        password: fakeUserObject.password,
+        email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
