@@ -9,6 +9,7 @@ chai.should();
 
 let jwt = '';
 let testlistingID = '';
+let usertestingid = '';
 
 const fakeUserObject = Object.freeze({
   password: 'testpassword123',
@@ -49,7 +50,8 @@ before(async () => {
     console.log('Pre-Processing for Listings Test: Creating Fake User and Listing.');
     const user = new UserModel(fakeUserObject);
     await user.save();
-    const newListing = new ListingModel(fakeListingObject(user._id));
+    usertestingid = user._id;
+    const newListing = new ListingModel(fakeListingObject(usertestingid));
     await newListing.save();
     testlistingID = newListing._id;
   } catch (error) {
@@ -64,7 +66,7 @@ after(async () => {
       email: fakeUserObject.email,
     }).exec();
     await ListingModel.deleteMany({
-      name: fakeListingObject.name,
+      name: fakeListingObject(usertestingid).name,
     }).exec();
   } catch (error) {
     console.log(error.message);
