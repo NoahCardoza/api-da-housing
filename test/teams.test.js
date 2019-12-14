@@ -42,12 +42,12 @@ const fakeListingObject = (userID) => Object.freeze({
   },
 });
 
-const fakeTeamObject = Object.freeze({
+const fakeTeamObject = (userid, listingid) => Object.freeze({
   name: '@testteamrecord',
-  members: [`${usertestingID}`],
+  members: [`${userid}`],
   budget: 3400,
   favorites: [{
-    source: `${testlistingID}`,
+    source: `${listingid}`,
     name: 'testhousenamelisting',
     comments: ['beautiful', 'is that near de anza?', 'gorgeousss!!!!!'],
   }],
@@ -55,7 +55,7 @@ const fakeTeamObject = Object.freeze({
 
 before(async () => {
   try {
-    console.log('before team tests.');
+    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings');
     const user = new UserModel(fakeUserObject);
     const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
@@ -64,7 +64,7 @@ before(async () => {
     const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel(fakeTeamObject);
+    const team = new TeamModel(fakeTeamObject(usertestingID, testlistingID));
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
@@ -82,10 +82,10 @@ after(async () => {
       email: fakeTeamMemberObject.email,
     }).exec();
     await ListingModel.deleteMany({
-      name: fakeListingObject.name,
+      name: fakeListingObject(usertestingID).name,
     }).exec();
     await TeamModel.deleteMany({
-      name: fakeTeamObject.name,
+      name: fakeTeamObject(usertestingID, testlistingID).name,
     }).exec();
   } catch (error) {
     console.log(error.message);
@@ -96,8 +96,8 @@ describe('Teams', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
     chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemailteam@gmail.com',
+      password: fakeUserObject.password,
+      email: fakeUserObject.email,
     }).end((error, res) => {
       if (error) console.log(error.message);
       jwt = res.body.token;
@@ -107,8 +107,8 @@ describe('Teams', () => {
 
   it('Should get a token for the fake member', (done) => {
     chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemailteamfakemember@gmail.com',
+      password: fakeTeamMemberObject.password,
+      email: fakeTeamMemberObject.email,
     })
       .end((error, res) => {
         if (error) console.log(error.message);
@@ -116,6 +116,22 @@ describe('Teams', () => {
         done();
       });
   });
+
+
+  it('Creates a Team record.', (done) => {
+    chai.request(app)
+      .post('/team/create-team')
+      .set('Authorization', `Bearer ${jwt}`)
+      .send(fakeTeamObject(usertestingID, testlistingID))
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.name.should.be.eql(fakeTeamObject(usertestingID, testlistingID).name);
+      });
+    done();
+  });
+
 
   // it('Should get a team by ID for member', async (done) => {
   //   chai.request(app)
@@ -128,23 +144,6 @@ describe('Teams', () => {
   //     });
   //   done();
   // });
-
-  it('Creates a Team record.', (done) => {
-    chai.request(app)
-      .post('/team/create-team')
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        name: '@testteamrecord',
-        budget: 3400,
-      })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.name.should.be.eql('@testteamrecord');
-      });
-    done();
-  });
 
   // it('Should update a Team by ID', async (done) => {
   //   chai.request(app).put(`/team/update-team/${teamtestingID}`)
