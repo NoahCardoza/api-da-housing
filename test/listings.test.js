@@ -10,16 +10,30 @@ chai.should();
 let jwt = '';
 let testlistingID = '';
 
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemail@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeListingObject = (userID) => Object.freeze({
+  author: userID,
+  name: '@testhouserecord',
+  price: 1500,
+  description: 'This is a test description!',
+  address: {
+    street: 'El Camino Street',
+    city: 'Mountain View',
+    zipcode: 94040,
+  },
+});
+
 before(async () => {
   try {
     console.log('Before tests!');
-    const user = new UserModel({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
+    const user = new UserModel(fakeUserObject);
     await user.save();
     const newListing = new ListingModel({
       author: user._id,
