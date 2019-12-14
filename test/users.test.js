@@ -73,7 +73,7 @@ describe('Users', () => {
     chai.request(app).put('/update-user')
       .set('Authorization', `Bearer ${jwt}`)
       .send({
-        name: '@testbotupdated',
+        name: fakeUserHelperObject.UPDATED_NAME,
       })
       .end((error, res) => {
         if (error) console.error(error.message);
