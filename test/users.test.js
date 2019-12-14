@@ -59,7 +59,7 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: fakeUserHelperObject.badPassword,
+        password: fakeUserHelperObject.BAD_PASSWORD,
         email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
