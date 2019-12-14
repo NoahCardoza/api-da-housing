@@ -107,9 +107,9 @@ describe('Teams', () => {
 
   it('Should get a token for the fake member', (done) => {
     chai.request(app).post('/login-user').send({
-        password: 'testpassword123',
-        email: 'testemailteamfakemember@gmail.com',
-      })
+      password: 'testpassword123',
+      email: 'testemailteamfakemember@gmail.com',
+    })
       .end((error, res) => {
         if (error) console.log(error.message);
         fakeTeamMemberJWT = res.body.token;
