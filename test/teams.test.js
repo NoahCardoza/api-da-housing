@@ -14,16 +14,22 @@ let teamtestingID = '';
 let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemailteam@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeTeamMemberObject = Object.freeze({
+
+});
+
 before(async () => {
   try {
     console.log('before team tests.');
-    const user = new UserModel({
-      password: 'testpassword123',
-      email: 'testemailteam@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
+    const user = new UserModel(fakeUserObject);
     const fakeTeamMember = new UserModel({
       password: 'testpassword123',
       email: 'testemailteamfakemember@gmail.com',
