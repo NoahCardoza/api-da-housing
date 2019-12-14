@@ -127,7 +127,7 @@ describe('Listings', () => {
     chai.request(app).put(`/update-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
-        description: '@updated',
+        description: fakeListingHelperObject.UPDATED_DESCRIPTION,
       })
       .end((error, res) => {
         if (error) console.log(error.message);
