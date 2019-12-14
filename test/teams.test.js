@@ -64,7 +64,7 @@ before(async () => {
     const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel(fakeTeamMemberObject);
+    const team = new TeamModel(fakeTeamObject);
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
@@ -74,20 +74,18 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('After tests!');
-    console.log('Deleting teams!');
+    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests.');
     await UserModel.findOneAndRemove({
-      email: 'testemailteam@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
     await UserModel.findOneAndRemove({
-      email: 'testemailteamfakemember@gmail.com',
+      email: fakeTeamMemberObject.email,
     }).exec();
-    console.log('Deleting test Listings!');
     await ListingModel.deleteMany({
-      name: '@testhouserecordteam',
+      name: fakeListingObject.name,
     }).exec();
     await TeamModel.deleteMany({
-      name: '@testteamrecord',
+      name: fakeTeamObject.name,
     }).exec();
   } catch (error) {
     console.log(error.message);
@@ -109,9 +107,9 @@ describe('Teams', () => {
 
   it('Should get a token for the fake member', (done) => {
     chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemailteamfakemember@gmail.com',
-    })
+        password: 'testpassword123',
+        email: 'testemailteamfakemember@gmail.com',
+      })
       .end((error, res) => {
         if (error) console.log(error.message);
         fakeTeamMemberJWT = res.body.token;
