@@ -35,10 +35,28 @@ const UserSchema = new mongoose.Schema({
   }],
 });
 
+
+/**
+ * @param {*} password - plaintext password to be hashed.
+ */
+const asyncHashPassword = (password) => new Promise((resolve, reject) => {
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) reject(err);
+    resolve(hash);
+  });
+});
+
+const asyncComparePassword = (plaintext, hashed) => new Promise((resolve, reject) => {
+  bcrypt.compare(plaintext, hashed, (err, res) => {
+    if (err) reject(err);
+    resolve(res);
+  });
+});
+
 UserSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
-    const hash = await bcrypt.hash(this.password, 10);
+    const hash = await asyncHashPassword(this.password);
     this.password = hash;
     return next();
   } catch (error) {
