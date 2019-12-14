@@ -46,6 +46,10 @@ const asyncHashPassword = (password) => new Promise((resolve, reject) => {
   });
 });
 
+/**
+ * @param {*} plaintext - plaintext password to compare.
+ * @param {*} hashed - hash stored in database to compare.
+ */
 const asyncComparePassword = (plaintext, hashed) => new Promise((resolve, reject) => {
   bcrypt.compare(plaintext, hashed, (err, res) => {
     if (err) reject(err);
