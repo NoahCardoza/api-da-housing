@@ -64,7 +64,7 @@ before(async () => {
     const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel(fakeTeamObject);
+    const team = new TeamModel(fakeTeamObject(usertestingID, testlistingID));
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
@@ -82,10 +82,10 @@ after(async () => {
       email: fakeTeamMemberObject.email,
     }).exec();
     await ListingModel.deleteMany({
-      name: fakeListingObject.name,
+      name: fakeListingObject(usertestingID).name,
     }).exec();
     await TeamModel.deleteMany({
-      name: fakeTeamObject.name,
+      name: fakeTeamObject(usertestingID, testlistingID).name,
     }).exec();
   } catch (error) {
     console.log(error.message);
