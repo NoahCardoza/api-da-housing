@@ -6,13 +6,26 @@ const UserModel = require('../models/User');
 chai.use(chaiHTTP);
 chai.should();
 
-let jwt = '';
+let jwtToken = '';
+
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemail2@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeUserHelperObject = Object.freeze({
+  BAD_PASSWORD: 'fakebadpassword123',
+  UPDATED_NAME: '@testbotupdated',
+});
 
 after(async () => {
   try {
-    console.log('After user tests! deleting users that remain.');
+    console.log('User test post-processing: Deleting Fake Users');
     await UserModel.findOneAndRemove({
-      email: 'testemail2@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
   } catch (error) {
     console.error(error.message);
@@ -23,15 +36,9 @@ describe('Users', () => {
   it('Should create user', (done) => {
     chai.request(app)
       .post('/create-user')
-      .send({
-        password: 'testpassword123',
-        email: 'testemail2@gmail.com',
-        school: 'De Anza',
-        gender: 'other',
-        name: 'test bot',
-      }).end((error, res) => {
+      .send(fakeUserObject).end((error, res) => {
         if (error) console.error(error.message);
-        jwt = res.body.token;
+        jwtToken = res.body.token;
         done();
       });
   });
@@ -39,13 +46,13 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: 'testpassword123',
-        email: 'testemail2@gmail.com',
+        password: fakeUserObject.password,
+        email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
-        jwt = res.body.token;
+        jwtToken = res.body.token;
         done();
       });
   });
@@ -53,8 +60,8 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: 'badpassword123',
-        email: 'testemail2@gmail.com',
+        password: fakeUserHelperObject.BAD_PASSWORD,
+        email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(401);
@@ -64,9 +71,9 @@ describe('Users', () => {
 
   it('Should update an authenticated user', async (done) => {
     chai.request(app).put('/update-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .send({
-        name: '@testbotupdated'
+        name: fakeUserHelperObject.UPDATED_NAME,
       })
       .end((error, res) => {
         if (error) console.error(error.message);
@@ -77,7 +84,7 @@ describe('Users', () => {
 
   it('Should get the user profile', async (done) => {
     chai.request(app).get('/get-me-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
@@ -88,7 +95,7 @@ describe('Users', () => {
 
   it('Should delete a user profile', async (done) => {
     chai.request(app).delete('/delete-user')
-      .set('Authorization', `Bearer ${jwt}`)
+      .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(202);

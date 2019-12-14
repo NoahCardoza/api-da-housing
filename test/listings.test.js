@@ -10,28 +10,46 @@ chai.should();
 let jwt = '';
 let testlistingID = '';
 
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemail@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeListingObject = (userID) => Object.freeze({
+  author: userID,
+  name: '@testhouserecord',
+  price: 1500,
+  description: 'This is a test description!',
+  address: {
+    street: 'El Camino Street',
+    city: 'Mountain View',
+    zipcode: 94040,
+  },
+});
+
+const fakeListingHelperObject = Object.freeze({
+  UPDATED_DESCRIPTION: '@updated',
+  LISTING_WITHOUT_USER_ID: {
+    name: '@testhouserecord',
+    price: 1500,
+    description: 'This is a test description!',
+    address: {
+      street: 'El Camino Street',
+      city: 'Mountain View',
+      zipcode: 94040,
+    },
+  },
+});
+
 before(async () => {
   try {
-    console.log('Before tests!');
-    const user = new UserModel({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
+    console.log('Pre-Processing for Listings Test: Creating Fake User and Listing.');
+    const user = new UserModel(fakeUserObject);
     await user.save();
-    const newListing = new ListingModel({
-      author: user._id,
-      name: '@testhouserecord',
-      price: 1500,
-      description: 'This is a test description!',
-      address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
-        zipcode: 94040,
-      },
-    });
+    const newListing = new ListingModel(fakeListingObject(user._id));
     await newListing.save();
     testlistingID = newListing._id;
   } catch (error) {
@@ -41,14 +59,12 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('After tests!');
-    console.log('Deleting test users!');
+    console.log('Post-Processing for Listings Test: Deleting Fake User and Fake Listings');
     await UserModel.findOneAndRemove({
-      email: 'testemail@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
-    console.log('Deleting test Listings!');
     await ListingModel.deleteMany({
-      name: '@testhouserecord',
+      name: fakeListingObject.name,
     }).exec();
   } catch (error) {
     console.log(error.message);
@@ -70,8 +86,8 @@ describe('Listings', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
     chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
+      password: fakeUserObject.password,
+      email: fakeUserObject.email,
     })
       .then((res) => {
         jwt = res.body.token;
@@ -83,16 +99,7 @@ describe('Listings', () => {
     chai.request(app)
       .post('/create-listing')
       .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        name: '@testhouserecord',
-        price: 1500,
-        description: 'This is a test description!',
-        address: {
-          street: 'El Camino Street',
-          city: 'Mountain View',
-          zipcode: 94040,
-        },
-      })
+      .send(fakeListingHelperObject.LISTING_WITHOUT_USER_ID)
       .end((error, res) => {
         if (error) console.log(error.message);
         res.should.have.status(201);
@@ -118,7 +125,7 @@ describe('Listings', () => {
     chai.request(app).put(`/update-listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
-        description: '@updated',
+        description: fakeListingHelperObject.UPDATED_DESCRIPTION,
       })
       .end((error, res) => {
         if (error) console.log(error.message);

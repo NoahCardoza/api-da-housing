@@ -14,49 +14,57 @@ let teamtestingID = '';
 let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
+const fakeUserObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemailteam@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeTeamMemberObject = Object.freeze({
+  password: 'testpassword123',
+  email: 'testemailteamfakemember@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
+});
+
+const fakeListingObject = (userID) => Object.freeze({
+  author: userID,
+  name: '@testhouserecordteam',
+  price: 1500,
+  description: 'This is a test description!',
+  address: {
+    street: 'El Camino Street',
+    city: 'Mountain View',
+    zipcode: 94040,
+  },
+});
+
+const fakeTeamObject = Object.freeze({
+  name: '@testteamrecord',
+  members: [`${usertestingID}`],
+  budget: 3400,
+  favorites: [{
+    source: `${testlistingID}`,
+    name: 'testhousenamelisting',
+    comments: ['beautiful', 'is that near de anza?', 'gorgeousss!!!!!'],
+  }],
+});
+
 before(async () => {
   try {
     console.log('before team tests.');
-    const user = new UserModel({
-      password: 'testpassword123',
-      email: 'testemailteam@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
-    const fakeTeamMember = new UserModel({
-      password: 'testpassword123',
-      email: 'testemailteamfakemember@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
+    const user = new UserModel(fakeUserObject);
+    const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
     await fakeTeamMember.save();
     usertestingID = user._id;
-    const listing = new ListingModel({
-      author: user._id,
-      name: '@testhouserecordteam',
-      price: 1500,
-      description: 'This is a test description!',
-      address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
-        zipcode: 94040,
-      },
-    });
+    const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel({
-      name: '@testteamrecord',
-      members: [`${usertestingID}`],
-      budget: 3400,
-      favorites: [{
-        source: `${testlistingID}`,
-        name: 'testhousenamelisting',
-        comments: ['beautiful', 'is that near de anza?', 'gorgeousss!!!!!'],
-      }],
-    });
+    const team = new TeamModel(fakeTeamObject);
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
@@ -66,20 +74,18 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('After tests!');
-    console.log('Deleting teams!');
+    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests.');
     await UserModel.findOneAndRemove({
-      email: 'testemailteam@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
     await UserModel.findOneAndRemove({
-      email: 'testemailteamfakemember@gmail.com',
+      email: fakeTeamMemberObject.email,
     }).exec();
-    console.log('Deleting test Listings!');
     await ListingModel.deleteMany({
-      name: '@testhouserecordteam',
+      name: fakeListingObject.name,
     }).exec();
     await TeamModel.deleteMany({
-      name: '@testteamrecord',
+      name: fakeTeamObject.name,
     }).exec();
   } catch (error) {
     console.log(error.message);
