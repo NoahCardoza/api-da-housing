@@ -30,6 +30,18 @@ const fakeTeamMemberObject = Object.freeze({
   name: 'test bot',
 });
 
+const fakeListingObject = (userID) => Object.freeze({
+  author: userID,
+  name: '@testhouserecordteam',
+  price: 1500,
+  description: 'This is a test description!',
+  address: {
+    street: 'El Camino Street',
+    city: 'Mountain View',
+    zipcode: 94040,
+  },
+});
+
 before(async () => {
   try {
     console.log('before team tests.');
@@ -38,17 +50,7 @@ before(async () => {
     await user.save();
     await fakeTeamMember.save();
     usertestingID = user._id;
-    const listing = new ListingModel({
-      author: user._id,
-      name: '@testhouserecordteam',
-      price: 1500,
-      description: 'This is a test description!',
-      address: {
-        street: 'El Camino Street',
-        city: 'Mountain View',
-        zipcode: 94040,
-      },
-    });
+    const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
     const team = new TeamModel({
