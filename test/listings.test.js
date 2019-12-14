@@ -48,11 +48,11 @@ after(async () => {
     console.log('After tests!');
     console.log('Deleting test users!');
     await UserModel.findOneAndRemove({
-      email: 'testemail@gmail.com',
+      email: fakeUserObject.email,
     }).exec();
     console.log('Deleting test Listings!');
     await ListingModel.deleteMany({
-      name: '@testhouserecord',
+      name: fakeListingObject.name,
     }).exec();
   } catch (error) {
     console.log(error.message);
@@ -74,8 +74,8 @@ describe('Listings', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
     chai.request(app).post('/login-user').send({
-      password: 'testpassword123',
-      email: 'testemail@gmail.com',
+      password: fakeUserObject.password,
+      email: fakeUserObject.email,
     })
       .then((res) => {
         jwt = res.body.token;
