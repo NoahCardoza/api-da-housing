@@ -64,16 +64,7 @@ before(async () => {
     const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel({
-      name: '@testteamrecord',
-      members: [`${usertestingID}`],
-      budget: 3400,
-      favorites: [{
-        source: `${testlistingID}`,
-        name: 'testhousenamelisting',
-        comments: ['beautiful', 'is that near de anza?', 'gorgeousss!!!!!'],
-      }],
-    });
+    const team = new TeamModel(fakeTeamMemberObject);
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
