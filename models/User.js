@@ -72,6 +72,9 @@ UserSchema.pre('save', async function (next) {
   }
 });
 
+/**
+ * Generates valid JWT token.
+ */
 UserSchema.methods.generateAuthToken = async function () {
   try {
     const { _id } = this;
