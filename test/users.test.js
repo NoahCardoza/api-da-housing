@@ -16,6 +16,10 @@ const fakeUserObject = Object.freeze({
   name: 'test bot',
 });
 
+const fakeUserHelperObject = Object.freeze({
+  badPassword: 'fakebadpassword123',
+});
+
 after(async () => {
   try {
     console.log('After user tests! deleting users that remain.');
@@ -55,8 +59,8 @@ describe('Users', () => {
     chai.request(app)
       .post('/login-user')
       .send({
-        password: 'badpassword123',
-        email: 'testemail2@gmail.com',
+        password: 'fakebadpassword123',
+        email: fakeUserObject.email,
       }).end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(401);
