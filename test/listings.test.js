@@ -30,8 +30,8 @@ const fakeListingObject = (userID) => Object.freeze({
   },
 });
 
-const fakeListingHelperObject  = Object.freeze({
-
+const fakeListingHelperObject = Object.freeze({
+  UPDATED_DESCRIPTION: '@updated',
   LISTING_WITHOUT_USER_ID: {
     name: '@testhouserecord',
     price: 1500,
