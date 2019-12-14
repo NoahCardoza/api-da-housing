@@ -18,6 +18,7 @@ const fakeUserObject = Object.freeze({
 
 const fakeUserHelperObject = Object.freeze({
   BAD_PASSWORD: 'fakebadpassword123',
+  UPDATED_NAME: '@testbotupdated',
 });
 
 after(async () => {
