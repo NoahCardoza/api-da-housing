@@ -86,10 +86,12 @@ UserSchema.methods.generateAuthToken = async function () {
  * Compares Plaintext Password to Hashed Password in Store.
  */
 UserSchema.methods.comparePassword = async function (text) {
-  return bcrypt
-    .compare(text, this.password)
-    .then((result) => result)
-    .catch((error) => error);
+  try {
+    return asyncComparePassword(text, this.password);
+  } catch (error) {
+    console.log(error.message);
+    return error;
+  }
 };
 
 const User = mongoose.model('user', UserSchema);
