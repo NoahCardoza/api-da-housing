@@ -23,20 +23,18 @@ const fakeUserObject = Object.freeze({
 });
 
 const fakeTeamMemberObject = Object.freeze({
-
+  password: 'testpassword123',
+  email: 'testemailteamfakemember@gmail.com',
+  school: 'De Anza',
+  gender: 'other',
+  name: 'test bot',
 });
 
 before(async () => {
   try {
     console.log('before team tests.');
     const user = new UserModel(fakeUserObject);
-    const fakeTeamMember = new UserModel({
-      password: 'testpassword123',
-      email: 'testemailteamfakemember@gmail.com',
-      school: 'De Anza',
-      gender: 'other',
-      name: 'test bot',
-    });
+    const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
     await fakeTeamMember.save();
     usertestingID = user._id;
