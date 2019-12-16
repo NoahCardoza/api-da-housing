@@ -14,6 +14,7 @@ router.get('/listing', async (_, res) => {
   }
 });
 
+
 // READ LISTING BY ID
 router.get('/get-listing/:listingid', async (req, res) => {
   try {

@@ -3,7 +3,13 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+
+try {
+    require('dotenv').config();
+} catch(error){
+    console.log(error.message);
+}
+
 
 const app = express();
 
