@@ -348,3 +348,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/git,vim,node,linux,macos,emacs,windows,intellij,visualstudiocode
+
+# Docker build temp files
+.lastimage
