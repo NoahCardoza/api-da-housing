@@ -71,8 +71,19 @@ router.post('/user', async (req, res) => {
       token,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).send(err);
+    console.error(err.message);
+    res.status(500).send(err.message);
+  }
+});
+
+
+/** Read Route for User Resource */
+router.get('/user', auth, async (req, res) => {
+  try {
+    return res.status(200).json(req.user);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
@@ -82,8 +93,8 @@ router.put('/user', auth, async (req, res) => {
     await UserModel.findByIdAndUpdate(req.user.id, req.body).exec();
     return res.status(200).send('Updated');
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Server failed to update document');
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
@@ -93,13 +104,9 @@ router.delete('/user', auth, async (req, res) => {
     await UserModel.findByIdAndRemove(req.user.id).exec();
     return res.status(202).send('Deleted');
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('failed to delete user');
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
-
-
-// example of middleware. also personal profile.
-router.get('/get-me-user', auth, async (req, res) => res.status(200).json(req.user));
 
 module.exports = router;
