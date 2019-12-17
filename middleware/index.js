@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../models/User');
 const ListingModel = require('../models/Listing');
 const TeamModel = require('../models/Team');
+const FavoriteModel = require('../models/Favorite');
 
 /**
  * @param {*} param0 - request context
@@ -52,6 +53,7 @@ module.exports.isListingOwner = async (req, res, next) => {
   }
 };
 
+// todo: needs improvements should probably let operations move forward.
 module.exports.isTeamMember = async (req, res, next) => {
   try {
     const token = processBearer(req);
@@ -63,6 +65,23 @@ module.exports.isTeamMember = async (req, res, next) => {
     }).exec();
     if (!team) throw new Error('The Team either does not exist or you are not a member');
     req.team = team;
+    return next();
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
+/** Allows operations on Favorites if the user is a author of a favorite */
+module.exports.isFavoriteAuthor = async (req, res, next) => {
+  try {
+    const token = processBearer(req);
+    const data = jwt.verify(token, process.env.SECRET);
+    const favoriteID = req.params.id;
+    const favorite = await FavoriteModel.findOne({
+      _id: favoriteID,
+      author: data._id,
+    }).exec();
+    if (!favorite) throw new Error('Favorite not found.');
     return next();
   } catch (error) {
     return res.status(500).send(error.message);

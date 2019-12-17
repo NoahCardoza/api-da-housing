@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 const FavoriteModel = require('../models/Favorite');
-const { auth } = require('../middleware');
+const { auth, isFavoriteAuthor } = require('../middleware');
 
-// todo: isFavoriteAuthor middleware needs to be written
 // todo: a deletion hook on Team deletion needs to be setup in Team model
+// todo: need a favorites test file for mocha and chai!
 
 /** Create Route for Team resource */
 router.post('/favorite', auth, async (req, res) => {
@@ -31,7 +31,7 @@ router.get('/favorite/:id', auth, async (req, res) => {
 });
 
 /** Update Route for Listing resource */
-router.put('/favorite/:id', auth, async (req, res) => {
+router.put('/favorite/:id', isFavoriteAuthor, async (req, res) => {
   try {
     await FavoriteModel.findByIdAndUpdate(req.param.id, req.body).exec();
     return res.status(204);
@@ -42,7 +42,7 @@ router.put('/favorite/:id', auth, async (req, res) => {
 });
 
 /** Delete Route for Listing resource */
-router.delete('/favorite/:id', auth, async (req, res) => {
+router.delete('/favorite/:id', isFavoriteAuthor, async (req, res) => {
   try {
     await FavoriteModel.findByIdAndDelete(req.param.id).exec();
     return res.status(202);
