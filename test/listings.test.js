@@ -87,7 +87,7 @@ describe('Listings', () => {
 
   // user related but needed for next requests
   it('Should get token', (done) => {
-    chai.request(app).post('/login-user').send({
+    chai.request(app).post('/auth/login').send({
       password: fakeUserObject.password,
       email: fakeUserObject.email,
     })
