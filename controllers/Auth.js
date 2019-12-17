@@ -46,4 +46,4 @@ router.post('/auth/logout-all', auth, async (req, res) => {
   }
 });
 
-module.exports.Auth = router;
+module.exports = router;

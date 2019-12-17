@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Routes
+const AuthRouter = require('./controllers/Auth');
 const UserRouter = require('./controllers/User');
 const ListingRouter = require('./controllers/Listing');
 const TeamRouter = require('./controllers/Team');
@@ -28,6 +29,7 @@ const TeamRouter = require('./controllers/Team');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use('/', AuthRouter);
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
 app.use('/', TeamRouter);

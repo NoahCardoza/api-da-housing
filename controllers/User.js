@@ -6,60 +6,6 @@ const {
 } = require('../middleware');
 const UserModel = require('../models/User');
 
-// Login
-router.post('/login-user', async (req, res) => {
-  try {
-    const {
-      email,
-      password,
-    } = req.body;
-    const document = await UserModel.findOne({
-      email,
-    });
-    if (!document) {
-      return res.status(400);
-    }
-    const comparedResult = await document.comparePassword(password);
-    if (comparedResult) {
-      return res.status(200).json({
-        document,
-        token: await document.generateAuthToken(),
-      });
-    }
-    if (!comparedResult) {
-      return res.status(401).send('Credentials have failed.');
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send(error);
-  }
-});
-
-// logs out
-router.post('/logout-user', auth, async (req, res) => {
-  // Log user out of the application
-  try {
-    req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
-    await req.user.save();
-    res.send();
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.post('/logout-all-user', auth, async (req, res) => {
-  // Log user out of all devices
-  try {
-    req.user.tokens.splice(0, req.user.tokens.length);
-    await req.user.save();
-    res.send();
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// Resource Routes Below CRUD
-
 /** Create Route for User Resource */
 router.post('/user', async (req, res) => {
   try {
