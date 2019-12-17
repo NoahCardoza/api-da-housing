@@ -7,22 +7,7 @@ const {
   isTeamMember,
 } = require('../middleware');
 
-
-/**
- * retrieve a team by id.
- */
-router.get('/team/:id', isTeamMember, async (req, res) => {
-  try {
-    return res.status(200).json(await TeamModel.findById(req.params.id).exec());
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send(error);
-  }
-});
-
-/**
- * create a team if you're a user.
- */
+/** Create Route for Team resource */
 router.post('/team/create-team', auth, async (req, res) => {
   try {
     const { name, budget } = req.body;
@@ -34,9 +19,17 @@ router.post('/team/create-team', auth, async (req, res) => {
   }
 });
 
-/**
- * update a team by id.
- */
+/** Read Route for Team resource */
+router.get('/team/:id', isTeamMember, async (req, res) => {
+  try {
+    return res.status(200).json(await TeamModel.findById(req.params.id).exec());
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+});
+
+/** Update Route for Team resource */
 router.put('/team/update-team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(204)
@@ -48,9 +41,7 @@ router.put('/team/update-team/:id', isTeamMember, async (req, res) => {
 });
 
 
-/**
- * It should delete a team.
- */
+/** Delete Route for Team resource */
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
