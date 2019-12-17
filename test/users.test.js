@@ -35,7 +35,7 @@ after(async () => {
 describe('Users', () => {
   it('Should create user', (done) => {
     chai.request(app)
-      .post('/create-user')
+      .post('/user')
       .send(fakeUserObject).end((error, res) => {
         if (error) console.error(error.message);
         jwtToken = res.body.token;

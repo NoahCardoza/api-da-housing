@@ -6,35 +6,6 @@ const {
 } = require('../middleware');
 const UserModel = require('../models/User');
 
-// Create
-router.post('/create-user', async (req, res) => {
-  try {
-    const {
-      password,
-      email,
-      school,
-      gender,
-      name,
-    } = req.body;
-    const user = new UserModel({
-      password,
-      email,
-      school,
-      gender,
-      name,
-    });
-    const document = await user.save();
-    const token = await user.generateAuthToken();
-    res.status(201).json({
-      document,
-      token,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
-
 // Login
 router.post('/login-user', async (req, res) => {
   try {
@@ -61,6 +32,47 @@ router.post('/login-user', async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
+  }
+});
+
+// logs out
+router.post('/logout-user', auth, async (req, res) => {
+  // Log user out of the application
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post('/logout-all-user', auth, async (req, res) => {
+  // Log user out of all devices
+  try {
+    req.user.tokens.splice(0, req.user.tokens.length);
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Resource Routes Below
+
+/** Create Route for User Resource */
+router.post('/user', async (req, res) => {
+  try {
+    const user = new UserModel(req.body);
+    const document = await user.save();
+    const token = await user.generateAuthToken();
+    res.status(201).json({
+      document,
+      token,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
   }
 });
 
@@ -92,29 +104,5 @@ router.delete('/delete-user', auth, async (req, res) => {
 
 // example of middleware. also personal profile.
 router.get('/get-me-user', auth, async (req, res) => res.status(200).json(req.user));
-
-// logs out
-router.post('/logout-user', auth, async (req, res) => {
-  // Log user out of the application
-  try {
-    req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
-    await req.user.save();
-    res.send();
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.post('/logout-all-user', auth, async (req, res) => {
-  // Log user out of all devices
-  try {
-    req.user.tokens.splice(0, req.user.tokens.length);
-    await req.user.save();
-    res.send();
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
 
 module.exports = router;
