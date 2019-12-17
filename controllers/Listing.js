@@ -20,8 +20,8 @@ router.post('/listing', auth, async (req, res) => {
     await newListing.save();
     return res.status(201).json(newListing);
   } catch (err) {
-    console.error(err);
-    return res.status(500);
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
@@ -34,14 +34,14 @@ router.get('/listing', async (req, res) => {
     }
     // return all listings
     return res.status(200).json(await ListingModel.find({}).exec());
-  } catch (error) {
-    console.error(error);
-    return res.status(500);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
-// UPDATE LISTING
-router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
+/** Update Route for Listing resource */
+router.put('/listing/:listingid', isListingOwner, async (req, res) => {
   try {
     const listingID = req.listing._id;
     const listing = await ListingModel.findByIdAndUpdate(listingID, req.body).exec();
@@ -50,13 +50,13 @@ router.put('/update-listing/:listingid', isListingOwner, async (req, res) => {
       listing,
     });
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Document failed to update');
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
-// DELETE LISTING
-router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => {
+/** Delete Route for Listing resource */
+router.delete('/listing/:listingid', isListingOwner, async (req, res) => {
   try {
     // passed in by isListingOwner Middleware.
     const listingID = req.listing._id;
@@ -65,8 +65,8 @@ router.delete('/delete-listing/:listingid', isListingOwner, async (req, res) => 
       message: `${listingID}, successfully queued for deletion.`,
     });
   } catch (err) {
-    console.error(err);
-    return res.status(500);
+    console.error(err.message);
+    return res.status(500).send(err.message);
   }
 });
 

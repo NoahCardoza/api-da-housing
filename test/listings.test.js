@@ -124,7 +124,7 @@ describe('Listings', () => {
   });
 
   it('Should update a listing by ID', async (done) => {
-    chai.request(app).put(`/update-listing/${testlistingID}`)
+    chai.request(app).put(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
         description: fakeListingHelperObject.UPDATED_DESCRIPTION,
@@ -137,7 +137,7 @@ describe('Listings', () => {
   });
 
   it('Should delete a listing by ID', async (done) => {
-    chai.request(app).delete(`/delete-listing/${testlistingID}`)
+    chai.request(app).delete(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
