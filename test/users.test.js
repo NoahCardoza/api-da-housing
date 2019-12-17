@@ -83,7 +83,7 @@ describe('Users', () => {
   });
 
   it('Should get the user profile', async (done) => {
-    chai.request(app).get('/get-me-user')
+    chai.request(app).get('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
