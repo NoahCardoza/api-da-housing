@@ -9,6 +9,10 @@ const FavoriteSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  author: {
+    required: true,
+    type: String,
+  },
   comments: [String],
 });
 
