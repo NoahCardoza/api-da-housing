@@ -11,7 +11,7 @@ const FavoriteSchema = new mongoose.Schema({
   },
   author: {
     required: true,
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
   comments: [String],
 });
