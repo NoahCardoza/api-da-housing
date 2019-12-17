@@ -87,7 +87,7 @@ router.put('/user', auth, async (req, res) => {
   }
 });
 
-// Delete
+/** Delete Route for User Resource */
 router.delete('/user', auth, async (req, res) => {
   try {
     await UserModel.findByIdAndRemove(req.user.id).exec();

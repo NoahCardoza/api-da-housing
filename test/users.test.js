@@ -94,7 +94,7 @@ describe('Users', () => {
   });
 
   it('Should delete a user profile', async (done) => {
-    chai.request(app).delete('/delete-user')
+    chai.request(app).delete('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
