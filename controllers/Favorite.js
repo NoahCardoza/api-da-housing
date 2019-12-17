@@ -5,6 +5,7 @@ const FavoriteModel = require('../models/Favorite');
 const { auth, isFavoriteAuthor } = require('../middleware');
 
 // todo: a deletion hook on Team deletion needs to be setup in Team model
+// todo: need a favorites test file for mocha and chai!
 
 /** Create Route for Team resource */
 router.post('/favorite', auth, async (req, res) => {
