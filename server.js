@@ -37,6 +37,6 @@ app.use('/', TeamRouter);
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
-app.listen(process.env.PORT || 3000, () => console.log('service started.'));
+app.listen(process.env.PORT || 3000, () => console.log('Loftly-Core Service Started! 🚀🦄 \n'));
 
 module.exports = app;
