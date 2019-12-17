@@ -44,7 +44,7 @@ describe('Users', () => {
   });
   it('Should log user in', (done) => {
     chai.request(app)
-      .post('/login-user')
+      .post('/auth/login')
       .send({
         password: fakeUserObject.password,
         email: fakeUserObject.email,
@@ -58,7 +58,7 @@ describe('Users', () => {
   });
   it('Should fail to log user in', (done) => {
     chai.request(app)
-      .post('/login-user')
+      .post('/auth/login')
       .send({
         password: fakeUserHelperObject.BAD_PASSWORD,
         email: fakeUserObject.email,
