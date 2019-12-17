@@ -58,7 +58,7 @@ router.post('/logout-all-user', auth, async (req, res) => {
   }
 });
 
-// Resource Routes Below
+// Resource Routes Below CRUD
 
 /** Create Route for User Resource */
 router.post('/user', async (req, res) => {
@@ -76,6 +76,7 @@ router.post('/user', async (req, res) => {
   }
 });
 
+/** Update Route for User Resource */
 router.put('/user', auth, async (req, res) => {
   try {
     await UserModel.findByIdAndUpdate(req.user.id, req.body).exec();
