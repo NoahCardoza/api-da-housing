@@ -3,11 +3,12 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 try {
-    require('dotenv').config();
-} catch(error){
-    console.log(error.message);
+  dotenv.config();
+} catch (error) {
+  console.log(error.message);
 }
 
 
