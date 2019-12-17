@@ -16,7 +16,7 @@ let usertestingID = '';
 
 const fakeUserObject = Object.freeze({
   password: 'testpassword123',
-  email: 'testemailteam@gmail.com',
+  email: 'testemailteamteamtest@gmail.com',
   school: 'De Anza',
   gender: 'other',
   name: 'test bot',
@@ -133,17 +133,17 @@ describe('Teams', () => {
   });
 
 
-  // it('Should get a team by ID for member', async (done) => {
-  //   chai.request(app)
-  //     .get(`/team/${teamtestingID}`)
-  //     .set('Authorization', `Bearer ${jwt}`)
-  //     .end((error, res) => {
-  //       if (error) console.log(error.message);
-  //       res.should.have.status(200);
-  //       res.body.should.be.a('object');
-  //     });
-  //   done();
-  // });
+  it('Should get a team by ID for member', async (done) => {
+    chai.request(app)
+      .get(`/team/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+      });
+    done();
+  });
 
   // it('Should update a Team by ID', async (done) => {
   //   chai.request(app).put(`/team/${teamtestingID}`)
