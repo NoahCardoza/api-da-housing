@@ -70,7 +70,7 @@ describe('Users', () => {
   });
 
   it('Should update an authenticated user', async (done) => {
-    chai.request(app).put('/update-user')
+    chai.request(app).put('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .send({
         name: fakeUserHelperObject.UPDATED_NAME,

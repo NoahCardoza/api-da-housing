@@ -87,20 +87,6 @@ router.put('/user', auth, async (req, res) => {
   }
 });
 
-// Update
-router.put('/update-user', auth, async (req, res) => {
-  try {
-    await UserModel.findByIdAndUpdate(req.user.id, req.body, {
-      new: true,
-    }).exec();
-    return res.status(200).send('Updated');
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send('Server failed to update document');
-  }
-});
-
-
 // Delete
 router.delete('/delete-user', auth, async (req, res) => {
   try {
