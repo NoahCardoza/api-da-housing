@@ -10,8 +10,8 @@ chai.should();
 
 let jwt = '';
 let testlistingID = '';
-let teamtestingID = '';
-let fakeTeamMemberJWT = '';
+// let teamtestingID = '';
+// let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
 const fakeUserObject = Object.freeze({
