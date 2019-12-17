@@ -42,15 +42,10 @@ const fakeListingObject = (userID) => Object.freeze({
   },
 });
 
-const fakeTeamObject = (userid, listingid) => Object.freeze({
+const fakeTeamObject = (userid) => Object.freeze({
   name: '@testteamrecord',
   members: [`${userid}`],
   budget: 3400,
-  favorites: [{
-    source: `${listingid}`,
-    name: 'testhousenamelisting',
-    comments: ['beautiful', 'is that near de anza?', 'gorgeousss!!!!!'],
-  }],
 });
 
 before(async () => {
