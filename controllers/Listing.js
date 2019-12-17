@@ -4,30 +4,8 @@ const router = express.Router();
 const ListingModel = require('../models/Listing');
 const { auth, isListingOwner } = require('../middleware');
 
-// INDEX route - show all listings (READ)
-router.get('/listing', async (_, res) => {
-  try {
-    return res.status(200).json(await ListingModel.find({}).exec());
-  } catch (error) {
-    console.error(error);
-    return res.status(500);
-  }
-});
-
-
-// READ LISTING BY ID
-router.get('/get-listing/:listingid', async (req, res) => {
-  try {
-    const listing = await ListingModel.findById(req.params.listingid).exec();
-    if (!listing) return res.status(400).send('Listing not found.');
-    return res.status(200).json(listing);
-  } catch (err) {
-    return res.status(500);
-  }
-});
-
-// CREATE LISTING
-router.post('/create-listing', auth, async (req, res) => {
+/** Create Route for Listing Resource */
+router.post('/listing', auth, async (req, res) => {
   try {
     const {
       name, price, description, address,
@@ -43,6 +21,21 @@ router.post('/create-listing', auth, async (req, res) => {
     return res.status(201).json(newListing);
   } catch (err) {
     console.error(err);
+    return res.status(500);
+  }
+});
+
+/** Read Route for Listing resource */
+router.get('/listing', async (req, res) => {
+  try {
+    if (req.query.id) {
+      // if id query param detected return the given Listing
+      return res.status(200).json(await ListingModel.findById(req.query.id).exec());
+    }
+    // return all listings
+    return res.status(200).json(await ListingModel.find({}).exec());
+  } catch (error) {
+    console.error(error);
     return res.status(500);
   }
 });
