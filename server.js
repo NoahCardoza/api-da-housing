@@ -26,6 +26,7 @@ const AuthRouter = require('./controllers/Auth');
 const UserRouter = require('./controllers/User');
 const ListingRouter = require('./controllers/Listing');
 const TeamRouter = require('./controllers/Team');
+const FavoriteRouter = require('./controllers/Favorite');
 // Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
@@ -34,6 +35,7 @@ app.use('/', AuthRouter);
 app.use('/', UserRouter);
 app.use('/', ListingRouter);
 app.use('/', TeamRouter);
+app.use('/', FavoriteRouter);
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
