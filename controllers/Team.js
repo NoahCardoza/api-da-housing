@@ -8,7 +8,7 @@ const {
 } = require('../middleware');
 
 /** Create Route for Team resource */
-router.post('/team/create-team', auth, async (req, res) => {
+router.post('/team', auth, async (req, res) => {
   try {
     const { name, budget } = req.body;
     return res.status(201)
@@ -30,7 +30,7 @@ router.get('/team/:id', isTeamMember, async (req, res) => {
 });
 
 /** Update Route for Team resource */
-router.put('/team/update-team/:id', isTeamMember, async (req, res) => {
+router.put('/team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(204)
       .json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
