@@ -17,7 +17,7 @@ const helperObject = Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Auth Test: Creating Mock Data');
+    console.log('Pre-Processing for Auth Test: Creating Mock Data \n');
     const user = new UserModel(fakeUserObject);
     await user.save();
   } catch (error) {
@@ -27,7 +27,7 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post-Processing for Auth Test: Deleting Mock Data');
+    console.log('Post-Processing for Auth Test: Deleting Mock Data \n');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();

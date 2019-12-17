@@ -55,7 +55,7 @@ const fakeTeamObject = (userid, listingid) => Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings');
+    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings \n');
     const user = new UserModel(fakeUserObject);
     const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
@@ -74,7 +74,7 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests.');
+    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests. \n');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();

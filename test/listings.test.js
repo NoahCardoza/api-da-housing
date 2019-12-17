@@ -47,7 +47,7 @@ const fakeListingHelperObject = Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Listings Test: Creating Fake User and Listing.');
+    console.log('Pre-Processing for Listings Test: Creating Fake User and Listing. \n');
     const user = new UserModel(fakeUserObject);
     await user.save();
     usertestingid = user._id;
@@ -61,7 +61,7 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post-Processing for Listings Test: Deleting Fake User and Fake Listings');
+    console.log('Post-Processing for Listings Test: Deleting Fake User and Fake Listings \n');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
