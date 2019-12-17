@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
+const { auth } = require('../middleware');
 
 const router = express.Router();
 
@@ -14,30 +15,34 @@ router.post('/auth/login', async (req, res) => {
     const result = await user.comparePassword(password);
     if (result === true) return res.status(200).json({ token: await user.generateAuthToken() });
     return res.status(401).send('Credentials Have Failed.');
-  } catch (error) {
-    return res.status(500).send(error.message);
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 });
 
 /**
  * Invalidates Current User Credentials.
  */
-router.post('/auth/logout', async (req, res) => {
+router.post('/auth/logout', auth, async (req, res) => {
   try {
-    // todo: scan from middleware
-  } catch (error) {
-    return res.status(500).send(error.message);
+    req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
+    await req.user.save();
+    res.send();
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 
 /**
  * Invalidates all User Credentials.
  */
-router.post('/auth/logout-all', async (req, res) => {
+router.post('/auth/logout-all', auth, async (req, res) => {
   try {
-    // todo: scan from middleware
-  } catch (error) {
-    return res.status(500).send(error.message);
+    req.user.tokens.splice(0, req.user.tokens.length);
+    await req.user.save();
+    res.send();
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
 
