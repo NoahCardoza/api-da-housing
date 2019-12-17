@@ -99,7 +99,7 @@ describe('Listings', () => {
 
   it('Creates a Listing record.', (done) => {
     chai.request(app)
-      .post('/create-listing')
+      .post('/listing')
       .set('Authorization', `Bearer ${jwt}`)
       .send(fakeListingHelperObject.LISTING_WITHOUT_USER_ID)
       .end((error, res) => {
@@ -113,7 +113,7 @@ describe('Listings', () => {
 
   it('Should get a listing by ID', async (done) => {
     chai.request(app)
-      .get(`/get-listing/${testlistingID}`)
+      .get(`/listing?id=${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
@@ -124,7 +124,7 @@ describe('Listings', () => {
   });
 
   it('Should update a listing by ID', async (done) => {
-    chai.request(app).put(`/update-listing/${testlistingID}`)
+    chai.request(app).put(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
         description: fakeListingHelperObject.UPDATED_DESCRIPTION,
@@ -137,7 +137,7 @@ describe('Listings', () => {
   });
 
   it('Should delete a listing by ID', async (done) => {
-    chai.request(app).delete(`/delete-listing/${testlistingID}`)
+    chai.request(app).delete(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
