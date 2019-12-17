@@ -88,7 +88,7 @@ router.put('/user', auth, async (req, res) => {
 });
 
 // Delete
-router.delete('/delete-user', auth, async (req, res) => {
+router.delete('/user', auth, async (req, res) => {
   try {
     await UserModel.findByIdAndRemove(req.user.id).exec();
     return res.status(202).send('Deleted');
