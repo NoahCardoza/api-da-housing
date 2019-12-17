@@ -1,5 +1,7 @@
 #### API-DA-HOUSING 
 
+<img src="https://circleci.com/gh/DevelopersGuild/api-da-housing.svg?style=svg">
+
 ##### Setting up project for development
 Install Node Dependencies.
 ```sh 
