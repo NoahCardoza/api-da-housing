@@ -23,7 +23,7 @@ const fakeUserHelperObject = Object.freeze({
 
 after(async () => {
   try {
-    console.log('User test post-processing: Deleting Fake Users');
+    console.log('Post-Processing for User Test: Deleting Mock Users \n');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -35,7 +35,7 @@ after(async () => {
 describe('Users', () => {
   it('Should create user', (done) => {
     chai.request(app)
-      .post('/create-user')
+      .post('/user')
       .send(fakeUserObject).end((error, res) => {
         if (error) console.error(error.message);
         jwtToken = res.body.token;
@@ -44,7 +44,7 @@ describe('Users', () => {
   });
   it('Should log user in', (done) => {
     chai.request(app)
-      .post('/login-user')
+      .post('/auth/login')
       .send({
         password: fakeUserObject.password,
         email: fakeUserObject.email,
@@ -58,7 +58,7 @@ describe('Users', () => {
   });
   it('Should fail to log user in', (done) => {
     chai.request(app)
-      .post('/login-user')
+      .post('/auth/login')
       .send({
         password: fakeUserHelperObject.BAD_PASSWORD,
         email: fakeUserObject.email,
@@ -70,7 +70,7 @@ describe('Users', () => {
   });
 
   it('Should update an authenticated user', async (done) => {
-    chai.request(app).put('/update-user')
+    chai.request(app).put('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .send({
         name: fakeUserHelperObject.UPDATED_NAME,
@@ -83,7 +83,7 @@ describe('Users', () => {
   });
 
   it('Should get the user profile', async (done) => {
-    chai.request(app).get('/get-me-user')
+    chai.request(app).get('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
@@ -94,7 +94,7 @@ describe('Users', () => {
   });
 
   it('Should delete a user profile', async (done) => {
-    chai.request(app).delete('/delete-user')
+    chai.request(app).delete('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);

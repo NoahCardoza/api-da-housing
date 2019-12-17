@@ -10,8 +10,8 @@ chai.should();
 
 let jwt = '';
 let testlistingID = '';
-let teamtestingID = '';
-let fakeTeamMemberJWT = '';
+// let teamtestingID = '';
+// let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
 const fakeUserObject = Object.freeze({
@@ -55,7 +55,7 @@ const fakeTeamObject = (userid, listingid) => Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings');
+    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings \n');
     const user = new UserModel(fakeUserObject);
     const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
@@ -74,7 +74,7 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests.');
+    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests. \n');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -95,7 +95,7 @@ after(async () => {
 describe('Teams', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
-    chai.request(app).post('/login-user').send({
+    chai.request(app).post('/auth/login').send({
       password: fakeUserObject.password,
       email: fakeUserObject.email,
     }).end((error, res) => {
@@ -106,7 +106,7 @@ describe('Teams', () => {
   });
 
   it('Should get a token for the fake member', (done) => {
-    chai.request(app).post('/login-user').send({
+    chai.request(app).post('/auth/login').send({
       password: fakeTeamMemberObject.password,
       email: fakeTeamMemberObject.email,
     })
