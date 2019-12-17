@@ -5,6 +5,7 @@ const {
   auth,
 } = require('../middleware');
 const UserModel = require('../models/User');
+
 // Create
 router.post('/create-user', async (req, res) => {
   try {
