@@ -10,8 +10,8 @@ chai.should();
 
 let jwt = '';
 let testlistingID = '';
-// let teamtestingID = '';
-// let fakeTeamMemberJWT = '';
+let teamtestingID = '';
+let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
 const fakeUserObject = Object.freeze({
@@ -120,7 +120,7 @@ describe('Teams', () => {
 
   it('Creates a Team record.', (done) => {
     chai.request(app)
-      .post('/team/create-team')
+      .post('/team')
       .set('Authorization', `Bearer ${jwt}`)
       .send(fakeTeamObject(usertestingID, testlistingID))
       .end((error, res) => {
@@ -146,7 +146,7 @@ describe('Teams', () => {
   // });
 
   // it('Should update a Team by ID', async (done) => {
-  //   chai.request(app).put(`/team/update-team/${teamtestingID}`)
+  //   chai.request(app).put(`/team/${teamtestingID}`)
   //     .set('Authorization', `Bearer ${jwt}`)
   //     .send({
   //       budget: 4000,
@@ -160,6 +160,18 @@ describe('Teams', () => {
   //   done();
   // });
 
+
+  // it('Should delete a team.', async (done) => {
+  //   chai.request(app).delete(`/team/${teamtestingID}`)
+  //     .set('Authorization', `Bearer ${jwt}`)
+  //     .end((error, res) => {
+  //       if (error) console.log(error.message);
+  //       res.should.have.status(202);
+  //     });
+  //   done();
+  // });
+
+  // todo: seperate team favorites into individual Favorites Resources and Controllers
   // it('Should add a favorite Listing to a Team Favorite Section', async (done) => {
   //   chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
   //     .set('Authorization', `Bearer ${jwt}`)
@@ -174,6 +186,7 @@ describe('Teams', () => {
   //   done();
   // });
 
+  // todo: seperate team favorites into individual Favorites Resources and Controllers
   // it('Should delete a team favorite.', async (done) => {
   //   chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
   //     .set('Authorization', `Bearer ${jwt}`)
@@ -187,22 +200,13 @@ describe('Teams', () => {
   //   done();
   // });
 
-  // it('Should make a member leave a team and delete the team if they are the last member.', async (done) => {
+  // it('Should make a member leave a team and delete the team if they are the last member.',
+  // async (done) => {
   //   chai.request(app).put(`/team/leave-team/${teamtestingID}`)
   //     .set('Authorization', `Bearer ${fakeTeamMemberJWT}`)
   //     .end((error, res) => {
   //       if (error) console.log(error.message);
   //       res.should.have.status(204);
-  //     });
-  //   done();
-  // });
-
-  // it('Should delete a team.', async (done) => {
-  //   chai.request(app).delete(`/team/${teamtestingID}`)
-  //     .set('Authorization', `Bearer ${jwt}`)
-  //     .end((error, res) => {
-  //       if (error) console.log(error.message);
-  //       res.should.have.status(202);
   //     });
   //   done();
   // });
