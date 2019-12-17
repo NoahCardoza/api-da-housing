@@ -23,7 +23,7 @@ const fakeUserHelperObject = Object.freeze({
 
 after(async () => {
   try {
-    console.log('User test post-processing: Deleting Fake Users');
+    console.log('Post-Processing for User Test: Deleting Mock Users');
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
