@@ -49,7 +49,7 @@ router.post('/listing', auth, async (req, res) => {
  *    produces:
  *    - "application/json"
  *    parameters:
- *    - in: path
+ *    - in: query
  *      name: id
  *      description: The id of a given Listing.
  *    responses:
