@@ -6,7 +6,23 @@ const {
 } = require('../middleware');
 const UserModel = require('../models/User');
 
-/** Create Route for User Resource */
+/**
+ * @swagger
+ * /user:
+ *  post:
+ *    description: Create Route for User resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: A object containing email, school, password, gender and name properties.
+ *    responses:
+ *      '201':
+ *            description: An object containing a User.
+ *      '500':
+ *            description: server error
+ */
 router.post('/user', async (req, res) => {
   try {
     const user = new UserModel(req.body);
@@ -23,7 +39,19 @@ router.post('/user', async (req, res) => {
 });
 
 
-/** Read Route for User Resource */
+/**
+ * @swagger
+ * /user:
+ *  get:
+ *    description: Read Route for current User resource.
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      '200':
+ *            description: A json object representing a current User.
+ *      '500':
+ *            description: server error
+ */
 router.get('/user', auth, async (req, res) => {
   try {
     return res.status(200).json(req.user);
@@ -33,7 +61,23 @@ router.get('/user', auth, async (req, res) => {
   }
 });
 
-/** Update Route for User Resource */
+/**
+ * @swagger
+ * /user:
+ *  put:
+ *    description: Update Route for current User resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: body
+ *      name: body
+ *      description: an object containing the fields that need updating
+ *    responses:
+ *      '200':
+ *            description: A success response.
+ *      '500':
+ *            description: server error
+ */
 router.put('/user', auth, async (req, res) => {
   try {
     await UserModel.findByIdAndUpdate(req.user.id, req.body).exec();
@@ -44,7 +88,19 @@ router.put('/user', auth, async (req, res) => {
   }
 });
 
-/** Delete Route for User Resource */
+/**
+ * @swagger
+ * /favorite:
+ *  delete:
+ *    description: Delete Route for current User resource.
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      '202':
+ *            description: successfully deleted
+ *      '500':
+ *            description: server error
+ */
 router.delete('/user', auth, async (req, res) => {
   try {
     await UserModel.findByIdAndRemove(req.user.id).exec();
