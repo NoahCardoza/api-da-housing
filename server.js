@@ -32,7 +32,7 @@ const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: 'Loftly Core API',
-      description: 'API to help house and build communties',
+      description: 'Helping to house and build communities.',
       contact: {
         name: 'Carlos Alba',
       },
@@ -42,8 +42,12 @@ const swaggerOptions = {
   apis: ['server.js', './controllers/*.js'],
 };
 
+const swaggerUIOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+};
+
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, swaggerUIOptions));
 
 // Routes
 const AuthRouter = require('./controllers/Auth');
