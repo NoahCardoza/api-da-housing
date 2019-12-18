@@ -46,6 +46,7 @@ router.post('/favorite', auth, async (req, res) => {
  *    - in: path
  *      name: id
  *      description: The id of a given Favorite.
+ *      required: true
  *    responses:
  *      '200':
  *            description: A json object representing a Favorite.
@@ -72,6 +73,7 @@ router.get('/favorite/:id', auth, async (req, res) => {
  *    - in: path
  *      name: id
  *      description: The id of a given Favorite.
+ *      required: true
  *    - in: body
  *      name: body
  *      description: an object containing the fields that need updating
@@ -102,6 +104,7 @@ router.put('/favorite/:id', isFavoriteAuthor, async (req, res) => {
  *    - in: path
  *      name: id
  *      description: The id of a given Favorite.
+ *      required: true
  *    responses:
  *      '202':
  *            description: successfully deleted
