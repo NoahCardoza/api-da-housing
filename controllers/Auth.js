@@ -59,7 +59,7 @@ router.post('/auth/logout', auth, async (req, res) => {
 
 /**
  * @swagger
- * /auth/logout:
+ * /auth/logout-all:
  *  post:
  *    description: Invalidates all User Credentials.
  *    produces:
