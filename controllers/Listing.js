@@ -4,7 +4,23 @@ const router = express.Router();
 const ListingModel = require('../models/Listing');
 const { auth, isListingOwner } = require('../middleware');
 
-/** Create Route for Listing Resource */
+/**
+ * @swagger
+ * /listing:
+ *  post:
+ *    description: Create Route for Listing resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: A object containing  name, price, description and address properties.
+ *    responses:
+ *      '201':
+ *            description: An object containing a Listing.
+ *      '500':
+ *            description: server error
+ */
 router.post('/listing', auth, async (req, res) => {
   try {
     const {
@@ -25,7 +41,23 @@ router.post('/listing', auth, async (req, res) => {
   }
 });
 
-/** Read Route for Listing resource */
+/**
+ * @swagger
+ * /listing:
+ *  get:
+ *    description: Read Route for Listing resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Listing.
+ *    responses:
+ *      '200':
+ *            description: A json object representing a Listing or a List of Listings.
+ *      '500':
+ *            description: server error
+ */
 router.get('/listing', async (req, res) => {
   try {
     if (req.query.id) {
@@ -40,7 +72,27 @@ router.get('/listing', async (req, res) => {
   }
 });
 
-/** Update Route for Listing resource */
+/**
+ * @swagger
+ * /listing:
+ *  put:
+ *    description: Update Route for Listing resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Listing.
+ *      required: true
+ *    - in: body
+ *      name: body
+ *      description: an object containing the fields that need updating
+ *    responses:
+ *      '200':
+ *            description: A json object representing a Listing.
+ *      '500':
+ *            description: server error
+ */
 router.put('/listing/:listingid', isListingOwner, async (req, res) => {
   try {
     const listingID = req.listing._id;
@@ -55,7 +107,24 @@ router.put('/listing/:listingid', isListingOwner, async (req, res) => {
   }
 });
 
-/** Delete Route for Listing resource */
+/**
+ * @swagger
+ * /listing:
+ *  delete:
+ *    description: Delete Route for Listing resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Listing.
+ *      required: true
+ *    responses:
+ *      '202':
+ *            description: successfully deleted
+ *      '500':
+ *            description: server error
+ */
 router.delete('/listing/:listingid', isListingOwner, async (req, res) => {
   try {
     // passed in by isListingOwner Middleware.

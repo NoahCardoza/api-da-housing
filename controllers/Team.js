@@ -7,7 +7,23 @@ const {
   isTeamMember,
 } = require('../middleware');
 
-/** Create Route for Team resource */
+/**
+ * @swagger
+ * /team:
+ *  post:
+ *    description: Create Route for Team resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: A object containing the name,budget and members properties,
+ *    responses:
+ *      '201':
+ *            description: An object containing a Team.
+ *      '500':
+ *            description: server error
+ */
 router.post('/team', auth, async (req, res) => {
   try {
     const { name, budget } = req.body;
@@ -19,7 +35,24 @@ router.post('/team', auth, async (req, res) => {
   }
 });
 
-/** Read Route for Team resource */
+/**
+ * @swagger
+ * /team:
+ *  get:
+ *    description: Read Route for Team resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Team.
+ *      required: true
+ *    responses:
+ *      '200':
+ *            description: A json object representing a Team.
+ *      '500':
+ *            description: server error
+ */
 router.get('/team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(200).json(await TeamModel.findById(req.params.id).exec());
@@ -29,7 +62,27 @@ router.get('/team/:id', isTeamMember, async (req, res) => {
   }
 });
 
-/** Update Route for Team resource */
+/**
+ * @swagger
+ * /team:
+ *  put:
+ *    description: Update Route for Team resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Team.
+ *      required: true
+ *    - in: body
+ *      name: body
+ *      description: an object containing the fields that need updating
+ *    responses:
+ *      '200':
+ *            description: A json object representing a Team.
+ *      '500':
+ *            description: server error
+ */
 router.put('/team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(204)
@@ -41,7 +94,24 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
 });
 
 
-/** Delete Route for Team resource */
+/**
+ * @swagger
+ * /team:
+ *  delete:
+ *    description: Delete Route for Team resource.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Team.
+ *      required: true
+ *    responses:
+ *      '202':
+ *            description: successfully deleted
+ *      '500':
+ *            description: server error
+ */
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
     return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
@@ -51,6 +121,7 @@ router.delete('/team/:id', isTeamMember, async (req, res) => {
   }
 });
 
+// todo: Favorites is not its own resource and should be used accordingly
 // todo: /team/delete-favorite/:id, /team/favorites/:id, /team/add-favorite/:id
 
 module.exports = router;

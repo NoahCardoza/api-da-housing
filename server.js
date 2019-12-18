@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 try {
   dotenv.config();
@@ -21,16 +23,39 @@ mongoose.connect(process.env.MONGO_URI, {
   useFindAndModify: false,
 });
 
+// Custom Application Middlewares
+app.use(helmet());
+app.use(bodyParser.json());
+app.use(cors());
+// Swagger Middleware Integration
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Loftly Core API',
+      description: 'Helping to house and build communities.',
+      contact: {
+        name: 'Carlos Alba',
+      },
+      servers: ['http://localhost:3000/', 'https://loftly-core.aws.fhda.edu/'],
+    },
+  },
+  apis: ['server.js', './controllers/*.js'],
+};
+
+const swaggerUIOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, swaggerUIOptions));
+
 // Routes
 const AuthRouter = require('./controllers/Auth');
 const UserRouter = require('./controllers/User');
 const ListingRouter = require('./controllers/Listing');
 const TeamRouter = require('./controllers/Team');
 const FavoriteRouter = require('./controllers/Favorite');
-// Application Middlewares
-app.use(helmet());
-app.use(bodyParser.json());
-app.use(cors());
+// Initializing Routes as Middleware
 app.use('/', AuthRouter);
 app.use('/', UserRouter);
 app.use('/', ListingRouter);

@@ -5,7 +5,23 @@ const { auth } = require('../middleware');
 const router = express.Router();
 
 /**
- * Grants User Credentials on Successful Authentication.
+ * @swagger
+ * /auth/login:
+ *  post:
+ *    description: Grants User Credentials on Successful Authentication.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: A object containing both the password and email properties
+ *    responses:
+ *      '200':
+ *            description: An object containing a valid json web token.
+ *      '401':
+ *            description: invalid credentials.
+ *      '500':
+ *            description: server error
  */
 router.post('/auth/login', async (req, res) => {
   try {
@@ -21,28 +37,44 @@ router.post('/auth/login', async (req, res) => {
 });
 
 /**
- * Invalidates Current User Credentials.
+ * @swagger
+ * /auth/logout:
+ *  post:
+ *    description: Invalidates Current User Credentials.
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      '202':
+ *            description: successfully invalidated current json web token.
  */
 router.post('/auth/logout', auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
     await req.user.save();
-    res.send();
+    return res.status(202);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
 /**
- * Invalidates all User Credentials.
+ * @swagger
+ * /auth/logout-all:
+ *  post:
+ *    description: Invalidates all User Credentials.
+ *    produces:
+ *    - "application/json"
+ *    responses:
+ *      '202':
+ *            description: successfully invalidated all user json web tokens.
  */
 router.post('/auth/logout-all', auth, async (req, res) => {
   try {
     req.user.tokens.splice(0, req.user.tokens.length);
     await req.user.save();
-    res.send();
+    return res.status(202);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
