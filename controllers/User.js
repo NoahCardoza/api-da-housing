@@ -90,7 +90,7 @@ router.put('/user', auth, async (req, res) => {
 
 /**
  * @swagger
- * /favorite:
+ * /user:
  *  delete:
  *    description: Delete Route for current User resource.
  *    produces:
