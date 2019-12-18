@@ -66,7 +66,7 @@ router.post('/auth/logout', auth, async (req, res) => {
  *    - "application/json"
  *    responses:
  *      '202':
- *            description: successfully invalidated  all json web token.
+ *            description: successfully invalidated all user json web tokens.
  */
 router.post('/auth/logout-all', auth, async (req, res) => {
   try {
@@ -74,7 +74,7 @@ router.post('/auth/logout-all', auth, async (req, res) => {
     await req.user.save();
     return res.status(202);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 });
 
