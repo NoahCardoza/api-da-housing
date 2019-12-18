@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  school: {
+  organization: {
     type: String,
     required: true,
   },
