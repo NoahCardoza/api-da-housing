@@ -17,7 +17,7 @@ const { auth, isFavoriteAuthor } = require('../middleware');
  *    parameters:
  *    - in: "body"
  *      name: "body"
- *      description: A object containing both the source and name properties.
+ *      description: A object containing both the source and name, and team properties.
  *    responses:
  *      '201':
  *            description: An object containing a favorite.
@@ -26,9 +26,11 @@ const { auth, isFavoriteAuthor } = require('../middleware');
  */
 router.post('/favorite', auth, async (req, res) => {
   try {
-    const { source, name } = req.body;
+    const { source, name, team } = req.body;
     return res.status(201)
-      .json(await new FavoriteModel({ source, name, author: req.user._id }).save());
+      .json(await new FavoriteModel({
+        source, name, author: req.user._id, team,
+      }).save());
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
