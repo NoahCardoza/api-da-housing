@@ -15,8 +15,6 @@ const OrganizationModel = require('../models/Organization');
  *    - in: "body"
  *      name: "body"
  *      description: A object containing name, location, members and administrators
- *    examples:
- *      application/json: {"name":"De Anza",location:"Cupertino",members:[],administrators:[]}
  *    responses:
  *      '201':
  *            description: An object containing a Organization
