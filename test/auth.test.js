@@ -9,7 +9,7 @@ chai.should();
 const fakeUserObject = Object.freeze({
   password: 'testauthpassword123',
   email: 'testemailauth2@gmail.com',
-  school: 'De Anza',
+  organization: 'De Anza',
   gender: 'other',
   name: 'test bot',
 });

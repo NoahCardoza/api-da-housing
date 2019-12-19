@@ -14,7 +14,7 @@ let usertestingid = '';
 const fakeUserObject = Object.freeze({
   password: 'testpassword123',
   email: 'testemail@gmail.com',
-  school: 'De Anza',
+  organization: 'De Anza',
   gender: 'other',
   name: 'test bot',
 });
