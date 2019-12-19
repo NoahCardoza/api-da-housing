@@ -13,6 +13,10 @@ const FavoriteSchema = new mongoose.Schema({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
   },
+  team: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+  },
   comments: [String],
 });
 
