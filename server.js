@@ -1,11 +1,11 @@
 const express = require('express');
+const path = require('path');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUI = require('swagger-ui-express');
 
 try {
   dotenv.config();
@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static('public'));
 // Swagger Middleware Integration
 const swaggerOptions = {
   swaggerDefinition: {
@@ -42,12 +43,9 @@ const swaggerOptions = {
   apis: ['server.js', './controllers/*.js'],
 };
 
-const swaggerUIOptions = {
-  customCss: '.swagger-ui .topbar { display: none }',
-};
-
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, swaggerUIOptions));
+app.get('/docs.json', (_, res) => res.status(200).json(swaggerDocs));
+app.get('/docs', (_, res) => res.status(200).sendFile(path.join(`${__dirname}/public/redoc.html`)));
 
 // Routes
 const AuthRouter = require('./controllers/Auth');
