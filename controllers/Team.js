@@ -31,7 +31,7 @@ router.post('/team', auth, async (req, res) => {
   try {
     const { name, budget, members } = req.body;
     const team = new TeamModel({ name, budget, members }); 
-    team.save();
+    await team.save();
     return res.status(201).json(team);
   } catch (err) {
     console.error(err.message);
@@ -140,7 +140,7 @@ router.delete('/team/:id', isTeamMember, async (req, res) => {
         return res.status(500).send(err.message)
       } 
       else {
-        res.redirect("/team")
+        return res.status(202)
       }
     })
 
