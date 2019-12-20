@@ -7,6 +7,9 @@ const {
   isTeamMember,
 } = require('../middleware');
 
+
+
+
 /**
  * @swagger
  * /team:
@@ -26,14 +29,18 @@ const {
  */
 router.post('/team', auth, async (req, res) => {
   try {
-    const { name, budget } = req.body;
-    return res.status(201)
-      .json(await new TeamModel({ name, budget, members: [req.user._id] }).save());
+    const { name, budget, members } = req.body;
+    const team = new TeamModel({ name, budget, members }); 
+    team.save();
+    return res.status(201).json(team);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
   }
 });
+
+
+
 
 /**
  * @swagger
@@ -85,6 +92,16 @@ router.get('/team/:id', isTeamMember, async (req, res) => {
  */
 router.put('/team/:id', isTeamMember, async (req, res) => {
   try {
+    TeamModel.findByIdAndUpdate(req.params.id, req.body.TeamModel, function(err, updateTeamModel) {
+      if(err) {
+        res.redirect("/team")
+      } else {
+        if(!updateTeamModel) { 
+          return res.status(500).send(err.message);
+        }
+        res.redirect("/team/" + req.params.id);
+      }
+    })
     return res.status(204)
       .json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
   } catch (err) {
@@ -92,6 +109,8 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
     return res.status(500).send(err.message);
   }
 });
+
+
 
 
 /**
@@ -114,7 +133,19 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
  */
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
+    // Delete Team by Object ID
+    TeamModel.findByIdAndDelete(req.params.id, function(err){
+      if(err){
+        back;
+        return res.status(500).send(err.message)
+      } 
+      else {
+        res.redirect("/team")
+      }
+    })
+
     return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
+
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
