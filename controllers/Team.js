@@ -99,11 +99,9 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
         if(!updateTeamModel) { 
           return res.status(500).send(err.message);
         }
-        res.redirect("/team/" + req.params.id);
       }
     })
-    return res.status(204)
-      .json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
+    return res.status(200).json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
