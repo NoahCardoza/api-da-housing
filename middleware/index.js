@@ -58,11 +58,13 @@ module.exports.isTeamMember = async (req, res, next) => {
   try {
     const token = processBearer(req);
     const data = jwt.verify(token, process.env.SECRET);
-    const teamID = req.params.teamid;
+    console.log(data)
+    const teamID = req.params.id;
     const team = await TeamModel.findOne({
       _id: teamID,
-      members: data._id,
-    }).exec();
+      members: data._id
+    }).exec();    
+    console.log(teamID)
     if (!team) throw new Error('The Team either does not exist or you are not a member');
     req.team = team;
     return next();
