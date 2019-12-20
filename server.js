@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static('public'));
 // Swagger Middleware Integration
 const swaggerOptions = {
   swaggerDefinition: {
