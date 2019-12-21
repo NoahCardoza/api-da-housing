@@ -26,7 +26,10 @@ mongoose.connect(process.env.MONGO_URI, {
 // Custom Application Middlewares
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(cors());
+// CORS Configuration
+const WHITE_LIST = Object.freeze(['*']);
+app.use(cors({ origin: WHITE_LIST }));
+// Static File Configuration
 app.use(express.static('public'));
 // Swagger Middleware Integration
 const swaggerOptions = {
