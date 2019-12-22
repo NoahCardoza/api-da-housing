@@ -94,7 +94,7 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
   try {
     TeamModel.findByIdAndUpdate(req.params.id, req.body.TeamModel, function(err, updateTeamModel) {
       if(err) {
-        res.redirect("/team")
+        return res.status(500).send(err.message)
       } else {
         if(!updateTeamModel) { 
           return res.status(500).send(err.message);
@@ -132,17 +132,8 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
     // Delete Team by Object ID
-    TeamModel.findByIdAndDelete(req.params.id, function(err){
-      if(err){
-        back;
-        return res.status(500).send(err.message)
-      } 
-      else {
-        return res.status(202)
-      }
-    })
 
-    return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
+     return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
 
   } catch (err) {
     console.error(err.message);
