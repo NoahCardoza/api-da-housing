@@ -108,7 +108,47 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /team:
+ *  put:
+ *    description: Update Route for Team resource for leaving member.
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: path
+ *      name: id
+ *      description: The id of a given Team.
+ *      required: true
+ *    - in: body
+ *      name: body
+ *      description: an object containing the fields that need updating
+ *    responses:
+ *      '200':
+ *            description: A json object representing a Team.
+ *      '500':
+ *            description: server error
+ */
+router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
+  res.send("test");
+  try { 
+      userID = req.user_id
+      userMembers = req.params.members
 
+      var index = userMembers.indexOf(userID);
+      if (index > -1) {
+        userMembers.splice(index, 1);
+      }
+
+      filter = { _id: req.params.id }
+      update = { members: userMembers }
+      
+      return res.status(200).json((await TeamModel.findOneAndUpdate(filter, update)).exec());
+  } catch(err) {
+    console.error(err.message);
+    return res.status(500).send(err.message);
+  }
+}); 
 
 
 /**
