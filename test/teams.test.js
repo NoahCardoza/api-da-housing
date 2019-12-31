@@ -168,7 +168,8 @@ describe('Teams', () => {
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
-        res.should.have.status(202);
+        res.status.should.not.be.equal(500);
+        res.status.should.be.equal(202);
       });
     done();
   });

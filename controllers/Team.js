@@ -30,7 +30,7 @@ const {
 router.post('/team', auth, async (req, res) => {
   try {
     const { name, budget, members } = req.body;
-    const team = new TeamModel({ name, budget, members }); 
+    const team = new TeamModel({ name, budget, members });
     await team.save();
     return res.status(201).json(team);
   } catch (err) {
@@ -96,7 +96,7 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
       if(err) {
         return res.status(500).send(err.message)
       } else {
-        if(!updateTeamModel) { 
+        if(!updateTeamModel) {
           return res.status(500).send(err.message);
         }
       }
@@ -131,7 +131,7 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
  */
 router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
   res.send("test");
-  try { 
+  try {
       userID = req.user_id
       userMembers = req.params.members
 
@@ -142,13 +142,13 @@ router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
 
       filter = { _id: req.params.id }
       update = { members: userMembers }
-      
+
       return res.status(200).json((await TeamModel.findOneAndUpdate(filter, update)).exec());
   } catch(err) {
     console.error(err.message);
     return res.status(500).send(err.message);
   }
-}); 
+});
 
 
 /**
@@ -172,16 +172,11 @@ router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
     // Delete Team by Object ID
-
-     return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
-
+    return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
   }
 });
-
-// todo: Favorites is not its own resource and should be used accordingly
-// todo: /team/delete-favorite/:id, /team/favorites/:id, /team/add-favorite/:id
 
 module.exports = router;
