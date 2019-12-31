@@ -90,21 +90,26 @@ after(async () => {
 describe('Teams', () => {
   // user related but needed for next requests
   it('Should get token', (done) => {
-    chai.request(app).post('/auth/login').send({
-      password: fakeUserObject.password,
-      email: fakeUserObject.email,
-    }).end((error, res) => {
-      if (error) console.log(error.message);
-      jwt = res.body.token;
-      done();
-    });
+    chai.request(app)
+      .post('/auth/login')
+      .send({
+        password: fakeUserObject.password,
+        email: fakeUserObject.email,
+      })
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        jwt = res.body.token;
+        done();
+      });
   });
 
   it('Should get a token for the fake member', (done) => {
-    chai.request(app).post('/auth/login').send({
-      password: fakeTeamMemberObject.password,
-      email: fakeTeamMemberObject.email,
-    })
+    chai.request(app)
+      .post('/auth/login')
+      .send({
+        password: fakeTeamMemberObject.password,
+        email: fakeTeamMemberObject.email,
+      })
       .end((error, res) => {
         if (error) console.log(error.message);
         fakeTeamMemberJWT = res.body.token;
@@ -128,20 +133,21 @@ describe('Teams', () => {
   });
 
 
-   it('Should get a team by ID for member', async (done) => {
-     chai.request(app)
-       .get(`/team/${teamtestingID}`)
-       .set('Authorization', `Bearer ${jwt}`)
-       .end((error, res) => {
-         if (error) console.log(error.message);
-         res.should.have.status(200);
-         res.body.should.be.a('object');
-       });
-     done();
-   });
+  it('Should get a team by ID for member', async (done) => {
+    chai.request(app)
+      .get(`/team/${teamtestingID}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .end((error, res) => {
+        if (error) console.log(error.message);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+      });
+    done();
+  });
 
   it('Should update a Team by ID', async (done) => {
-    chai.request(app).put(`/team/${teamtestingID}`)
+    chai.request(app)
+      .put(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
         budget: 4000,
@@ -157,54 +163,12 @@ describe('Teams', () => {
 
 
   it('Should delete a team.', async (done) => {
-    chai.request(app).delete(`/team/${teamtestingID}`)
+    chai.request(app)
+      .delete(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
         res.should.have.status(202);
-      });
-    done();
-  });
-
-  /*
-  todo: seperate team favorites into individual Favorites Resources and Controllers
-  it('Should add a favorite Listing to a Team Favorite Section', async (done) => {
-    chai.request(app).put(`/team/add-favorite/${teamtestingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        source: testlistingID,
-        name: 'testteamnamelistingfavorite',
-      })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(204);
-      });
-    done();
-  });
-
-  
-  todo: seperate team favorites into individual Favorites Resources and Controllers
-  it('Should delete a team favorite.', async (done) => {
-    chai.request(app).put(`/team/delete-favorite/${teamtestingID}`)
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({
-        source: testlistingID,
-      })
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(204);
-      });
-    done();
-  }); 
-  */
-
-  it('Should make a member leave a team and delete the team if they are the last member.',
-  async (done) => {
-    chai.request(app).put(`/team/leave-team/${teamtestingID}`)
-      .set('Authorization', `Bearer ${fakeTeamMemberJWT}`)
-      .end((error, res) => {
-        if (error) console.log(error.message);
-        res.should.have.status(204);
       });
     done();
   });
