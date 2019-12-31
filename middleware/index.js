@@ -5,9 +5,9 @@ const TeamModel = require('../models/Team');
 const FavoriteModel = require('../models/Favorite');
 
 /**
- * @param {*} param0 - request context
  * takes request contexts and strips
  * jwt token from Authorization headers.
+ * @param req - express request object
  */
 function processBearer(req) {
   const containsBearerToken = req.header('Authorization') && req.header('Authorization').includes('Bearer');
@@ -16,8 +16,7 @@ function processBearer(req) {
     : (() => new Error('Either something went wrong when parsing the Bearer Token or it does not exist'))();
 }
 
-
-module.exports.auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const token = processBearer(req);
     const data = jwt.verify(token, process.env.SECRET);
@@ -36,7 +35,7 @@ module.exports.auth = async (req, res, next) => {
   }
 };
 
-module.exports.isListingOwner = async (req, res, next) => {
+const isListingOwner = async (req, res, next) => {
   try {
     const token = processBearer(req);
     const data = jwt.verify(token, process.env.SECRET);
@@ -54,7 +53,7 @@ module.exports.isListingOwner = async (req, res, next) => {
 };
 
 // todo: needs improvements should probably let operations move forward.
-module.exports.isTeamMember = async (req, res, next) => {
+const isTeamMember = async (req, res, next) => {
   try {
     const token = processBearer(req);
     const data = jwt.verify(token, process.env.SECRET);
@@ -62,7 +61,7 @@ module.exports.isTeamMember = async (req, res, next) => {
     const team = await TeamModel.findOne({
       _id: teamID,
       members: data._id
-    }).exec();    
+    }).exec();
     if (!team) throw new Error('The Team either does not exist or you are not a member');
     req.team = team;
     return next();
@@ -72,7 +71,7 @@ module.exports.isTeamMember = async (req, res, next) => {
 };
 
 /** Allows operations on Favorites if the user is a author of a favorite */
-module.exports.isFavoriteAuthor = async (req, res, next) => {
+const isFavoriteAuthor = async (req, res, next) => {
   try {
     const token = processBearer(req);
     const data = jwt.verify(token, process.env.SECRET);
@@ -86,4 +85,12 @@ module.exports.isFavoriteAuthor = async (req, res, next) => {
   } catch (error) {
     return res.status(500).send(error.message);
   }
+};
+
+
+module.exports = {
+  auth,
+  isListingOwner,
+  isTeamMember,
+  isFavoriteAuthor,
 };

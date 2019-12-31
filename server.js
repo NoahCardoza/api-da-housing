@@ -32,7 +32,7 @@ app.use(cors({ origin: WHITE_LIST }));
 // Static File Configuration
 app.use(express.static('public'));
 // Swagger Middleware Integration
-const swaggerOptions = {
+const SWAGGER_OPTIONS = Object.freeze({
   swaggerDefinition: {
     info: {
       title: 'Loftly Core API',
@@ -44,10 +44,9 @@ const swaggerOptions = {
     },
   },
   apis: ['server.js', './controllers/*.js'],
-};
+});
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.get('/docs.json', (_, res) => res.status(200).json(swaggerDocs));
+app.get('/docs.json', (_, res) => res.status(200).json(swaggerJsDoc(SWAGGER_OPTIONS)));
 app.get('/docs', (_, res) => res.status(200).sendFile(path.join(`${__dirname}/public/redoc.html`)));
 
 // Routes
