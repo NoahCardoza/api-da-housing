@@ -35,9 +35,10 @@ app.use(helmet({
 
 app.use(bodyParser.json());
 // CORS Configuration
-const WHITE_LIST = Object.freeze(['*']);
 app.use(cors({
-  origin: WHITE_LIST,
+  origin: ['*'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  preflightContinue: true,
 }));
 app.options('*', cors());
 // Static File Configuration
