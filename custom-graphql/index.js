@@ -44,6 +44,8 @@ const typeDefs = gql`
     name: String,
     favoriteListings: [ID],
     preferences: [String], password: String): User
+    listing(name: String, price: Float,
+     images: [String], description: String, street: String, city: String, zipcode: Int): Listing
   }
 `;
 
@@ -94,6 +96,27 @@ const resolvers = {
           return new User(args).save();
         }
         return User.findByIdAndUpdate(context.user._id, args).exec();
+      } catch (error) {
+        console.log(error.message);
+        return error.message;
+      }
+    },
+    listing: async (parent, args, context) => {
+      try {
+        if (context.user) {
+          const {
+            name, price, images, description, street, city, zipcode,
+          } = args;
+          return new Listing({
+            author: context.user._doc._id,
+            name,
+            price,
+            images,
+            description,
+            address: { street, city, zipcode },
+          }).save();
+        }
+        throw new Error('Unauthenticated request');
       } catch (error) {
         console.log(error.message);
         return error.message;
