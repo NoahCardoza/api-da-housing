@@ -41,6 +41,9 @@ const server = new ApolloServer({
       };
     } catch (error) {
       console.log(error.message);
+      return {
+        user: null,
+      };
     }
   },
 });
