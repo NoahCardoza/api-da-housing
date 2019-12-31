@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
+const { server } = require('./custom-graphql');
 
 try {
   dotenv.config();
@@ -66,6 +67,7 @@ app.use('/', OrganizationRouter);
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
+server.applyMiddleware({ app });
 app.listen(process.env.PORT || 3000, () => console.log('Loftly-Core Service Started! 🚀🦄 \n'));
 
 module.exports = app;
