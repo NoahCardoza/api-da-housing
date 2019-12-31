@@ -28,7 +28,7 @@ const typeDefs = gql`
     organization: String
     gender: String 
     name: String
-    favoriteListings: [ID]
+    favoriteListings: [Listing]
     preferences: [String]
   }
   type Query {
@@ -121,6 +121,11 @@ const resolvers = {
         console.log(error.message);
         return error.message;
       }
+    },
+  },
+  User: {
+    favoriteListings: async (parent) => {
+      return Listing.find().where('_id').in(parent.favoriteListings).exec();
     },
   },
 };
