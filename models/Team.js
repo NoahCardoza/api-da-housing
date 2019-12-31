@@ -17,9 +17,9 @@ const TeamSchema = new mongoose.Schema({
 /**
  * Delete Teams with no members.
  */
-TeamSchema.post('find', async function(docs){
-  teamMembers = this.members;
-  if(Array.isArray(teamMembers) && teamMembers.length) {
+TeamSchema.post('find', async function (docs) {
+  const teamMembers = this.members;
+  if (Array.isArray(teamMembers) && teamMembers.length) {
     this.remove();
   }
 });
