@@ -93,4 +93,5 @@ module.exports = {
   isListingOwner,
   isTeamMember,
   isFavoriteAuthor,
+  processBearer,
 };
