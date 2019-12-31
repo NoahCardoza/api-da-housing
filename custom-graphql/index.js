@@ -5,6 +5,7 @@ const {
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Listing = require('../models/Listing');
+const Team = require('../models/Team');
 
 const typeDefs = gql`
   type Address {
@@ -31,10 +32,18 @@ const typeDefs = gql`
     favoriteListings: [Listing]
     preferences: [String]
   }
+  type Team {
+    _id: ID
+    name: String
+    members: [User]
+    budget: Float
+    favorites: [ID]
+  }
   type Query {
     user: User
     login(email: String!, password: String!): String
     listing(id: ID!): Listing
+    team(id: ID!): Team
   }
   type Mutation {
     user(profilePicture: String, personalGallery: [String],
@@ -46,6 +55,7 @@ const typeDefs = gql`
     preferences: [String], password: String): User
     listing(name: String, price: Float,
      images: [String], description: String, street: String, city: String, zipcode: Int): Listing
+     team(id: ID, name: String, members: [ID], budget: Float, favorites: [ID]): Team
   }
 `;
 
@@ -88,6 +98,18 @@ const resolvers = {
         return error.message;
       }
     },
+    team: async (parent, args, context) => {
+      try {
+        const team = await Team.findOne({
+          _id: args.id,
+          members: context.user._id,
+        }).exec();
+        return team;
+      } catch (error) {
+        console.log(error.message);
+        return error.message;
+      }
+    },
   },
   Mutation: {
     user: async (parent, args, context) => {
@@ -105,7 +127,13 @@ const resolvers = {
       try {
         if (context.user) {
           const {
-            name, price, images, description, street, city, zipcode,
+            name,
+            price,
+            images,
+            description,
+            street,
+            city,
+            zipcode,
           } = args;
           return new Listing({
             author: context.user._doc._id,
@@ -113,7 +141,11 @@ const resolvers = {
             price,
             images,
             description,
-            address: { street, city, zipcode },
+            address: {
+              street,
+              city,
+              zipcode,
+            },
           }).save();
         }
         throw new Error('Unauthenticated request');
@@ -122,12 +154,30 @@ const resolvers = {
         return error.message;
       }
     },
+    team: async (parent, args, context) => {
+      if (context.user._id) {
+        if (args.id) {
+          const team = Team.findOne({
+            id: args.id,
+            members: context.user._id,
+          }).exec();
+          if (team) {
+            return Team.findByIdAndUpdate(args.id, args).exec();
+          }
+        }
+        return new Team(args).save();
+      }
+      return new Error('User not authenticated');
+    },
   },
   User: {
     favoriteListings: async (parent) => Listing.find().where('_id').in(parent.favoriteListings).exec(),
   },
   Listing: {
     author: async (parent) => User.findById(parent.author).exec(),
+  },
+  Team: {
+    members: async (parent) => User.find().where('_id').in(parent.members).exec(),
   },
 };
 
