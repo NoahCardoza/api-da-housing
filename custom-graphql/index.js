@@ -8,6 +8,13 @@ const Listing = require('../models/Listing');
 const Team = require('../models/Team');
 
 const typeDefs = gql`
+  type Favorite {
+    source: String
+    name: String
+    author: ID!
+    team: ID!
+    comments: [String]
+  }
   type Address {
     street: String
     city: String
