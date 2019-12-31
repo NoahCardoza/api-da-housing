@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 // CORS Configuration
 const WHITE_LIST = Object.freeze(['*']);
 app.use(cors({ origin: WHITE_LIST }));
+app.options('*', cors())
 // Static File Configuration
 app.use(express.static('public'));
 // Swagger Middleware Integration
