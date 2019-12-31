@@ -18,9 +18,35 @@ const { auth, isFavoriteAuthor } = require('../middleware');
  *    - in: "body"
  *      name: "body"
  *      description: A object containing both the source and name, and team properties.
+ *      schema:
+ *        type: object
+ *        properties:
+ *          source:
+ *            type: string
+ *          name:
+ *            type: string
+ *          team:
+ *            type: string
  *    responses:
  *      '201':
  *            description: An object containing a favorite.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    source:
+ *                      type: string
+ *                    name:
+ *                      type: string
+ *                    author:
+ *                      type: string
+ *                    team:
+ *                      type: string
+ *                    comments:
+ *                      type: array
+ *                      items:
+ *                        type: string
  *      '500':
  *            description: server error
  */

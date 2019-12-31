@@ -40,8 +40,6 @@ router.post('/team', auth, async (req, res) => {
 });
 
 
-
-
 /**
  * @swagger
  * /team:
