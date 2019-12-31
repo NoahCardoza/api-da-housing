@@ -15,9 +15,23 @@ const router = express.Router();
  *    - in: "body"
  *      name: "body"
  *      description: A object containing both the password and email properties
+ *      schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *              password:
+ *                type: string
  *    responses:
  *      '200':
  *            description: An object containing a valid json web token.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    token:
+ *                      type: string
  *      '401':
  *            description: invalid credentials.
  *      '500':
