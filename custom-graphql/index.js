@@ -17,7 +17,7 @@ const typeDefs = gql`
     price: Float
     images: [String]
     description: String
-    author: ID
+    author: User,
     address: Address
   }
   type User {
@@ -124,9 +124,10 @@ const resolvers = {
     },
   },
   User: {
-    favoriteListings: async (parent) => {
-      return Listing.find().where('_id').in(parent.favoriteListings).exec();
-    },
+    favoriteListings: async (parent) => Listing.find().where('_id').in(parent.favoriteListings).exec(),
+  },
+  Listing: {
+    author: async (parent) => User.findById(parent.author).exec(),
   },
 };
 
