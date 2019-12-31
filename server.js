@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
-const { server } = require('./custom-graphql');
+const {
+  server,
+} = require('./custom-graphql');
 
 try {
   dotenv.config();
@@ -25,12 +27,19 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Custom Application Middlewares
-app.use(helmet());
+app.use(helmet({
+  dnsPrefetchControl: {
+    allow: true,
+  },
+}));
+
 app.use(bodyParser.json());
 // CORS Configuration
 const WHITE_LIST = Object.freeze(['*']);
-app.use(cors({ origin: WHITE_LIST }));
-app.options('*', cors())
+app.use(cors({
+  origin: WHITE_LIST,
+}));
+app.options('*', cors());
 // Static File Configuration
 app.use(express.static('public'));
 // Swagger Middleware Integration
@@ -68,7 +77,9 @@ app.use('/', OrganizationRouter);
 
 app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
-server.applyMiddleware({ app });
+server.applyMiddleware({
+  app,
+});
 app.listen(process.env.PORT || 3000, () => console.log('Loftly-Core Service Started! 🚀🦄 \n'));
 
 module.exports = app;
