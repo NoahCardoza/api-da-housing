@@ -4,6 +4,7 @@ const {
 } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Listing = require('../models/Listing');
 
 const typeDefs = gql`
   type Address {
@@ -33,6 +34,7 @@ const typeDefs = gql`
   type Query {
     user: User
     login(email: String!, password: String!): String
+    listing(id: ID!): Listing
   }
   type Mutation {
     user(profilePicture: String, personalGallery: [String],
@@ -71,6 +73,14 @@ const resolvers = {
         const result = await user.comparePassword(args.password);
         if (result === true) return user.generateAuthToken();
         throw new Error('Credentials Have Failed');
+      } catch (error) {
+        console.log(error.message);
+        return error.message;
+      }
+    },
+    listing: async (parent, args, context) => {
+      try {
+        return Listing.findById(args.id).exec();
       } catch (error) {
         console.log(error.message);
         return error.message;
