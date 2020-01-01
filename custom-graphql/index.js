@@ -89,7 +89,7 @@ const resolvers = {
         return error.message;
       }
     },
-    login: async (parent, args, context) => {
+    login: async (parent, args, _context) => {
       try {
         const user = await User.findOne({
           email: args.email,
@@ -103,7 +103,7 @@ const resolvers = {
         return error.message;
       }
     },
-    listing: async (parent, args, context) => {
+    listing: async (parent, args, _context) => {
       try {
         return Listing.findById(args.id).exec();
       } catch (error) {
