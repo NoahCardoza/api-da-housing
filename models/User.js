@@ -9,6 +9,12 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  location: String,
+  verifications: [String],
+  languages: [String],
+  job: String,
+  lifeStyleBeliefs: [String],
+  privateFields: [String],
   organization: {
     type: String,
     required: true,
