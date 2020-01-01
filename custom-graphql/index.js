@@ -77,7 +77,7 @@ const typeDefs = gql`
     job: String
     lifeStyleBeliefs: [String]
     privateFields: [String]): User
-    listing(name: String, price: Float,
+    listing(name: String, price: Float, longitude: Float, latitude: Float,
      images: [String], description: String, street: String, city: String, zipcode: Int): Listing
      team(id: ID, name: String, members: [ID], budget: Float, favorites: [ID]): Team
   }
@@ -158,6 +158,8 @@ const resolvers = {
             street,
             city,
             zipcode,
+            latitude,
+            longitude,
           } = args;
           return new Listing({
             author: context.user._doc._id,
@@ -169,6 +171,10 @@ const resolvers = {
               street,
               city,
               zipcode,
+              coordinates: {
+                latitude,
+                longitude
+              },
             },
           }).save();
         }
