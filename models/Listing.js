@@ -24,6 +24,10 @@ const ListingSchema = new mongoose.Schema({
     street: String,
     city: String,
     zipcode: Number,
+    coordinates: {
+      latitude: Number,
+      longitude: Number,
+    },
   },
 });
 

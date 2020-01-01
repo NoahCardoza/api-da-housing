@@ -15,10 +15,15 @@ const typeDefs = gql`
     team: ID!
     comments: [String]
   }
+  type GeoCoords {
+    latitude: Float
+    longitude: Float
+  }
   type Address {
     street: String
     city: String
     zipcode: Int
+    coordinates: GeoCoords
   }
   type Listing {
     _id: ID
@@ -38,6 +43,12 @@ const typeDefs = gql`
     name: String
     favoriteListings: [Listing]
     preferences: [String]
+    location: String
+    verifications: [String]
+    languages: [String]
+    job: String
+    lifeStyleBeliefs: [String]
+    privateFields: [String]
   }
   type Team {
     _id: ID
@@ -59,8 +70,14 @@ const typeDefs = gql`
     gender: String,
     name: String,
     favoriteListings: [ID],
-    preferences: [String], password: String): User
-    listing(name: String, price: Float,
+    preferences: [String], password: String,
+    location: String
+    verifications: [String]
+    languages: [String]
+    job: String
+    lifeStyleBeliefs: [String]
+    privateFields: [String]): User
+    listing(name: String, price: Float, longitude: Float, latitude: Float,
      images: [String], description: String, street: String, city: String, zipcode: Int): Listing
      team(id: ID, name: String, members: [ID], budget: Float, favorites: [ID]): Team
   }
@@ -83,7 +100,7 @@ const resolvers = {
         return error.message;
       }
     },
-    login: async (parent, args, context) => {
+    login: async (parent, args, _context) => {
       try {
         const user = await User.findOne({
           email: args.email,
@@ -97,7 +114,7 @@ const resolvers = {
         return error.message;
       }
     },
-    listing: async (parent, args, context) => {
+    listing: async (parent, args, _context) => {
       try {
         return Listing.findById(args.id).exec();
       } catch (error) {
@@ -141,6 +158,8 @@ const resolvers = {
             street,
             city,
             zipcode,
+            latitude,
+            longitude,
           } = args;
           return new Listing({
             author: context.user._doc._id,
@@ -152,6 +171,10 @@ const resolvers = {
               street,
               city,
               zipcode,
+              coordinates: {
+                latitude,
+                longitude
+              },
             },
           }).save();
         }
@@ -188,29 +211,31 @@ const resolvers = {
   },
 };
 
+const tokenAuthorizationMiddleware = async ({
+  req,
+}) => {
+  try {
+    const TOKEN = (req.headers.authorization || '').replace('Bearer ', '');
+    const DATA = Object.freeze(jwt.verify(TOKEN, process.env.SECRET));
+    const user = await User.findOne({
+      _id: DATA._id,
+      'tokens.token': TOKEN,
+    }).exec();
+    return {
+      user,
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      user: null,
+    };
+  }
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({
-    req,
-  }) => {
-    try {
-      const token = (req.headers.authorization || '').replace('Bearer ', '');
-      const data = jwt.verify(token, process.env.SECRET);
-      const user = await User.findOne({
-        _id: data._id,
-        'tokens.token': token,
-      }).exec();
-      return {
-        user,
-      };
-    } catch (error) {
-      console.log(error.message);
-      return {
-        user: null,
-      };
-    }
-  },
+  context: tokenAuthorizationMiddleware,
 });
 
 module.exports = {
