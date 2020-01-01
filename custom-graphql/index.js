@@ -38,6 +38,12 @@ const typeDefs = gql`
     name: String
     favoriteListings: [Listing]
     preferences: [String]
+    location: String
+    verifications: [String]
+    languages: [String]
+    job: String
+    lifeStyleBeliefs: [String]
+    privateFields: [String]
   }
   type Team {
     _id: ID
