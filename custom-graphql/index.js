@@ -65,7 +65,13 @@ const typeDefs = gql`
     gender: String,
     name: String,
     favoriteListings: [ID],
-    preferences: [String], password: String): User
+    preferences: [String], password: String,
+    location: String
+    verifications: [String]
+    languages: [String]
+    job: String
+    lifeStyleBeliefs: [String]
+    privateFields: [String]): User
     listing(name: String, price: Float,
      images: [String], description: String, street: String, city: String, zipcode: Int): Listing
      team(id: ID, name: String, members: [ID], budget: Float, favorites: [ID]): Team
@@ -194,11 +200,16 @@ const resolvers = {
   },
 };
 
-const tokenAuthorizationMiddleware = async ({ req }) => {
+const tokenAuthorizationMiddleware = async ({
+  req,
+}) => {
   try {
     const TOKEN = (req.headers.authorization || '').replace('Bearer ', '');
     const DATA = Object.freeze(jwt.verify(TOKEN, process.env.SECRET));
-    const user = await User.findOne({ _id: DATA._id, 'tokens.token': TOKEN }).exec();
+    const user = await User.findOne({
+      _id: DATA._id,
+      'tokens.token': TOKEN,
+    }).exec();
     return {
       user,
     };
