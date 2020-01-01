@@ -15,10 +15,15 @@ const typeDefs = gql`
     team: ID!
     comments: [String]
   }
+  type GeoCoords {
+    latitude: Float
+    longitude: Float
+  }
   type Address {
     street: String
     city: String
     zipcode: Int
+    coordinates: GeoCoords
   }
   type Listing {
     _id: ID
