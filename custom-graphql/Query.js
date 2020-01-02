@@ -9,7 +9,8 @@ const Query = {
       if (!context.user.profilePicture) {
         return {
           ...context.user._doc,
-          profilePicture: 'https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png',
+          profilePicture:
+            'https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png',
         };
       }
       return context.user;
