@@ -81,11 +81,21 @@ const Mutation = {
           args,
         ).exec();
       }
-      if (context.user._id) {
-        return new Favorite({
-          ...args,
-          author: context.user._id,
-        }).save();
+      if (context.user._id && args.team) {
+        const team = await Team.findOne({
+          _id: args.team,
+          members: context.user._id,
+        }).exec();
+        if (team) {
+          return new Favorite({
+            ...args,
+            author: context.user._id,
+          }).save();
+        }
+
+        return new Error(
+          'You are not a member of that Team or it does not exists!',
+        );
       }
       return new Error('User not authenticated');
     } catch (error) {

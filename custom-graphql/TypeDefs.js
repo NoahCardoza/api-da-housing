@@ -101,7 +101,7 @@ const typeDefs = gql`
       name: String
       team: ID
       comments: [String]
-    ): Team
+    ): Favorite
   }
 `;
 
