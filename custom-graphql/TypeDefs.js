@@ -4,8 +4,8 @@ const typeDefs = gql`
   type Favorite {
     source: String
     name: String
-    author: ID!
-    team: ID!
+    author: ID
+    team: ID
     comments: [String]
   }
   type GeoCoords {
@@ -49,13 +49,14 @@ const typeDefs = gql`
     name: String
     members: [User]
     budget: Float
-    favorites: [ID]
+    favorites: [Favorite]
   }
   type Query {
     user: User
     login(email: String!, password: String!): String
     listing(id: ID!): Listing
     team(id: ID!): Team
+    favorite(id: ID!): Favorite
   }
   type Mutation {
     user(

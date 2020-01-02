@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Listing = require('../models/Listing');
 const Team = require('../models/Team');
+const Favorite = require('../models/Favorite');
 
 const Query = {
   user: async (parent, args, context) => {
@@ -48,6 +49,27 @@ const Query = {
         members: context.user._id,
       }).exec();
       return team;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
+  favorite: async (parent, args, context) => {
+    try {
+      if (context.user) {
+        const favorite = await Favorite.findOne({
+          _id: args.id,
+        }).exec();
+        const team = await Team.findOne({
+          _id: favorite.team,
+          members: context.user._id,
+        }).exec();
+        if (team && favorite) {
+          return favorite;
+        }
+        return null;
+      }
+      return null;
     } catch (error) {
       console.log(error.message);
       return error.message;
