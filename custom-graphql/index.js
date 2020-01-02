@@ -5,9 +5,10 @@ const {
 const jwt = require('jsonwebtoken');
 const Query = require('./Query');
 const Mutation = require('./Mutation');
+const UserFieldResolvers = require('./User');
+const ListingFieldResolvers = require('./Listing');
+const TeamFieldResolvers = require('./Team');
 const User = require('../models/User');
-const Listing = require('../models/Listing');
-const Team = require('../models/Team');
 
 const typeDefs = gql`
   type Favorite {
@@ -89,15 +90,9 @@ const typeDefs = gql`
 const resolvers = {
   Query,
   Mutation,
-  User: {
-    favoriteListings: async (parent) => Listing.find().where('_id').in(parent.favoriteListings).exec(),
-  },
-  Listing: {
-    author: async (parent) => User.findById(parent.author).exec(),
-  },
-  Team: {
-    members: async (parent) => User.find().where('_id').in(parent.members).exec(),
-  },
+  User: UserFieldResolvers,
+  Listing: ListingFieldResolvers,
+  Team: TeamFieldResolvers,
 };
 
 const tokenAuthorizationMiddleware = async ({
