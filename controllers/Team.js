@@ -95,6 +95,7 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
         if (!updateTeamModel) {
           return res.status(500).send(err.message);
         }
+        return res.status(200).json(updateTeamModel);
       },
     );
     return res
