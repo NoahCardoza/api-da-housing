@@ -88,13 +88,12 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
     TeamModel.findByIdAndUpdate(
       req.params.id,
       req.body.TeamModel,
-      function(err, updateTeamModel) {
+      (err, updateTeamModel) => {
         if (err) {
           return res.status(500).send(err.message);
-        } else {
-          if (!updateTeamModel) {
-            return res.status(500).send(err.message);
-          }
+        }
+        if (!updateTeamModel) {
+          return res.status(500).send(err.message);
         }
       },
     );
@@ -136,16 +135,16 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
 router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
   res.send('test');
   try {
-    userID = req.user_id;
-    userMembers = req.params.members;
+    const userID = req.user_id;
+    const userMembers = req.params.members;
 
-    var index = userMembers.indexOf(userID);
+    const index = userMembers.indexOf(userID);
     if (index > -1) {
       userMembers.splice(index, 1);
     }
 
-    filter = { _id: req.params.id };
-    update = { members: userMembers };
+    const filter = { _id: req.params.id };
+    const update = { members: userMembers };
 
     return res
       .status(200)
