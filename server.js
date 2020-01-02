@@ -23,6 +23,17 @@ mongoose.connect(process.env.MONGO_URI, {
   useFindAndModify: false,
 });
 
+// CORS Configuration
+app.use(
+  cors({
+    origin: ['*'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: true,
+  }),
+);
+
+app.options('*', cors());
+
 // Custom Application Middlewares
 app.use(
   helmet({
@@ -33,15 +44,7 @@ app.use(
 );
 
 app.use(bodyParser.json());
-// CORS Configuration
-app.use(
-  cors({
-    origin: ['*'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    preflightContinue: true,
-  }),
-);
-app.options('*', cors());
+
 // Static File Configuration
 app.use(express.static('public'));
 // Swagger Middleware Integration
@@ -90,6 +93,7 @@ app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
 server.applyMiddleware({
   app,
+  cors: false,
 });
 app.listen(process.env.PORT || 3000, () =>
   console.log('Loftly-Core Service Started! 🚀🦄 \n'),

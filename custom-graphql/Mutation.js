@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Listing = require('../models/Listing');
 const Team = require('../models/Team');
+const Favorite = require('../models/Favorite');
 
 const Mutation = {
   user: async (parent, args, context) => {
@@ -71,6 +72,36 @@ const Mutation = {
       return new Team(args).save();
     }
     return new Error('User not authenticated');
+  },
+  favorite: async (parent, args, context) => {
+    try {
+      if (context.user._id && args.id) {
+        return Favorite.findOneAndUpdate(
+          { author: context.user._doc._id, _id: args.id },
+          args,
+        ).exec();
+      }
+      if (context.user._id && args.team) {
+        const team = await Team.findOne({
+          _id: args.team,
+          members: context.user._id,
+        }).exec();
+        if (team) {
+          return new Favorite({
+            ...args,
+            author: context.user._id,
+          }).save();
+        }
+
+        return new Error(
+          'You are not a member of that Team or it does not exists!',
+        );
+      }
+      return new Error('User not authenticated');
+    } catch (error) {
+      console.error(error.message);
+      return error.message;
+    }
   },
 };
 

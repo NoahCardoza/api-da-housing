@@ -2,10 +2,11 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Favorite {
+    _id: ID
     source: String
     name: String
-    author: ID!
-    team: ID!
+    author: User
+    team: Team
     comments: [String]
   }
   type GeoCoords {
@@ -49,13 +50,14 @@ const typeDefs = gql`
     name: String
     members: [User]
     budget: Float
-    favorites: [ID]
+    favorites: [Favorite]
   }
   type Query {
     user: User
     login(email: String!, password: String!): String
     listing(id: ID!): Listing
     team(id: ID!): Team
+    favorite(id: ID!): Favorite
   }
   type Mutation {
     user(
@@ -94,6 +96,13 @@ const typeDefs = gql`
       budget: Float
       favorites: [ID]
     ): Team
+    favorite(
+      id: ID
+      source: String
+      name: String
+      team: ID
+      comments: [String]
+    ): Favorite
   }
 `;
 

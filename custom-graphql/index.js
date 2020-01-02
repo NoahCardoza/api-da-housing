@@ -4,6 +4,7 @@ const Mutation = require('./Mutation');
 const UserFieldResolvers = require('./User');
 const ListingFieldResolvers = require('./Listing');
 const TeamFieldResolvers = require('./Team');
+const FavoriteFieldResolvers = require('./Favorite');
 const TypeDefs = require('./TypeDefs');
 const { tokenAuthorizationMiddleware } = require('./Middleware');
 
@@ -13,6 +14,7 @@ const resolvers = {
   User: UserFieldResolvers,
   Listing: ListingFieldResolvers,
   Team: TeamFieldResolvers,
+  Favorite: FavoriteFieldResolvers,
 };
 
 const server = new ApolloServer({
