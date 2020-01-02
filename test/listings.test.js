@@ -19,17 +19,18 @@ const fakeUserObject = Object.freeze({
   name: 'test bot',
 });
 
-const fakeListingObject = (userID) => Object.freeze({
-  author: userID,
-  name: '@testhouserecord',
-  price: 1500,
-  description: 'This is a test description!',
-  address: {
-    street: 'El Camino Street',
-    city: 'Mountain View',
-    zipcode: 94040,
-  },
-});
+const fakeListingObject = userID =>
+  Object.freeze({
+    author: userID,
+    name: '@testhouserecord',
+    price: 1500,
+    description: 'This is a test description!',
+    address: {
+      street: 'El Camino Street',
+      city: 'Mountain View',
+      zipcode: 94040,
+    },
+  });
 
 const fakeListingHelperObject = Object.freeze({
   UPDATED_DESCRIPTION: '@updated',
@@ -47,11 +48,15 @@ const fakeListingHelperObject = Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Listings Test: Creating Fake User and Listing. \n');
+    console.log(
+      'Pre-Processing for Listings Test: Creating Fake User and Listing. \n',
+    );
     const user = new UserModel(fakeUserObject);
     await user.save();
     usertestingid = user._id;
-    const newListing = new ListingModel(fakeListingObject(usertestingid));
+    const newListing = new ListingModel(
+      fakeListingObject(usertestingid),
+    );
     await newListing.save();
     testlistingID = newListing._id;
   } catch (error) {
@@ -61,7 +66,9 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post-Processing for Listings Test: Deleting Fake User and Fake Listings \n');
+    console.log(
+      'Post-Processing for Listings Test: Deleting Fake User and Fake Listings \n',
+    );
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -74,8 +81,9 @@ after(async () => {
 });
 
 describe('Listings', () => {
-  it('Should get all Listings records.', (done) => {
-    chai.request(app)
+  it('Should get all Listings records.', done => {
+    chai
+      .request(app)
       .get('/listing')
       .end((error, res) => {
         if (error) console.log(error.message);
@@ -86,19 +94,23 @@ describe('Listings', () => {
   });
 
   // user related but needed for next requests
-  it('Should get token', (done) => {
-    chai.request(app).post('/auth/login').send({
-      password: fakeUserObject.password,
-      email: fakeUserObject.email,
-    })
-      .then((res) => {
+  it('Should get token', done => {
+    chai
+      .request(app)
+      .post('/auth/login')
+      .send({
+        password: fakeUserObject.password,
+        email: fakeUserObject.email,
+      })
+      .then(res => {
         jwt = res.body.token;
         done();
       });
   });
 
-  it('Creates a Listing record.', (done) => {
-    chai.request(app)
+  it('Creates a Listing record.', done => {
+    chai
+      .request(app)
       .post('/listing')
       .set('Authorization', `Bearer ${jwt}`)
       .send(fakeListingHelperObject.LISTING_WITHOUT_USER_ID)
@@ -111,8 +123,9 @@ describe('Listings', () => {
     done();
   });
 
-  it('Should get a listing by ID', async (done) => {
-    chai.request(app)
+  it('Should get a listing by ID', async done => {
+    chai
+      .request(app)
       .get(`/listing?id=${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
@@ -123,8 +136,10 @@ describe('Listings', () => {
     done();
   });
 
-  it('Should update a listing by ID', async (done) => {
-    chai.request(app).put(`/listing/${testlistingID}`)
+  it('Should update a listing by ID', async done => {
+    chai
+      .request(app)
+      .put(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
         description: fakeListingHelperObject.UPDATED_DESCRIPTION,
@@ -136,8 +151,10 @@ describe('Listings', () => {
     done();
   });
 
-  it('Should delete a listing by ID', async (done) => {
-    chai.request(app).delete(`/listing/${testlistingID}`)
+  it('Should delete a listing by ID', async done => {
+    chai
+      .request(app)
+      .delete(`/listing/${testlistingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
         if (error) console.log(error.message);
