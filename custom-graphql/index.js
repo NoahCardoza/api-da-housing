@@ -15,7 +15,6 @@ const resolvers = {
   Team: TeamFieldResolvers,
 };
 
-
 const server = new ApolloServer({
   typeDefs: TypeDefs,
   resolvers,
