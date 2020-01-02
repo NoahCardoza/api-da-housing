@@ -96,6 +96,7 @@ const typeDefs = gql`
       favorites: [ID]
     ): Team
     favorite(
+      id: ID
       source: String
       name: String
       team: ID
