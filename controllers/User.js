@@ -1,9 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const {
-  auth,
-} = require('../middleware');
+const { auth } = require('../middleware');
 const UserModel = require('../models/User');
 
 /**
@@ -37,7 +35,6 @@ router.post('/user', async (req, res) => {
     res.status(500).send(err.message);
   }
 });
-
 
 /**
  * @swagger

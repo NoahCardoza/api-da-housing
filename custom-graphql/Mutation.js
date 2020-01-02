@@ -46,8 +46,10 @@ const Mutation = {
         }).save();
       }
       if (context.user && args.id) {
-        return Listing
-          .findOneAndUpdate({ author: context.user._doc._id, _id: args.id }, args).exec();
+        return Listing.findOneAndUpdate(
+          { author: context.user._doc._id, _id: args.id },
+          args,
+        ).exec();
       }
       throw new Error('Unauthenticated request');
     } catch (error) {

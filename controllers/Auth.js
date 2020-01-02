@@ -43,7 +43,10 @@ router.post('/auth/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (user === null) return res.status(400);
     const result = await user.comparePassword(password);
-    if (result === true) return res.status(200).json({ token: await user.generateAuthToken() });
+    if (result === true)
+      return res
+        .status(200)
+        .json({ token: await user.generateAuthToken() });
     return res.status(401).send('Credentials Have Failed.');
   } catch (err) {
     return res.status(500).send(err.message);
@@ -63,7 +66,9 @@ router.post('/auth/login', async (req, res) => {
  */
 router.post('/auth/logout', auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token);
+    req.user.tokens = req.user.tokens.filter(
+      token => token.token !== req.token,
+    );
     await req.user.save();
     return res.status(202);
   } catch (err) {

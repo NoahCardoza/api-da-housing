@@ -11,6 +11,7 @@ chai.should();
 let jwt = '';
 let testlistingID = '';
 let teamtestingID = '';
+// eslint-disable-next-line no-unused-vars
 let fakeTeamMemberJWT = '';
 let usertestingID = '';
 
@@ -30,27 +31,31 @@ const fakeTeamMemberObject = Object.freeze({
   name: 'test bot',
 });
 
-const fakeListingObject = (userID) => Object.freeze({
-  author: userID,
-  name: '@testhouserecordteam',
-  price: 1500,
-  description: 'This is a test description!',
-  address: {
-    street: 'El Camino Street',
-    city: 'Mountain View',
-    zipcode: 94040,
-  },
-});
+const fakeListingObject = userID =>
+  Object.freeze({
+    author: userID,
+    name: '@testhouserecordteam',
+    price: 1500,
+    description: 'This is a test description!',
+    address: {
+      street: 'El Camino Street',
+      city: 'Mountain View',
+      zipcode: 94040,
+    },
+  });
 
-const fakeTeamObject = (userid) => Object.freeze({
-  name: '@testteamrecord',
-  members: [`${userid}`],
-  budget: 3400,
-});
+const fakeTeamObject = userid =>
+  Object.freeze({
+    name: '@testteamrecord',
+    members: [`${userid}`],
+    budget: 3400,
+  });
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Team tests: create fake Users, Teams and Listings \n');
+    console.log(
+      'Pre-Processing for Team tests: create fake Users, Teams and Listings \n',
+    );
     const user = new UserModel(fakeUserObject);
     const fakeTeamMember = new UserModel(fakeTeamMemberObject);
     await user.save();
@@ -59,7 +64,9 @@ before(async () => {
     const listing = new ListingModel(fakeListingObject(user._id));
     await listing.save();
     testlistingID = listing._id;
-    const team = new TeamModel(fakeTeamObject(usertestingID, testlistingID));
+    const team = new TeamModel(
+      fakeTeamObject(usertestingID, testlistingID),
+    );
     await team.save();
     teamtestingID = team._id;
   } catch (error) {
@@ -69,7 +76,9 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post Processing Deleting Users, Listings and Teams for Team Tests. \n');
+    console.log(
+      'Post Processing Deleting Users, Listings and Teams for Team Tests. \n',
+    );
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -89,8 +98,9 @@ after(async () => {
 
 describe('Teams', () => {
   // user related but needed for next requests
-  it('Should get token', (done) => {
-    chai.request(app)
+  it('Should get token', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: fakeUserObject.password,
@@ -103,8 +113,9 @@ describe('Teams', () => {
       });
   });
 
-  it('Should get a token for the fake member', (done) => {
-    chai.request(app)
+  it('Should get a token for the fake member', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: fakeTeamMemberObject.password,
@@ -117,9 +128,9 @@ describe('Teams', () => {
       });
   });
 
-
-  it('Creates a Team record.', (done) => {
-    chai.request(app)
+  it('Creates a Team record.', done => {
+    chai
+      .request(app)
       .post('/team')
       .set('Authorization', `Bearer ${jwt}`)
       .send(fakeTeamObject(usertestingID, testlistingID))
@@ -127,14 +138,16 @@ describe('Teams', () => {
         if (error) console.log(error.message);
         res.should.have.status(201);
         res.body.should.be.a('object');
-        res.body.name.should.be.eql(fakeTeamObject(usertestingID, testlistingID).name);
+        res.body.name.should.be.eql(
+          fakeTeamObject(usertestingID, testlistingID).name,
+        );
       });
     done();
   });
 
-
-  it('Should get a team by ID for member', async (done) => {
-    chai.request(app)
+  it('Should get a team by ID for member', async done => {
+    chai
+      .request(app)
       .get(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {
@@ -145,8 +158,9 @@ describe('Teams', () => {
     done();
   });
 
-  it('Should update a Team by ID', async (done) => {
-    chai.request(app)
+  it('Should update a Team by ID', async done => {
+    chai
+      .request(app)
       .put(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({
@@ -161,9 +175,9 @@ describe('Teams', () => {
     done();
   });
 
-
-  it('Should delete a team.', async (done) => {
-    chai.request(app)
+  it('Should delete a team.', async done => {
+    chai
+      .request(app)
       .delete(`/team/${teamtestingID}`)
       .set('Authorization', `Bearer ${jwt}`)
       .end((error, res) => {

@@ -20,7 +20,9 @@ const helperObject = Object.freeze({
 
 before(async () => {
   try {
-    console.log('Pre-Processing for Auth Test: Creating Mock Data \n');
+    console.log(
+      'Pre-Processing for Auth Test: Creating Mock Data \n',
+    );
     const user = new UserModel(fakeUserObject);
     await user.save();
   } catch (error) {
@@ -30,7 +32,9 @@ before(async () => {
 
 after(async () => {
   try {
-    console.log('Post-Processing for Auth Test: Deleting Mock Data \n');
+    console.log(
+      'Post-Processing for Auth Test: Deleting Mock Data \n',
+    );
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -40,26 +44,30 @@ after(async () => {
 });
 
 describe('Auth', () => {
-  it('Should log user in', (done) => {
-    chai.request(app)
+  it('Should log user in', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: fakeUserObject.password,
         email: fakeUserObject.email,
-      }).end((error, res) => {
+      })
+      .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
         done();
       });
   });
-  it('Should fail to log user in', (done) => {
-    chai.request(app)
+  it('Should fail to log user in', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: helperObject.BAD_PASSWORD,
         email: fakeUserObject.email,
-      }).end((error, res) => {
+      })
+      .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(401);
         done();

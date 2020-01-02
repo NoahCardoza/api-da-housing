@@ -24,7 +24,7 @@ const typeDefs = gql`
     price: Float
     images: [String]
     description: String
-    author: User,
+    author: User
     address: Address
   }
   type User {
@@ -33,7 +33,7 @@ const typeDefs = gql`
     personalGallery: [String]
     email: String
     organization: String
-    gender: String 
+    gender: String
     name: String
     favoriteListings: [Listing]
     preferences: [String]
@@ -58,22 +58,42 @@ const typeDefs = gql`
     team(id: ID!): Team
   }
   type Mutation {
-    user(profilePicture: String, personalGallery: [String],
-    email: String,
-    organization: String,
-    gender: String,
-    name: String,
-    favoriteListings: [ID],
-    preferences: [String], password: String,
-    location: String
-    verifications: [String]
-    languages: [String]
-    job: String
-    lifeStyleBeliefs: [String]
-    privateFields: [String]): User
-    listing(id: ID, name: String, price: Float, longitude: Float, latitude: Float,
-     images: [String], description: String, street: String, city: String, zipcode: Int): Listing
-     team(id: ID, name: String, members: [ID], budget: Float, favorites: [ID]): Team
+    user(
+      profilePicture: String
+      personalGallery: [String]
+      email: String
+      organization: String
+      gender: String
+      name: String
+      favoriteListings: [ID]
+      preferences: [String]
+      password: String
+      location: String
+      verifications: [String]
+      languages: [String]
+      job: String
+      lifeStyleBeliefs: [String]
+      privateFields: [String]
+    ): User
+    listing(
+      id: ID
+      name: String
+      price: Float
+      longitude: Float
+      latitude: Float
+      images: [String]
+      description: String
+      street: String
+      city: String
+      zipcode: Int
+    ): Listing
+    team(
+      id: ID
+      name: String
+      members: [ID]
+      budget: Float
+      favorites: [ID]
+    ): Team
   }
 `;
 

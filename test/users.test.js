@@ -23,7 +23,9 @@ const fakeUserHelperObject = Object.freeze({
 
 after(async () => {
   try {
-    console.log('Post-Processing for User Test: Deleting Mock Users \n');
+    console.log(
+      'Post-Processing for User Test: Deleting Mock Users \n',
+    );
     await UserModel.findOneAndRemove({
       email: fakeUserObject.email,
     }).exec();
@@ -33,22 +35,26 @@ after(async () => {
 });
 
 describe('Users', () => {
-  it('Should create user', (done) => {
-    chai.request(app)
+  it('Should create user', done => {
+    chai
+      .request(app)
       .post('/user')
-      .send(fakeUserObject).end((error, res) => {
+      .send(fakeUserObject)
+      .end((error, res) => {
         if (error) console.error(error.message);
         jwtToken = res.body.token;
         done();
       });
   });
-  it('Should log user in', (done) => {
-    chai.request(app)
+  it('Should log user in', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: fakeUserObject.password,
         email: fakeUserObject.email,
-      }).end((error, res) => {
+      })
+      .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -56,21 +62,25 @@ describe('Users', () => {
         done();
       });
   });
-  it('Should fail to log user in', (done) => {
-    chai.request(app)
+  it('Should fail to log user in', done => {
+    chai
+      .request(app)
       .post('/auth/login')
       .send({
         password: fakeUserHelperObject.BAD_PASSWORD,
         email: fakeUserObject.email,
-      }).end((error, res) => {
+      })
+      .end((error, res) => {
         if (error) console.error(error.message);
         res.should.have.status(401);
         done();
       });
   });
 
-  it('Should update an authenticated user', async (done) => {
-    chai.request(app).put('/user')
+  it('Should update an authenticated user', async done => {
+    chai
+      .request(app)
+      .put('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .send({
         name: fakeUserHelperObject.UPDATED_NAME,
@@ -82,8 +92,10 @@ describe('Users', () => {
     done();
   });
 
-  it('Should get the user profile', async (done) => {
-    chai.request(app).get('/user')
+  it('Should get the user profile', async done => {
+    chai
+      .request(app)
+      .get('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);
@@ -93,8 +105,10 @@ describe('Users', () => {
     done();
   });
 
-  it('Should delete a user profile', async (done) => {
-    chai.request(app).delete('/user')
+  it('Should delete a user profile', async done => {
+    chai
+      .request(app)
+      .delete('/user')
       .set('Authorization', `Bearer ${jwtToken}`)
       .end((error, res) => {
         if (error) console.error(error.message);

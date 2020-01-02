@@ -31,5 +31,4 @@ const ListingSchema = new mongoose.Schema({
   },
 });
 
-
 module.exports = mongoose.model('listing', ListingSchema);
