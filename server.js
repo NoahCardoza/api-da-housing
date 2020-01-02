@@ -6,16 +6,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
-const {
-  server,
-} = require('./custom-graphql');
+const { server } = require('./custom-graphql');
 
 try {
   dotenv.config();
 } catch (error) {
   console.log(error.message);
 }
-
 
 const app = express();
 
@@ -27,19 +24,23 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Custom Application Middlewares
-app.use(helmet({
-  dnsPrefetchControl: {
-    allow: true,
-  },
-}));
+app.use(
+  helmet({
+    dnsPrefetchControl: {
+      allow: true,
+    },
+  }),
+);
 
 app.use(bodyParser.json());
 // CORS Configuration
-app.use(cors({
-  origin: ['*'],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  preflightContinue: true,
-}));
+app.use(
+  cors({
+    origin: ['*'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: true,
+  }),
+);
 app.options('*', cors());
 // Static File Configuration
 app.use(express.static('public'));
@@ -52,14 +53,23 @@ const SWAGGER_OPTIONS = Object.freeze({
       contact: {
         name: 'Carlos Alba',
       },
-      servers: ['http://localhost:3000/', 'https://loftly-core.aws.fhda.edu/'],
+      servers: [
+        'http://localhost:3000/',
+        'https://loftly-core.aws.fhda.edu/',
+      ],
     },
   },
   apis: ['server.js', './controllers/*.js'],
 });
 
-app.get('/docs.json', (_, res) => res.status(200).json(swaggerJsDoc(SWAGGER_OPTIONS)));
-app.get('/docs', (_, res) => res.status(200).sendFile(path.join(`${__dirname}/public/redoc.html`)));
+app.get('/docs.json', (_, res) =>
+  res.status(200).json(swaggerJsDoc(SWAGGER_OPTIONS)),
+);
+app.get('/docs', (_, res) =>
+  res
+    .status(200)
+    .sendFile(path.join(`${__dirname}/public/redoc.html`)),
+);
 
 // Routes
 const AuthRouter = require('./controllers/Auth');
@@ -81,6 +91,8 @@ app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 server.applyMiddleware({
   app,
 });
-app.listen(process.env.PORT || 3000, () => console.log('Loftly-Core Service Started! 🚀🦄 \n'));
+app.listen(process.env.PORT || 3000, () =>
+  console.log('Loftly-Core Service Started! 🚀🦄 \n'),
+);
 
 module.exports = app;
