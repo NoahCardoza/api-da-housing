@@ -2,13 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const TeamModel = require('../models/Team');
-const {
-  auth,
-  isTeamMember,
-} = require('../middleware');
-
-
-
+const { auth, isTeamMember } = require('../middleware');
 
 /**
  * @swagger
@@ -39,7 +33,6 @@ router.post('/team', auth, async (req, res) => {
   }
 });
 
-
 /**
  * @swagger
  * /team:
@@ -60,7 +53,9 @@ router.post('/team', auth, async (req, res) => {
  */
 router.get('/team/:id', isTeamMember, async (req, res) => {
   try {
-    return res.status(200).json(await TeamModel.findById(req.params.id).exec());
+    return res
+      .status(200)
+      .json(await TeamModel.findById(req.params.id).exec());
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
@@ -90,16 +85,27 @@ router.get('/team/:id', isTeamMember, async (req, res) => {
  */
 router.put('/team/:id', isTeamMember, async (req, res) => {
   try {
-    TeamModel.findByIdAndUpdate(req.params.id, req.body.TeamModel, function(err, updateTeamModel) {
-      if(err) {
-        return res.status(500).send(err.message)
-      } else {
-        if(!updateTeamModel) {
+    TeamModel.findByIdAndUpdate(
+      req.params.id,
+      req.body.TeamModel,
+      function(err, updateTeamModel) {
+        if (err) {
           return res.status(500).send(err.message);
+        } else {
+          if (!updateTeamModel) {
+            return res.status(500).send(err.message);
+          }
         }
-      }
-    })
-    return res.status(200).json(await TeamModel.findByIdAndUpdate(req.params.id, req.body).exec());
+      },
+    );
+    return res
+      .status(200)
+      .json(
+        await TeamModel.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+        ).exec(),
+      );
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
@@ -128,26 +134,29 @@ router.put('/team/:id', isTeamMember, async (req, res) => {
  *            description: server error
  */
 router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
-  res.send("test");
+  res.send('test');
   try {
-      userID = req.user_id
-      userMembers = req.params.members
+    userID = req.user_id;
+    userMembers = req.params.members;
 
-      var index = userMembers.indexOf(userID);
-      if (index > -1) {
-        userMembers.splice(index, 1);
-      }
+    var index = userMembers.indexOf(userID);
+    if (index > -1) {
+      userMembers.splice(index, 1);
+    }
 
-      filter = { _id: req.params.id }
-      update = { members: userMembers }
+    filter = { _id: req.params.id };
+    update = { members: userMembers };
 
-      return res.status(200).json((await TeamModel.findOneAndUpdate(filter, update)).exec());
-  } catch(err) {
+    return res
+      .status(200)
+      .json(
+        (await TeamModel.findOneAndUpdate(filter, update)).exec(),
+      );
+  } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
   }
 });
-
 
 /**
  * @swagger
@@ -170,7 +179,9 @@ router.put('/team/leave-team/:id', isTeamMember, async (req, res) => {
 router.delete('/team/:id', isTeamMember, async (req, res) => {
   try {
     // Delete Team by Object ID
-    return res.status(202).json(await TeamModel.findByIdAndDelete(req.params.id).exec());
+    return res
+      .status(202)
+      .json(await TeamModel.findByIdAndDelete(req.params.id).exec());
   } catch (err) {
     console.error(err.message);
     return res.status(500).send(err.message);
