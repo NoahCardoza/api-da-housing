@@ -10,10 +10,15 @@ const FavoriteModel = require('../models/Favorite');
  * @param req - express request object
  */
 function processBearer(req) {
-  const containsBearerToken = req.header('Authorization') && req.header('Authorization').includes('Bearer');
+  const containsBearerToken =
+    req.header('Authorization') &&
+    req.header('Authorization').includes('Bearer');
   return containsBearerToken
     ? req.header('Authorization').replace('Bearer ', '')
-    : (() => new Error('Either something went wrong when parsing the Bearer Token or it does not exist'))();
+    : (() =>
+        new Error(
+          'Either something went wrong when parsing the Bearer Token or it does not exist',
+        ))();
 }
 
 const auth = async (req, res, next) => {
@@ -60,9 +65,12 @@ const isTeamMember = async (req, res, next) => {
     const teamID = req.params.id;
     const team = await TeamModel.findOne({
       _id: teamID,
-      members: data._id
+      members: data._id,
     }).exec();
-    if (!team) throw new Error('The Team either does not exist or you are not a member');
+    if (!team)
+      throw new Error(
+        'The Team either does not exist or you are not a member',
+      );
     req.team = team;
     return next();
   } catch (error) {
@@ -86,7 +94,6 @@ const isFavoriteAuthor = async (req, res, next) => {
     return res.status(500).send(error.message);
   }
 };
-
 
 module.exports = {
   auth,
