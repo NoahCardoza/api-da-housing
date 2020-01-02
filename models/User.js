@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
   job: String,
   lifeStyleBeliefs: [String],
   privateFields: [String],
+  biography: String,
   organization: {
     type: String,
     required: true,

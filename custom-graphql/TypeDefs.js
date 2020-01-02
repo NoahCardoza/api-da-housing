@@ -44,6 +44,7 @@ const typeDefs = gql`
     job: String
     lifeStyleBeliefs: [String]
     privateFields: [String]
+    biography: String
   }
   type Team {
     _id: ID
@@ -76,6 +77,7 @@ const typeDefs = gql`
       job: String
       lifeStyleBeliefs: [String]
       privateFields: [String]
+      biography: String
     ): User
     listing(
       id: ID
