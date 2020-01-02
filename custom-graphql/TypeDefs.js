@@ -2,6 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Favorite {
+    _id: ID
     source: String
     name: String
     author: ID
