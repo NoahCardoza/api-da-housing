@@ -95,6 +95,12 @@ const typeDefs = gql`
       budget: Float
       favorites: [ID]
     ): Team
+    favorite(
+      source: String
+      name: String
+      team: ID
+      comments: [String]
+    ): Team
   }
 `;
 
