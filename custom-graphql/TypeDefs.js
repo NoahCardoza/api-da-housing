@@ -5,8 +5,8 @@ const typeDefs = gql`
     _id: ID
     source: String
     name: String
-    author: ID
-    team: ID
+    author: User
+    team: Team
     comments: [String]
   }
   type GeoCoords {
