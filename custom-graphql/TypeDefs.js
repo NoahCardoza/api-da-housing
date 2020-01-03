@@ -52,6 +52,7 @@ const typeDefs = gql`
     members: [User]
     budget: Float
     favorites: [Favorite]
+    currentHome: Listing
   }
   type Query {
     user: User
@@ -97,6 +98,7 @@ const typeDefs = gql`
       members: [ID]
       budget: Float
       favorites: [ID]
+      currentHome: ID
     ): Team
     favorite(
       id: ID
