@@ -53,8 +53,8 @@ const typeDefs = gql`
   }
   type Issue {
     _id: ID
-    author: ID
-    team: ID
+    author: User
+    team: Team
     title: String
     content: String
     date: String
@@ -62,8 +62,8 @@ const typeDefs = gql`
   }
   type Post {
     _id: ID
-    author: ID
-    team: ID
+    author: User
+    team: Team
     title: String
     content: String
     date: String
