@@ -23,15 +23,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // CORS Configuration
-app.use(
-  cors({
-    origin: ['*'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    preflightContinue: true,
-  }),
-);
-
-app.options('*', cors());
+app.use(cors());
 app.use(bodyParser.json());
 
 // Static File Configuration
@@ -82,7 +74,8 @@ app.get('/', (_, res) => res.send('Index route for API-DA-HOUSING'));
 
 server.applyMiddleware({
   app,
-  cors: false,
+  path: '/graphql',
+  cors: true,
 });
 app.listen(process.env.PORT || 3000, () =>
   console.log('Loftly-Core Service Started! 🚀🦄 \n'),
