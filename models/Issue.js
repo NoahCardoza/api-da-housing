@@ -5,10 +5,15 @@ const IssueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
   },
+  content: String,
   date: {
     type: Date,
     default: Date.now,

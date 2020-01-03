@@ -46,6 +46,28 @@ const typeDefs = gql`
     privateFields: [String]
     biography: String
   }
+  type ServiceProvider {
+    name: String
+    phone: String
+    email: String
+  }
+  type Issue {
+    _id: ID
+    author: ID
+    team: ID
+    title: String
+    content: String
+    date: String
+    serviceProvider: ServiceProvider
+  }
+  type Post {
+    _id: ID
+    author: ID
+    team: ID
+    title: String
+    content: String
+    date: String
+  }
   type Team {
     _id: ID
     name: String
@@ -53,6 +75,8 @@ const typeDefs = gql`
     budget: Float
     favorites: [Favorite]
     currentHome: Listing
+    issues: [ID]
+    posts: [ID]
   }
   type Query {
     user: User
@@ -99,6 +123,8 @@ const typeDefs = gql`
       budget: Float
       favorites: [ID]
       currentHome: ID
+      issues: [ID]
+      posts: [ID]
     ): Team
     favorite(
       id: ID
