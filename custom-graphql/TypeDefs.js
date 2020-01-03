@@ -75,8 +75,8 @@ const typeDefs = gql`
     budget: Float
     favorites: [Favorite]
     currentHome: Listing
-    issues: [ID]
-    posts: [ID]
+    issues: [Issue]
+    posts: [Post]
   }
   type Query {
     user: User

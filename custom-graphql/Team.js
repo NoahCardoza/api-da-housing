@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Favorite = require('../models/Favorite');
 const Listing = require('../models/Listing');
+const Issue = require('../models/Issue');
+const Post = require('../models/Post');
 
 const Team = {
   members: async parent =>
@@ -12,6 +14,16 @@ const Team = {
     Favorite.find({ team: parent._id }).exec(),
   currentHome: async parent =>
     Listing.findById(parent.currentHome).exec(),
+  issues: async parent =>
+    Issue.find()
+      .where('_id')
+      .in(parent.issues)
+      .exec(),
+  posts: async parent =>
+    Post.find()
+      .where('_id')
+      .in(parent.posts)
+      .exec(),
 };
 
 module.exports = Team;
