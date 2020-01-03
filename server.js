@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -33,16 +32,6 @@ app.use(
 );
 
 app.options('*', cors());
-
-// Custom Application Middlewares
-app.use(
-  helmet({
-    dnsPrefetchControl: {
-      allow: true,
-    },
-  }),
-);
-
 app.use(bodyParser.json());
 
 // Static File Configuration
