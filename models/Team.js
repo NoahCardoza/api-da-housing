@@ -12,6 +12,8 @@ const TeamSchema = new mongoose.Schema({
   budget: Number,
   favorites: [mongoose.Schema.Types.ObjectId],
   currentHome: mongoose.Schema.Types.ObjectId,
+  issues: [mongoose.Schema.Types.ObjectId],
+  posts: [mongoose.Schema.Types.ObjectId],
 });
 
 /**
