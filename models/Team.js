@@ -11,12 +11,15 @@ const TeamSchema = new mongoose.Schema({
   },
   budget: Number,
   favorites: [mongoose.Schema.Types.ObjectId],
+  home: mongoose.Schema.Types.ObjectId,
+  issues: [mongoose.Schema.Types.ObjectId],
+  posts: [mongoose.Schema.Types.ObjectId],
 });
 
 /**
  * Delete Teams with no members.
  */
-TeamSchema.post('find', async function(docs) {
+TeamSchema.post('find', async function(_docs) {
   const teamMembers = this.members;
   if (Array.isArray(teamMembers) && teamMembers.length) {
     this.remove();

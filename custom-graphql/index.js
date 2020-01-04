@@ -5,6 +5,8 @@ const UserFieldResolvers = require('./User');
 const ListingFieldResolvers = require('./Listing');
 const TeamFieldResolvers = require('./Team');
 const FavoriteFieldResolvers = require('./Favorite');
+const IssueFieldResolvers = require('./Issue');
+const PostFieldResolvers = require('./Post');
 const TypeDefs = require('./TypeDefs');
 const { tokenAuthorizationMiddleware } = require('./Middleware');
 
@@ -15,6 +17,8 @@ const resolvers = {
   Listing: ListingFieldResolvers,
   Team: TeamFieldResolvers,
   Favorite: FavoriteFieldResolvers,
+  Issue: IssueFieldResolvers,
+  Post: PostFieldResolvers,
 };
 
 const server = new ApolloServer({
