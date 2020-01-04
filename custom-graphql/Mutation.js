@@ -2,6 +2,8 @@ const User = require('../models/User');
 const Listing = require('../models/Listing');
 const Team = require('../models/Team');
 const Favorite = require('../models/Favorite');
+const Issue = require('../models/Issue');
+const Post = require('../models/Post');
 
 const Mutation = {
   user: async (parent, args, context) => {
@@ -102,6 +104,81 @@ const Mutation = {
       console.error(error.message);
       return error.message;
     }
+  },
+  issue: async (parent, args, context) => {
+    try {
+      if (context.user._id && args.id) {
+        return Issue.findOneAndUpdate(
+          { author: context.user._doc._id, _id: args.id },
+          args,
+        ).exec();
+      }
+      if (context.user._id && args.team) {
+        const team = await Team.findOne({
+          _id: args.team,
+          members: context.user._id,
+        }).exec();
+        if (team) {
+          return new Issue({
+            team: args.team,
+            title: args.title,
+            content: args.content,
+            serviceProvider: {
+              name: args.name,
+              phone: args.phone,
+              email: args.email,
+            },
+            author: context.user._id,
+          }).save();
+        }
+
+        return new Error(
+          'You are not a member of that Team or it does not exists!',
+        );
+      }
+      return new Error('User not authenticated');
+    } catch (error) {
+      console.error(error.message);
+      return error.message;
+    }
+  },
+  post: async (parent, args, context) => {
+    try {
+      if (context.user._id && args.id) {
+        return Post.findOneAndUpdate(
+          { author: context.user._doc._id, _id: args.id },
+          args,
+        ).exec();
+      }
+      if (context.user._id && args.team) {
+        const team = await Team.findOne({
+          _id: args.team,
+          members: context.user._id,
+        }).exec();
+        if (team) {
+          return new Post({
+            team: args.team,
+            title: args.title,
+            content: args.content,
+            author: context.user._id,
+          }).save();
+        }
+        return new Error(
+          'You are not a member of that Team or it does not exists!',
+        );
+      }
+      return new Error('User not authenticated');
+    } catch (error) {
+      console.error(error.message);
+      return error.message;
+    }
+    // type Post {
+    //   _id: ID
+    //   author: User
+    //   team: Team
+    //   title: String
+    //   content: String
+    // }
   },
 };
 

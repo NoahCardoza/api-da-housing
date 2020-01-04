@@ -74,7 +74,7 @@ const typeDefs = gql`
     members: [User]
     budget: Float
     favorites: [Favorite]
-    currentHome: Listing
+    home: Listing
     issues: [Issue]
     posts: [Post]
   }
@@ -122,7 +122,7 @@ const typeDefs = gql`
       members: [ID]
       budget: Float
       favorites: [ID]
-      currentHome: ID
+      home: ID
       issues: [ID]
       posts: [ID]
     ): Team
@@ -133,6 +133,16 @@ const typeDefs = gql`
       team: ID
       comments: [String]
     ): Favorite
+    issue(
+      id: ID
+      team: ID
+      title: String
+      content: String
+      name: String
+      phone: String
+      email: String
+    ): Issue
+    post(id: ID, team: ID, title: String, content: String): Post
   }
 `;
 
