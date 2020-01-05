@@ -2,6 +2,8 @@ const User = require('../models/User');
 const Listing = require('../models/Listing');
 const Team = require('../models/Team');
 const Favorite = require('../models/Favorite');
+const Issue = require('../models/Issue');
+const Post = require('../models/Post');
 
 const Query = {
   user: async (parent, args, context) => {
@@ -49,6 +51,50 @@ const Query = {
         members: context.user._id,
       }).exec();
       return team;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
+  teamsWithMe: async (parent, args, context) => {
+    try {
+      const team = await Team.find({
+        members: context.user._id,
+      }).exec();
+      return team;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
+  issuesWithMe: async (parent, args, context) => {
+    try {
+      const issues = await Issue.find({
+        author: context.user._id,
+      }).exec();
+      return issues;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
+  postsWithMe: async (parent, args, context) => {
+    try {
+      const posts = await Post.find({
+        author: context.user._id,
+      }).exec();
+      return posts;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
+  listingsWithMe: async (parent, args, context) => {
+    try {
+      const listings = await Listing.find({
+        author: context.user._id,
+      }).exec();
+      return listings;
     } catch (error) {
       console.log(error.message);
       return error.message;
