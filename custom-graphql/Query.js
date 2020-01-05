@@ -89,6 +89,17 @@ const Query = {
       return error.message;
     }
   },
+  listingsWithMe: async (parent, args, context) => {
+    try {
+      const listings = await Listing.find({
+        author: context.user._id,
+      }).exec();
+      return listings;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
   favorite: async (parent, args, context) => {
     try {
       if (context.user) {
