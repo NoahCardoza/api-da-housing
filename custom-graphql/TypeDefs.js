@@ -83,6 +83,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): String
     listing(id: ID!): Listing
     team(id: ID!): Team
+    teamsWithMe: [Team]
     favorite(id: ID!): Favorite
   }
   type Mutation {

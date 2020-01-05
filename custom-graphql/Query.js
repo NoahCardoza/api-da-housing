@@ -54,6 +54,17 @@ const Query = {
       return error.message;
     }
   },
+  teamsWithMe: async (parent, args, context) => {
+    try {
+      const team = await Team.find({
+        members: context.user._id,
+      }).exec();
+      return team;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  },
   favorite: async (parent, args, context) => {
     try {
       if (context.user) {
