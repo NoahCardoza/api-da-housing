@@ -84,6 +84,8 @@ const typeDefs = gql`
     listing(id: ID!): Listing
     team(id: ID!): Team
     teamsWithMe: [Team]
+    issuesWithMe: [Issue]
+    postsWithMe: [Post]
     favorite(id: ID!): Favorite
   }
   type Mutation {
