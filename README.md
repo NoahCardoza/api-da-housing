@@ -12,10 +12,9 @@ sudo mongod
 # macos catalina
 # sudo mongod -dbpath=/usr/local/var/mongodb
 ```
-Create .env file with this content in the project root. 
+Create .env file with the default contents in the project root. You can do this by copying `.env.example` to `.env`.
 ```sh 
-    MONGO_URI = mongodb://localhost:27017/api-da-housing
-    SECRET = changeinproductionsecret
+    cp .env.example .env
 ```
 Spin Up The Application Server.
 ```sh
