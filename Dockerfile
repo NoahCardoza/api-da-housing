@@ -13,5 +13,8 @@ USER node
 # Install dependencies
 RUN npm install
 
+# Build the TypeScript
+RUN npm run build
+
 # Set default run command
 CMD node build/server.js
