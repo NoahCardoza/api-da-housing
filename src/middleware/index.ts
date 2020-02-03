@@ -1,35 +1,43 @@
-const jwt = require('jsonwebtoken');
-const UserModel = require('../models/User');
-const ListingModel = require('../models/Listing');
-const TeamModel = require('../models/Team');
-const FavoriteModel = require('../models/Favorite');
+import jwt from 'jsonwebtoken';
+import UserModel, { UserDoc } from '../models/User';
+import ListingModel, { ListingDoc } from '../models/Listing';
+import TeamModel, { TeamDoc } from '../models/Team';
+import FavoriteModel, { FavoriteDoc } from '../models/Favorite';
+import express from 'express';
+
+import { iToken } from '../interfaces/jwt';
+import { iUserRequest } from '../interfaces/requests';
 
 /**
  * takes request contexts and strips
  * jwt token from Authorization headers.
  * @param req - express request object
  */
-function processBearer(req) {
+function processBearer(req: express.Request): string {
   const containsBearerToken =
     req.header('Authorization') &&
     req.header('Authorization').includes('Bearer');
-  return containsBearerToken
-    ? req.header('Authorization').replace('Bearer ', '')
-    : (() =>
-        new Error(
-          'Either something went wrong when parsing the Bearer Token or it does not exist',
-        ))();
+  
+  if (containsBearerToken) {
+    return req.header('Authorization').replace('Bearer ', '')
+  }
+
+  throw new Error(
+    'Either something went wrong when parsing the Bearer Token or it does not exist',
+  )
 }
 
-const auth = async (req, res, next) => {
+export const auth = async (req: iUserRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    const token = processBearer(req);
-    const data = jwt.verify(token, process.env.SECRET);
-    const user = await UserModel.findOne({
+    const token: string = processBearer(req);
+    const data = jwt.verify(token, process.env.SECRET) as iToken;
+    const user: UserDoc = await UserModel.findOne({
       _id: data._id,
       'tokens.token': token,
     }).exec();
+
     if (!user) throw new Error('Credentials failed.');
+
     user.password = undefined;
     user.tokens = undefined;
     req.user = user;
@@ -40,15 +48,15 @@ const auth = async (req, res, next) => {
   }
 };
 
-const isListingOwner = async (req, res, next) => {
+export const isListingOwner = async (req: iUserRequest, res: express.Response, next: express.NextFunction) => {
   try {
     const token = processBearer(req);
-    const data = jwt.verify(token, process.env.SECRET);
+    const data = jwt.verify(token, process.env.SECRET) as iToken;
     const listingID = req.params.listingid;
     const listing = await ListingModel.findOne({
       _id: listingID,
       author: data._id,
-    }).exec();
+    }).exec() as ListingDoc;
     if (!listing) throw new Error('Listing not found.');
     req.listing = listing;
     return next();
@@ -58,15 +66,15 @@ const isListingOwner = async (req, res, next) => {
 };
 
 // todo: needs improvements should probably let operations move forward.
-const isTeamMember = async (req, res, next) => {
+export const isTeamMember = async (req: iUserRequest, res: express.Response, next: express.NextFunction) => {
   try {
     const token = processBearer(req);
-    const data = jwt.verify(token, process.env.SECRET);
+    const data = jwt.verify(token, process.env.SECRET) as iToken;
     const teamID = req.params.id;
     const team = await TeamModel.findOne({
       _id: teamID,
       members: data._id,
-    }).exec();
+    }).exec() as TeamDoc;
     if (!team)
       throw new Error(
         'The Team either does not exist or you are not a member',
@@ -79,26 +87,18 @@ const isTeamMember = async (req, res, next) => {
 };
 
 /** Allows operations on Favorites if the user is a author of a favorite */
-const isFavoriteAuthor = async (req, res, next) => {
+export const isFavoriteAuthor = async (req: iUserRequest, res: express.Response, next: express.NextFunction) => {
   try {
     const token = processBearer(req);
-    const data = jwt.verify(token, process.env.SECRET);
+    const data = jwt.verify(token, process.env.SECRET) as iToken;
     const favoriteID = req.params.id;
     const favorite = await FavoriteModel.findOne({
       _id: favoriteID,
       author: data._id,
-    }).exec();
+    }).exec() as FavoriteDoc;
     if (!favorite) throw new Error('Favorite not found.');
     return next();
   } catch (error) {
     return res.status(500).send(error.message);
   }
-};
-
-module.exports = {
-  auth,
-  isListingOwner,
-  isTeamMember,
-  isFavoriteAuthor,
-  processBearer,
 };

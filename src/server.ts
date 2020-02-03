@@ -1,12 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const { server } = require('./custom-graphql');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import { config } from 'dotenv';
+import { server } from './custom-graphql';
 
 try {
-  dotenv.config();
+  config();
 } catch (error) {
   console.log(error.message);
 }

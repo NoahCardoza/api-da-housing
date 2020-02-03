@@ -14,4 +14,4 @@ USER node
 RUN npm install
 
 # Set default run command
-CMD node server.js
+CMD node build/server.js
